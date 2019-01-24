@@ -5,9 +5,9 @@
   <subtitle>You got a dream..&lt;br/&gt;You gotta protect it..</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="https://kyrie17.github.io/"/>
   <updated>2019-01-22T09:39:48.475Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>https://kyrie17.github.io/</id>
   
   <author>
     <name>Kyrie</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>test_my_site</title>
-    <link href="http://yoursite.com/2019/01/22/test-my-site-1/"/>
-    <id>http://yoursite.com/2019/01/22/test-my-site-1/</id>
+    <link href="https://kyrie17.github.io/2019/01/22/test-my-site-1/"/>
+    <id>https://kyrie17.github.io/2019/01/22/test-my-site-1/</id>
     <published>2019-01-22T09:39:48.000Z</published>
     <updated>2019-01-22T09:39:48.475Z</updated>
     
@@ -32,8 +32,8 @@
   
   <entry>
     <title>test_my_site</title>
-    <link href="http://yoursite.com/2019/01/22/test-my-site/"/>
-    <id>http://yoursite.com/2019/01/22/test-my-site/</id>
+    <link href="https://kyrie17.github.io/2019/01/22/test-my-site/"/>
+    <id>https://kyrie17.github.io/2019/01/22/test-my-site/</id>
     <published>2019-01-21T17:02:12.000Z</published>
     <updated>2019-01-24T14:54:52.394Z</updated>
     
@@ -42,18 +42,18 @@
     </summary>
     
     
-      <category term="jQuery" scheme="http://yoursite.com/tags/jQuery/"/>
+      <category term="jQuery" scheme="https://kyrie17.github.io/tags/jQuery/"/>
     
-      <category term="表格" scheme="http://yoursite.com/tags/%E8%A1%A8%E6%A0%BC/"/>
+      <category term="表格" scheme="https://kyrie17.github.io/tags/%E8%A1%A8%E6%A0%BC/"/>
     
-      <category term="表单验证" scheme="http://yoursite.com/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/"/>
+      <category term="表单验证" scheme="https://kyrie17.github.io/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/"/>
     
   </entry>
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2019/01/22/hello-world/"/>
-    <id>http://yoursite.com/2019/01/22/hello-world/</id>
+    <link href="https://kyrie17.github.io/2019/01/22/hello-world/"/>
+    <id>https://kyrie17.github.io/2019/01/22/hello-world/</id>
     <published>2019-01-21T16:53:48.374Z</published>
     <updated>2019-01-24T15:04:35.001Z</updated>
     
@@ -68,10 +68,10 @@
     
     </summary>
     
-      <category term="hexo" scheme="http://yoursite.com/categories/hexo/"/>
+      <category term="hexo" scheme="https://kyrie17.github.io/categories/hexo/"/>
     
     
-      <category term="Testing" scheme="http://yoursite.com/tags/Testing/"/>
+      <category term="Testing" scheme="https://kyrie17.github.io/tags/Testing/"/>
     
   </entry>
   
