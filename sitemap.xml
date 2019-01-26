@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://kyrie17.github.io/2019/01/25/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</loc>
+    <loc>https://kyrie17.github.io/links/index.html</loc>
     
-    <lastmod>2019-01-26T12:36:33.245Z</lastmod>
+    <lastmod>2019-01-26T13:53:10.080Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://kyrie17.github.io/about/index.html</loc>
     
-    <lastmod>2019-01-24T15:31:17.686Z</lastmod>
+    <lastmod>2019-01-26T13:51:32.454Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kyrie17.github.io/2019/01/25/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</loc>
+    
+    <lastmod>2019-01-26T12:36:33.245Z</lastmod>
     
   </url>
   
@@ -26,13 +33,6 @@
     <loc>https://kyrie17.github.io/tags/index.html</loc>
     
     <lastmod>2019-01-24T15:03:22.240Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kyrie17.github.io/links/index.html</loc>
-    
-    <lastmod>2019-01-23T03:31:03.224Z</lastmod>
     
   </url>
   
