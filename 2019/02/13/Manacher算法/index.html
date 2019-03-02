@@ -18,23 +18,23 @@
   
   
   <title>Manacher算法 | Kyrie17</title>
-  <meta name="description" content="Manacher算法部分转载自：http://blog.csdn.net/dyx404514/article/details/42061017概述Manacher算法是查找一个字符串的最长回文子串的线性算法。 在介绍算法之前，首先介绍一下什么是回文串，所谓回文串，简单来说就是正着读和反着读都是一样的字符串，比如abba，noon等等，一个字符串的最长回文子串即为这个字符串的子串中，是回文串的最长的">
+  <meta name="description" content="Manacher算法部分转载自：http://blog.csdn.net/dyx404514/article/details/42061017 概述Manacher算法是查找一个字符串的最长回文子串的线性算法。 在介绍算法之前，首先介绍一下什么是回文串，所谓回文串，简单来说就是正着读和反着读都是一样的字符串，比如abba，noon等等，一个字符串的最长回文子串即为这个字符串的子串中，是回文串的最长">
 <meta name="keywords" content="字符串">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Manacher算法">
 <meta property="og:url" content="https://kyrie17.github.io/2019/02/13/Manacher算法/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s blog">
-<meta property="og:description" content="Manacher算法部分转载自：http://blog.csdn.net/dyx404514/article/details/42061017概述Manacher算法是查找一个字符串的最长回文子串的线性算法。 在介绍算法之前，首先介绍一下什么是回文串，所谓回文串，简单来说就是正着读和反着读都是一样的字符串，比如abba，noon等等，一个字符串的最长回文子串即为这个字符串的子串中，是回文串的最长的">
+<meta property="og:description" content="Manacher算法部分转载自：http://blog.csdn.net/dyx404514/article/details/42061017 概述Manacher算法是查找一个字符串的最长回文子串的线性算法。 在介绍算法之前，首先介绍一下什么是回文串，所谓回文串，简单来说就是正着读和反着读都是一样的字符串，比如abba，noon等等，一个字符串的最长回文子串即为这个字符串的子串中，是回文串的最长">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/Manacher1.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/Manacher2.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/Manacher3.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/Manacher4.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/Manacher5.png">
-<meta property="og:updated_time" content="2019-02-14T03:17:35.635Z">
+<meta property="og:updated_time" content="2019-02-27T02:46:05.663Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Manacher算法">
-<meta name="twitter:description" content="Manacher算法部分转载自：http://blog.csdn.net/dyx404514/article/details/42061017概述Manacher算法是查找一个字符串的最长回文子串的线性算法。 在介绍算法之前，首先介绍一下什么是回文串，所谓回文串，简单来说就是正着读和反着读都是一样的字符串，比如abba，noon等等，一个字符串的最长回文子串即为这个字符串的子串中，是回文串的最长的">
+<meta name="twitter:description" content="Manacher算法部分转载自：http://blog.csdn.net/dyx404514/article/details/42061017 概述Manacher算法是查找一个字符串的最长回文子串的线性算法。 在介绍算法之前，首先介绍一下什么是回文串，所谓回文串，简单来说就是正着读和反着读都是一样的字符串，比如abba，noon等等，一个字符串的最长回文子串即为这个字符串的子串中，是回文串的最长">
 <meta name="twitter:image" content="https://kyrie17.github.io/img/Manacher1.png">
   <!-- Canonical links -->
   <link rel="canonical" href="https://kyrie17.github.io/2019/02/13/Manacher算法/index.html">
@@ -197,7 +197,7 @@
   <div class="widget">
     <h3 class="widget-title">Categories</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java基础/">java基础</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java基础/">java基础</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -207,7 +207,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多态/">多态</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串/">字符串</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态规划/">动态规划</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多态/">多态</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串/">字符串</a><span class="tag-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -217,7 +217,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/Markdown/" style="font-size: 13px;">Markdown</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/多态/" style="font-size: 13px;">多态</a> <a href="/tags/字符串/" style="font-size: 14px;">字符串</a>
+      <a href="/tags/Markdown/" style="font-size: 13px;">Markdown</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/动态规划/" style="font-size: 13px;">动态规划</a> <a href="/tags/多态/" style="font-size: 13px;">多态</a> <a href="/tags/字符串/" style="font-size: 14px;">字符串</a>
     </div>
   </div>
 
@@ -226,7 +226,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -238,6 +238,21 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/02/26/背包问题/" class="title">背包问题</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-02-26T13:55:46.000Z" itemprop="datePublished">2019-02-26</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -294,21 +309,6 @@
               </p>
               <p class="item-date">
                 <time datetime="2019-02-13T02:53:29.000Z" itemprop="datePublished">2019-02-13</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/java基础/">java基础</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/02/12/理解java的多态性/" class="title">理解java的多态性</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-02-12T03:09:59.000Z" itemprop="datePublished">2019-02-12</time>
               </p>
             </div>
           </li>
@@ -372,7 +372,8 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h1 id="Manacher算法"><a href="#Manacher算法" class="headerlink" title="Manacher算法"></a>Manacher算法</h1><h2 id="部分转载自：http-blog-csdn-net-dyx404514-article-details-42061017"><a href="#部分转载自：http-blog-csdn-net-dyx404514-article-details-42061017" class="headerlink" title="部分转载自：http://blog.csdn.net/dyx404514/article/details/42061017"></a>部分转载自：<a href="http://blog.csdn.net/dyx404514/article/details/42061017" target="_blank" rel="noopener">http://blog.csdn.net/dyx404514/article/details/42061017</a></h2><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Manacher算法是查找一个字符串的最长回文子串的线性算法。</p>
+        <h1 id="Manacher算法"><a href="#Manacher算法" class="headerlink" title="Manacher算法"></a>Manacher算法</h1><p>部分转载自：<a href="http://blog.csdn.net/dyx404514/article/details/42061017" target="_blank" rel="noopener">http://blog.csdn.net/dyx404514/article/details/42061017</a></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Manacher算法是查找一个字符串的最长回文子串的线性算法。</p>
 <p>在介绍算法之前，首先介绍一下什么是回文串，所谓回文串，简单来说就是正着读和反着读都是一样的字符串，比如abba，noon等等，一个字符串的最长回文子串即为这个字符串的子串中，是回文串的最长的那个。</p>
 <h2 id="Manacher算法的原理与实现"><a href="#Manacher算法的原理与实现" class="headerlink" title="Manacher算法的原理与实现"></a>Manacher算法的原理与实现</h2><p>下面介绍Manacher算法的原理与步骤。</p>
 <p>首先，Manacher算法提供了一种巧妙地办法，将长度为奇数的回文串和长度为偶数的回文串一起考虑，具体做法是，在原字符串的每个相邻两个字符中间插入一个分隔符，同时在首尾也要添加一个分隔符，分隔符的要求是不在原串中出现，一般情况下可以用#号。下面举一个例子：</p>
