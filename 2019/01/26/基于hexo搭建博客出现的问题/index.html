@@ -18,21 +18,18 @@
   
   
   <title>基于hexo搭建博客出现的问题 | Kyrie17</title>
-  <meta name="description" content="基于hexo搭建博客出现的问题[TOC] 基于hexo框架搭建个人博客可以参考这篇知乎 简单介绍一下站点中的结构 经常用到的就是source、themes两个文件夹以及_config.yml文件  source 此文件夹中包含的是你写的博客以及标签页、分类页、关于页等等  themes 此文件夹中放置的是你下载的主题   在里面主题中又有比较常用的source文件夹和_config.yml文件 s">
+  <meta name="description" content="基于hexo框架搭建个人博客可以参考这篇文章：https://zhuanlan.zhihu.com/p/26625249 搭建过程中出现的几个小问题新建tags、categories、about页面在下载自己喜欢的主题后，是没有tags、categories、about这三个页面的，需要自己新建新建这三个页面的示例如下：  使用：hexo new page “ “ 新建页面。  123hexo n">
 <meta name="keywords" content="hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于hexo搭建博客出现的问题">
 <meta property="og:url" content="https://kyrie17.github.io/2019/01/26/基于hexo搭建博客出现的问题/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s blog">
-<meta property="og:description" content="基于hexo搭建博客出现的问题[TOC] 基于hexo框架搭建个人博客可以参考这篇知乎 简单介绍一下站点中的结构 经常用到的就是source、themes两个文件夹以及_config.yml文件  source 此文件夹中包含的是你写的博客以及标签页、分类页、关于页等等  themes 此文件夹中放置的是你下载的主题   在里面主题中又有比较常用的source文件夹和_config.yml文件 s">
+<meta property="og:description" content="基于hexo框架搭建个人博客可以参考这篇文章：https://zhuanlan.zhihu.com/p/26625249 搭建过程中出现的几个小问题新建tags、categories、about页面在下载自己喜欢的主题后，是没有tags、categories、about这三个页面的，需要自己新建新建这三个页面的示例如下：  使用：hexo new page “ “ 新建页面。  123hexo n">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://kyrie17.github.io/img/blog.png">
-<meta property="og:image" content="https://kyrie17.github.io/img/blog1.png">
-<meta property="og:updated_time" content="2019-01-27T06:23:30.992Z">
+<meta property="og:updated_time" content="2019-03-21T14:33:52.378Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于hexo搭建博客出现的问题">
-<meta name="twitter:description" content="基于hexo搭建博客出现的问题[TOC] 基于hexo框架搭建个人博客可以参考这篇知乎 简单介绍一下站点中的结构 经常用到的就是source、themes两个文件夹以及_config.yml文件  source 此文件夹中包含的是你写的博客以及标签页、分类页、关于页等等  themes 此文件夹中放置的是你下载的主题   在里面主题中又有比较常用的source文件夹和_config.yml文件 s">
-<meta name="twitter:image" content="https://kyrie17.github.io/img/blog.png">
+<meta name="twitter:description" content="基于hexo框架搭建个人博客可以参考这篇文章：https://zhuanlan.zhihu.com/p/26625249 搭建过程中出现的几个小问题新建tags、categories、about页面在下载自己喜欢的主题后，是没有tags、categories、about这三个页面的，需要自己新建新建这三个页面的示例如下：  使用：hexo new page “ “ 新建页面。  123hexo n">
   <!-- Canonical links -->
   <link rel="canonical" href="https://kyrie17.github.io/2019/01/26/基于hexo搭建博客出现的问题/index.html">
   
@@ -321,6 +318,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于hexo框架搭建个人博客"><span class="toc-number">1.</span> <span class="toc-text">基于hexo框架搭建个人博客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建过程中出现的几个小问题"><span class="toc-number">2.</span> <span class="toc-text">搭建过程中出现的几个小问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建tags、categories、about页面"><span class="toc-number">2.1.</span> <span class="toc-text">新建tags、categories、about页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为我们的文章添加标签和分类"><span class="toc-number">2.2.</span> <span class="toc-text">为我们的文章添加标签和分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#categories和tags页面不显示"><span class="toc-number">2.3.</span> <span class="toc-text">categories和tags页面不显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除博客后再tags和categories中仍存在分类"><span class="toc-number">2.4.</span> <span class="toc-text">删除博客后再tags和categories中仍存在分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在文章中插入图片"><span class="toc-number">2.5.</span> <span class="toc-text">在文章中插入图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为你的Hexo加上评论系统-Valine"><span class="toc-number">2.6.</span> <span class="toc-text">为你的Hexo加上评论系统-Valine</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">2.6.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开启Valine"><span class="toc-number">2.6.2.</span> <span class="toc-text">开启Valine</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tags、categories和about等页面关闭评论"><span class="toc-number">2.6.3.</span> <span class="toc-text">tags、categories和about等页面关闭评论</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-基于hexo搭建博客出现的问题" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
@@ -361,7 +367,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/01/26/基于hexo搭建博客出现的问题/#comments" class="article-comment-link">Comments</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 1.1k(words)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 991(words)</span>
 	
 	
 
@@ -371,28 +377,12 @@
       
             <!-- Table of Contents -->
             
-        <h1 id="基于hexo搭建博客出现的问题"><a href="#基于hexo搭建博客出现的问题" class="headerlink" title="基于hexo搭建博客出现的问题"></a>基于hexo搭建博客出现的问题</h1><p>[TOC]</p>
-<h2 id="基于hexo框架搭建个人博客"><a href="#基于hexo框架搭建个人博客" class="headerlink" title="基于hexo框架搭建个人博客"></a>基于hexo框架搭建个人博客</h2><p><a href="https://zhuanlan.zhihu.com/p/26625249" target="_blank" rel="noopener">可以参考这篇知乎</a></p>
-<h2 id="简单介绍一下站点中的结构"><a href="#简单介绍一下站点中的结构" class="headerlink" title="简单介绍一下站点中的结构"></a>简单介绍一下站点中的结构</h2><p><img src="/img/blog.png" alt="blog"></p>
-<p>经常用到的就是source、themes两个文件夹以及_config.yml文件</p>
-<ul>
-<li><p>source</p>
-<p>此文件夹中包含的是你写的博客以及标签页、分类页、关于页等等</p>
-</li>
-<li><p>themes</p>
-<p>此文件夹中放置的是你下载的主题</p>
-<ul>
-<li><img src="/img/blog1.png" alt="blog1"></li>
-<li>在里面主题中又有比较常用的source文件夹和_config.yml文件<ul>
-<li>source文件中存放的是css、js以及图片等文件</li>
-<li>_config.yml中是主题的配置文件</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>_config.yml中是配置你站点的信息</p>
-</li>
-</ul>
+              <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于hexo框架搭建个人博客"><span class="toc-number">1.</span> <span class="toc-text">基于hexo框架搭建个人博客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建过程中出现的几个小问题"><span class="toc-number">2.</span> <span class="toc-text">搭建过程中出现的几个小问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建tags、categories、about页面"><span class="toc-number">2.1.</span> <span class="toc-text">新建tags、categories、about页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为我们的文章添加标签和分类"><span class="toc-number">2.2.</span> <span class="toc-text">为我们的文章添加标签和分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#categories和tags页面不显示"><span class="toc-number">2.3.</span> <span class="toc-text">categories和tags页面不显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除博客后再tags和categories中仍存在分类"><span class="toc-number">2.4.</span> <span class="toc-text">删除博客后再tags和categories中仍存在分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在文章中插入图片"><span class="toc-number">2.5.</span> <span class="toc-text">在文章中插入图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为你的Hexo加上评论系统-Valine"><span class="toc-number">2.6.</span> <span class="toc-text">为你的Hexo加上评论系统-Valine</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">2.6.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开启Valine"><span class="toc-number">2.6.2.</span> <span class="toc-text">开启Valine</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tags、categories和about等页面关闭评论"><span class="toc-number">2.6.3.</span> <span class="toc-text">tags、categories和about等页面关闭评论</span></a></li></ol></li></ol></li></ol>
+              </div>
+            
+        <h2 id="基于hexo框架搭建个人博客"><a href="#基于hexo框架搭建个人博客" class="headerlink" title="基于hexo框架搭建个人博客"></a>基于hexo框架搭建个人博客</h2><p>可以参考这篇文章：<a href="https://zhuanlan.zhihu.com/p/26625249" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/26625249</a></p>
 <h2 id="搭建过程中出现的几个小问题"><a href="#搭建过程中出现的几个小问题" class="headerlink" title="搭建过程中出现的几个小问题"></a>搭建过程中出现的几个小问题</h2><h3 id="新建tags、categories、about页面"><a href="#新建tags、categories、about页面" class="headerlink" title="新建tags、categories、about页面"></a>新建tags、categories、about页面</h3><p>在下载自己喜欢的主题后，是没有tags、categories、about这三个页面的，需要自己新建<br>新建这三个页面的示例如下：</p>
 <ol>
 <li><p>使用：hexo new page “ “ 新建页面。 </p>
@@ -521,6 +511,15 @@
       <a href="/2019/01/25/Markdown基本语法/" title="Markdown基本语法"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
     
   </ul>
   
