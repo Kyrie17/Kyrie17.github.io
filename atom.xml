@@ -91,29 +91,6 @@
   </entry>
   
   <entry>
-    <title>贪心算法</title>
-    <link href="https://kyrie17.github.io/2019/02/14/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/"/>
-    <id>https://kyrie17.github.io/2019/02/14/贪心算法/</id>
-    <published>2019-02-14T12:28:48.000Z</published>
-    <updated>2019-03-03T01:19:48.478Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>贪心算法（又称贪婪算法）是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的是在某种意义上的局部最优解。</p><p>贪心算法不是对所有问题都能得到整体最优解，关键是贪心策略的选择，选择的贪心策略必须具备无后效性，即某个状态以前的过程不会影响以后的状态，只与当前状态有关。</p><h2 id="基本要素"><a href="#基本要素" class="headerlink" title="基本要素"></a>基本要素</h2><ul><li><p>贪心选择</p></li><li><p>最优子结构</p></li></ul><h2 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h2><ul><li><p>思想<br>贪心算法的基本思路是从问题的某一个初始解出发一步一步地进行，根据某个优化测度，每一步都要确保能获得局部最优解。每一步只考虑一个数据，他的选取应该满足局部优化的条件。</p></li><li><p>过程</p><ol><li>建立数学模型来描述问题；</li><li>把求解的问题分成若干个子问题；</li><li>对每一子问题求解，得到子问题的局部最优解；</li><li>把子问题的解局部最优解合成原来解问题的一个解。</li></ol></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;贪心算法&quot;&gt;&lt;a href=&quot;#贪心算法&quot; class=&quot;headerlink&quot; title=&quot;贪心算法&quot;&gt;&lt;/a&gt;贪心算法&lt;/h1&gt;&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h
-      
-    
-    </summary>
-    
-      <category term="算法" scheme="https://kyrie17.github.io/categories/%E7%AE%97%E6%B3%95/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Manacher算法</title>
     <link href="https://kyrie17.github.io/2019/02/13/Manacher%E7%AE%97%E6%B3%95/"/>
     <id>https://kyrie17.github.io/2019/02/13/Manacher算法/</id>
