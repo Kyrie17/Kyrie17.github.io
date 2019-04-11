@@ -17,19 +17,24 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>Archive | Kyrie17</title>
-  <meta name="description" content="You got a dream..You gotta protect it.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Kyrie17&#39;s blog">
-<meta property="og:url" content="https://kyrie17.github.io/archives/index.html">
+  <title>Spring的IOC的底层原理实现 | Kyrie17</title>
+  <meta name="description" content="传统方式的开发在web层创建业务层的一个类： 开始我们先直接通过UserService创建一个类1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring的IOC的底层原理实现">
+<meta property="og:url" content="https://kyrie17.github.io/2019/04/11/Spring的IOC的底层原理实现/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s blog">
-<meta property="og:description" content="You got a dream..You gotta protect it.">
+<meta property="og:description" content="传统方式的开发在web层创建业务层的一个类： 开始我们先直接通过UserService创建一个类1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://kyrie17.github.io/img/SpringIoc1.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/SpringIoc2.png">
+<meta property="og:updated_time" content="2019-04-11T03:31:37.053Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kyrie17&#39;s blog">
-<meta name="twitter:description" content="You got a dream..You gotta protect it.">
+<meta name="twitter:title" content="Spring的IOC的底层原理实现">
+<meta name="twitter:description" content="传统方式的开发在web层创建业务层的一个类： 开始我们先直接通过UserService创建一个类1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层">
+<meta name="twitter:image" content="https://kyrie17.github.io/img/SpringIoc1.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://kyrie17.github.io/archives/index.html">
+  <link rel="canonical" href="https://kyrie17.github.io/2019/04/11/Spring的IOC的底层原理实现/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Kyrie17&#39;s blog" type="application/atom+xml">
   
@@ -317,164 +322,192 @@
   
   
 <main class="main" role="main">
-  	<article class="content article article-archives article-type-list" itemscope="">
-	    <header class="article-header">
-	      <h1 itemprop="title">Archive</h1>
-	      <p class="text-muted">Total 10 articles</p>
-	    </header>
-	    <div class="article-body">
-	      
-  
-  
+  <div class="content">
+  <article id="post-Spring的IOC的底层原理实现" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
     
-    
+    <div class="article-header">
       
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Spring的IOC的底层原理实现
+    </h1>
+  
+
+		
       
-      <section class="panel panel-default b-no">
-        <div class="panel-heading" role="tab">
-          <h3 class="panel-title">
-            <a data-toggle="collapse" href="#collapse2019" aria-expanded="true">
-              <i class="icon icon-calendar-plus text-active"></i><i class="icon icon-calendar-minus text"></i>
-              2019
-            </a>
-            <!-- <a href="/archives/2019" class="archive-year">2019</a> -->
-          </h3>
-        </div>
-        <div id="collapse2019" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading2019">
-        <div class="panel-body">
-          <div class="collection">
-    
-    
-<a href="/2019/04/11/Spring的IOC的底层原理实现/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-04-11T03:26:16.000Z" itemprop="datePublished">2019-04-11</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Spring的IOC的底层原理实现
-</a>
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/04/11/Spring的IOC的底层原理实现/" class="article-date">
+	  <time datetime="2019-04-11T03:26:16.000Z" itemprop="datePublished">2019-04-11</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Spring/">Spring</a>
+  </span>
 
 
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/04/11/Spring的IOC的底层原理实现/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 361(words)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+            <!-- Table of Contents -->
+            
+        <h2 id="传统方式的开发"><a href="#传统方式的开发" class="headerlink" title="传统方式的开发"></a>传统方式的开发</h2><p><strong>在web层创建业务层的一个类：</strong><br><img src="/img/SpringIoc1.png" alt="SpringIoc1"></p>
+<p>开始我们先直接通过UserService创建一个类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = <span class="keyword">new</span> UserService();</span><br></pre></td></tr></table></figure></p>
+<p>但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = <span class="keyword">new</span> UserServiceImpl();</span><br></pre></td></tr></table></figure></p>
+<p>但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层产生耦合了。这时候我们就需要提及ocp原则了。</p>
+<blockquote>
+<p>open-close原则：对程序扩展是open的，对修改程序代码是close的。（尽量不修改程序的源码，实现对程序的扩展）<br>我们可以想到使用一个设计模式：<strong>工厂模式</strong>。</p>
+</blockquote>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p><img src="/img/SpringIoc2.png" alt="SpringIoc2"></p>
+<p>现在我们就可以通过工厂类来创建UserService的实例对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FactoryBean</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> UserService <span class="title">getUs</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样我们的接口和实现类就没有耦合了，但接口和工厂类就会产生耦合<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = FactoryBean.getUs();</span><br></pre></td></tr></table></figure></p>
+<p>那么这里我们就可以通过<strong>工厂+反射+配置文件</strong>来实现解耦合<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"us"</span> <span class="attr">class</span>=<span class="string">"com.Kyrie.UserServiceImpl"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FactoryBean</span>()</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getBean</span><span class="params">(String id)</span></span>&#123;</span><br><span class="line">        <span class="comment">//解析xml，找到class</span></span><br><span class="line">        <span class="comment">//反射</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们在getBean中传入一个id，那就会返回一个class，接着我们通过反射去生成我们一个实例化对象。</p>
+<p>这就是Spring来完成解耦合的思想。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://kyrie17.github.io/2019/04/11/Spring的IOC的底层原理实现/" title="Spring的IOC的底层原理实现" target="_blank" rel="external">https://kyrie17.github.io/2019/04/11/Spring的IOC的底层原理实现/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Kyrie17" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/myself.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Kyrie17" target="_blank"><span class="text-dark">Kyrie17</span><small class="ml-1x">Learner</small></a></h3>
+        <div>这是一段自我介绍..</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
   
     
-    
-    
-<a href="/2019/03/30/选择Java接口还是抽象类/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-03-30T15:11:54.000Z" itemprop="datePublished">2019-03-30</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 选择Java接口还是抽象类
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/03/30/Scanner/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-03-30T14:07:34.000Z" itemprop="datePublished">2019-03-30</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Scanner
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/03/30/java代理模式/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-03-30T13:43:00.000Z" itemprop="datePublished">2019-03-30</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> java代理模式
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/03/17/学习新知识的心得体会/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-03-17T03:15:14.000Z" itemprop="datePublished">2019-03-17</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 学习新知识的心得体会
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/02/26/背包问题/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-02-26T13:55:46.000Z" itemprop="datePublished">2019-02-26</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 背包问题
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/02/15/Collections-sort的两种用法/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-02-15T03:02:15.000Z" itemprop="datePublished">2019-02-15</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Collections.sort的两种用法
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/02/13/Manacher算法/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-02-13T04:42:20.000Z" itemprop="datePublished">2019-02-13</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Manacher算法
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/02/13/滑动窗口/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-02-13T02:53:29.000Z" itemprop="datePublished">2019-02-13</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 滑动窗口
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/02/12/理解java的多态性/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-02-12T03:09:59.000Z" itemprop="datePublished">2019-02-12</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 理解java的多态性
-</a>
-
-
-  
-  
-    </div></div></div></section>
-  
-
-	    </div>
-  	</article>
+  <section id="comments">
   	
+      <div id="vcomments"></div>
     
-    <nav class="bar bar-footer clearfix" data-stick-bottom="">
-        <div class="bar-inner">
-        <ul class="pager pull-left">
-            
-            <li class="prev disabled">
-                <a href="javascript:;">
-                    <i class="icon icon-angle-left"></i>
-                    Prev
-                </a>
-            </li>
-            
-            
-            <li class="next">
-                <a href="/archives/page/2/">
-                    Next
-                    <i class="icon icon-angle-right"></i>
-                </a>
-            </li>
-            
-        </ul>
-        <div class="total-article bar-right">Page 1 of 2</div>
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2019/03/30/选择Java接口还是抽象类/" title="选择Java接口还是抽象类"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpg" alt="Scan Qrcode" title="Scan">
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan">
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
         </div>
-    </nav>
-    
- 	
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 </main>
 
   <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
@@ -523,6 +556,37 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'qwyO42y8itmhecmzzrqpzGxw-gzGzoHsz',
+    appKey: 'hAV6vz6gMvAW7HfKaWrfbyuO',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
 
 
 
