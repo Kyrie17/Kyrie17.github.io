@@ -18,20 +18,20 @@
   
   
   <title>Spring的IOC的底层原理实现 | Kyrie17</title>
-  <meta name="description" content="传统方式的开发在web层创建业务层的一个类： 开始我们先直接通过UserService创建一个类1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层">
+  <meta name="description" content="传统方式的开发 在web层创建业务层的一个类：  开始我们先直接通过UserService创建一个类 1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程 1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和">
 <meta name="keywords" content="Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring的IOC的底层原理实现">
 <meta property="og:url" content="https://kyrie17.github.io/2019/04/11/Spring的IOC的底层原理实现/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s blog">
-<meta property="og:description" content="传统方式的开发在web层创建业务层的一个类： 开始我们先直接通过UserService创建一个类1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层">
+<meta property="og:description" content="传统方式的开发 在web层创建业务层的一个类：  开始我们先直接通过UserService创建一个类 1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程 1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/SpringIoc1.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/SpringIoc2.png">
 <meta property="og:updated_time" content="2019-04-12T08:19:48.445Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring的IOC的底层原理实现">
-<meta name="twitter:description" content="传统方式的开发在web层创建业务层的一个类： 开始我们先直接通过UserService创建一个类1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层">
+<meta name="twitter:description" content="传统方式的开发 在web层创建业务层的一个类：  开始我们先直接通过UserService创建一个类 1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程 1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和">
 <meta name="twitter:image" content="https://kyrie17.github.io/img/SpringIoc1.png">
   <!-- Canonical links -->
   <link rel="canonical" href="https://kyrie17.github.io/2019/04/11/Spring的IOC的底层原理实现/index.html">
@@ -194,7 +194,7 @@
   <div class="widget">
     <h3 class="widget-title">Categories</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/extra/">extra</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java基础/">java基础</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/extra/">extra</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java基础/">java基础</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -223,7 +223,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -235,6 +235,21 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/java基础/">java基础</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/04/20/Java反射/" class="title">Java反射</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-04-20T14:50:04.000Z" itemprop="datePublished">2019-04-20</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -295,21 +310,6 @@
             </div>
           </li>
           
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/java基础/">java基础</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/03/30/java代理模式/" class="title">java代理模式</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-03-30T13:43:00.000Z" itemprop="datePublished">2019-03-30</time>
-              </p>
-            </div>
-          </li>
-          
       </ul>
     </div>
   </div>
@@ -356,7 +356,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/04/11/Spring的IOC的底层原理实现/#comments" class="article-comment-link">Comments</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 361(words)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 363(words)</span>
 	
 	
 
@@ -366,18 +366,27 @@
       
             <!-- Table of Contents -->
             
-        <h2 id="传统方式的开发"><a href="#传统方式的开发" class="headerlink" title="传统方式的开发"></a>传统方式的开发</h2><p><strong>在web层创建业务层的一个类：</strong><br><img src="/img/SpringIoc1.png" alt="SpringIoc1"></p>
-<p>开始我们先直接通过UserService创建一个类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = <span class="keyword">new</span> UserService();</span><br></pre></td></tr></table></figure></p>
-<p>但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = <span class="keyword">new</span> UserServiceImpl();</span><br></pre></td></tr></table></figure></p>
+        <h2>传统方式的开发</h2>
+<p><strong>在web层创建业务层的一个类：</strong>
+<img src="/img/SpringIoc1.png" alt="SpringIoc1"></p>
+<p>开始我们先直接通过UserService创建一个类
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = <span class="keyword">new</span> UserService();</span><br></pre></td></tr></table></figure></p>
+<p>但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = <span class="keyword">new</span> UserServiceImpl();</span><br></pre></td></tr></table></figure></p>
 <p>但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层产生耦合了。这时候我们就需要提及ocp原则了。</p>
 <blockquote>
-<p>open-close原则：对程序扩展是open的，对修改程序代码是close的。（尽量不修改程序的源码，实现对程序的扩展）<br>我们可以想到使用一个设计模式：<strong>工厂模式</strong>。</p>
+<p>open-close原则：对程序扩展是open的，对修改程序代码是close的。（尽量不修改程序的源码，实现对程序的扩展）
+我们可以想到使用一个设计模式：<strong>工厂模式</strong>。</p>
 </blockquote>
-<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p><img src="/img/SpringIoc2.png" alt="SpringIoc2"></p>
-<p>现在我们就可以通过工厂类来创建UserService的实例对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FactoryBean</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> UserService <span class="title">getUs</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样我们的接口和实现类就没有耦合了，但接口和工厂类就会产生耦合<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = FactoryBean.getUs();</span><br></pre></td></tr></table></figure></p>
-<p>那么这里我们就可以通过<strong>工厂+反射+配置文件</strong>来实现解耦合<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"us"</span> <span class="attr">class</span>=<span class="string">"com.Kyrie.UserServiceImpl"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FactoryBean</span>()</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getBean</span><span class="params">(String id)</span></span>&#123;</span><br><span class="line">        <span class="comment">//解析xml，找到class</span></span><br><span class="line">        <span class="comment">//反射</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2>工厂模式</h2>
+<p><img src="/img/SpringIoc2.png" alt="SpringIoc2"></p>
+<p>现在我们就可以通过工厂类来创建UserService的实例对象
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FactoryBean</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> UserService <span class="title">getUs</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样我们的接口和实现类就没有耦合了，但接口和工厂类就会产生耦合
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = FactoryBean.getUs();</span><br></pre></td></tr></table></figure></p>
+<p>那么这里我们就可以通过<strong>工厂+反射+配置文件</strong>来实现解耦合
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"us"</span> <span class="attr">class</span>=<span class="string">"com.Kyrie.UserServiceImpl"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FactoryBean</span>()</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getBean</span><span class="params">(String id)</span></span>&#123;</span><br><span class="line">        <span class="comment">//解析xml，找到class</span></span><br><span class="line">        <span class="comment">//反射</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>我们在getBean中传入一个id，那就会返回一个class，接着我们通过反射去生成我们一个实例化对象。</p>
 <p>这就是Spring来完成解耦合的思想。</p>
 
