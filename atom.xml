@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Kyrie17&#39;s Blog</title>
   
-  <subtitle>Say Something..</subtitle>
+  
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://kyrie17.github.io/"/>
@@ -10,7 +10,7 @@
   <id>https://kyrie17.github.io/</id>
   
   <author>
-    <name>Kyrie</name>
+    <name>Kyrie17</name>
     
   </author>
   
