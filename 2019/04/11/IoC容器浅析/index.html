@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Spring,">
 
 
 
@@ -81,16 +81,21 @@
 
 
 
-<meta name="description" content="You got a dream..You gotta protect it.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Kyrie17&#39;s Blog">
-<meta property="og:url" content="https://kyrie17.github.io/categories/tools/index.html">
+<meta name="description" content="传统方式的开发在web层创建业务层的一个类： 开始我们先直接通过UserService创建一个类1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IoC容器浅析">
+<meta property="og:url" content="https://kyrie17.github.io/2019/04/11/IoC容器浅析/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="You got a dream..You gotta protect it.">
+<meta property="og:description" content="传统方式的开发在web层创建业务层的一个类： 开始我们先直接通过UserService创建一个类1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://kyrie17.github.io/img/SpringIoc1.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/SpringIoc2.png">
+<meta property="og:updated_time" content="2019-06-01T09:46:09.483Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kyrie17&#39;s Blog">
-<meta name="twitter:description" content="You got a dream..You gotta protect it.">
+<meta name="twitter:title" content="IoC容器浅析">
+<meta name="twitter:description" content="传统方式的开发在web层创建业务层的一个类： 开始我们先直接通过UserService创建一个类1UserService us = new UserService(); 但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程1UserService us = new UserServiceImpl(); 但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层">
+<meta name="twitter:image" content="https://kyrie17.github.io/img/SpringIoc1.png">
 
 
 
@@ -120,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://kyrie17.github.io/categories/tools/">
+  <link rel="canonical" href="https://kyrie17.github.io/2019/04/11/IoC容器浅析/">
 
 
 
 
 
-  <title>分类: tools | Kyrie17's Blog</title>
+  <title>IoC容器浅析 | Kyrie17's Blog</title>
   
 
 
@@ -145,7 +150,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -271,53 +276,201 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>tools<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kyrie17.github.io/2019/04/11/IoC容器浅析/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyrie17">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myself.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kyrie17's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/01/26/基于hexo搭建博客出现的问题/" itemprop="url">
-              
-                <span itemprop="name">基于hexo搭建博客出现的问题</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">IoC容器浅析</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-26T21:57:31+08:00" content="2019-01-26">
-          01-26
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T11:26:16+08:00">
+                2019-04-11
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  361
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="传统方式的开发"><a href="#传统方式的开发" class="headerlink" title="传统方式的开发"></a>传统方式的开发</h2><p><strong>在web层创建业务层的一个类：</strong><br><img src="/img/SpringIoc1.png" alt="SpringIoc1"></p>
+<p>开始我们先直接通过UserService创建一个类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = <span class="keyword">new</span> UserService();</span><br></pre></td></tr></table></figure></p>
+<p>但我们都知道这种方式不好，因为它没有面向接口编程，所以接下来我们选择面向接口编程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = <span class="keyword">new</span> UserServiceImpl();</span><br></pre></td></tr></table></figure></p>
+<p>但由于我们在web层直接创建了接口的实现类，那这样业务层就和web层产生耦合了。这时候我们就需要提及ocp原则了。</p>
+<blockquote>
+<p>open-close原则：对程序扩展是open的，对修改程序代码是close的。（尽量不修改程序的源码，实现对程序的扩展）<br>我们可以想到使用一个设计模式：<strong>工厂模式</strong>。</p>
+</blockquote>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p><img src="/img/SpringIoc2.png" alt="SpringIoc2"></p>
+<p>现在我们就可以通过工厂类来创建UserService的实例对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FactoryBean</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> UserService <span class="title">getUs</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样我们的接口和实现类就没有耦合了，但接口和工厂类就会产生耦合<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = FactoryBean.getUs();</span><br></pre></td></tr></table></figure></p>
+<p>那么这里我们就可以通过<strong>工厂+反射+配置文件</strong>来实现解耦合<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"us"</span> <span class="attr">class</span>=<span class="string">"com.Kyrie.UserServiceImpl"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FactoryBean</span>()</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getBean</span><span class="params">(String id)</span></span>&#123;</span><br><span class="line">        <span class="comment">//解析xml，找到class</span></span><br><span class="line">        <span class="comment">//反射</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们在getBean中传入一个id，那就会返回一个class，接着我们通过反射去生成我们一个实例化对象。</p>
+<p>这就是Spring来完成解耦合的思想。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Kyrie17
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://kyrie17.github.io/2019/04/11/IoC容器浅析/" title="IoC容器浅析">https://kyrie17.github.io/2019/04/11/IoC容器浅析/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/30/选择Java接口还是抽象类/" rel="next" title="选择Java接口还是抽象类">
+                <i class="fa fa-chevron-left"></i> 选择Java接口还是抽象类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/12/保存对象/" rel="prev" title="保存对象">
+                保存对象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -325,6 +478,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -345,15 +502,24 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/myself.jpg" alt="Kyrie17">
             
               <p class="site-author-name" itemprop="name">Kyrie17</p>
-              <p class="site-description motion-element" itemprop="description">You got a dream..You gotta protect it.</p>
+              <p class="site-description motion-element" itemprop="description">You got a dream..<br>You gotta protect it.</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -363,7 +529,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -374,7 +540,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -385,7 +551,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -412,6 +578,18 @@
                   </span>
                 
                   <span class="links-of-author-item">
+                    <a href="mailto:0kyrie17@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/Kyrie17" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
                     <a href="https://www.zhihu.com/people/kyrie-62-98/activities" target="_blank" title="知乎">
                       
                         <i class="fa fa-fw fa-bookmark"></i>知乎</a>
@@ -431,6 +609,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#传统方式的开发"><span class="nav-number">1.</span> <span class="nav-text">传统方式的开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂模式"><span class="nav-number">2.</span> <span class="nav-text">工厂模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -574,6 +768,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
