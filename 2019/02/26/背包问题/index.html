@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="背包问题 &amp;lt;!-- more --&amp;gt; 背包问题 01背包 概述 01背包是在M件物品取出若干件放在空间为W的背包里，每件物品的体积为W1，W2至Wn，与之相对应的价值为P1,P2至Pn。（这是最基础的背包问题） 思路 在前n件物品中，选取若干件物品放入所剩空间为w的背包中的所能获得的最大价值。（实际上是对一件件物品选与不选的问题） 我们用f[i][j]表示在前 i 件物品中选择若干件放">
+<meta name="description" content="整理一下0-1背包、完全背包、多重背包问题。 &amp;lt;!-- more --&amp;gt; 背包问题 01背包 概述 01背包是在M件物品取出若干件放在空间为W的背包里，每件物品的体积为W1，W2至Wn，与之相对应的价值为P1,P2至Pn。（这是最基础的背包问题） 思路 在前n件物品中，选取若干件物品放入所剩空间为w的背包中的所能获得的最大价值。（实际上是对一件件物品选与不选的问题） 我们用f[i][j">
 <meta name="keywords" content="动态规划">
 <meta property="og:type" content="article">
 <meta property="og:title" content="背包问题">
 <meta property="og:url" content="https://kyrie17.github.io/2019/02/26/背包问题/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="背包问题 &amp;lt;!-- more --&amp;gt; 背包问题 01背包 概述 01背包是在M件物品取出若干件放在空间为W的背包里，每件物品的体积为W1，W2至Wn，与之相对应的价值为P1,P2至Pn。（这是最基础的背包问题） 思路 在前n件物品中，选取若干件物品放入所剩空间为w的背包中的所能获得的最大价值。（实际上是对一件件物品选与不选的问题） 我们用f[i][j]表示在前 i 件物品中选择若干件放">
+<meta property="og:description" content="整理一下0-1背包、完全背包、多重背包问题。 &amp;lt;!-- more --&amp;gt; 背包问题 01背包 概述 01背包是在M件物品取出若干件放在空间为W的背包里，每件物品的体积为W1，W2至Wn，与之相对应的价值为P1,P2至Pn。（这是最基础的背包问题） 思路 在前n件物品中，选取若干件物品放入所剩空间为w的背包中的所能获得的最大价值。（实际上是对一件件物品选与不选的问题） 我们用f[i][j">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-01T15:36:03.376Z">
+<meta property="og:updated_time" content="2019-06-02T01:27:44.821Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="背包问题">
-<meta name="twitter:description" content="背包问题 &amp;lt;!-- more --&amp;gt; 背包问题 01背包 概述 01背包是在M件物品取出若干件放在空间为W的背包里，每件物品的体积为W1，W2至Wn，与之相对应的价值为P1,P2至Pn。（这是最基础的背包问题） 思路 在前n件物品中，选取若干件物品放入所剩空间为w的背包中的所能获得的最大价值。（实际上是对一件件物品选与不选的问题） 我们用f[i][j]表示在前 i 件物品中选择若干件放">
+<meta name="twitter:description" content="整理一下0-1背包、完全背包、多重背包问题。 &amp;lt;!-- more --&amp;gt; 背包问题 01背包 概述 01背包是在M件物品取出若干件放在空间为W的背包里，每件物品的体积为W1，W2至Wn，与之相对应的价值为P1,P2至Pn。（这是最基础的背包问题） 思路 在前n件物品中，选取若干件物品放入所剩空间为w的背包中的所能获得的最大价值。（实际上是对一件件物品选与不选的问题） 我们用f[i][j">
 
 
 
@@ -100,7 +100,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
     fancybox: true,
@@ -332,8 +332,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-06-01T23:36:03+08:00">
-                2019-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2019-06-02T09:27:44+08:00">
+                2019-06-02
               </time>
             
           </span>
@@ -388,8 +388,8 @@
       
 
       
-        <p>背包问题
-&lt;!-- more --&gt;</p>
+        <p>整理一下0-1背包、完全背包、多重背包问题。</p>
+<p>&lt;!-- more --&gt;</p>
 <h1>背包问题</h1>
 <h2>01背包</h2>
 <h3>概述</h3>

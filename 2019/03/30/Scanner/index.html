@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -81,19 +81,19 @@
 
 
 
-<meta name="description" content="上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。 首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。） 比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行">
+<meta name="description" content="Scanner.next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止。 &amp;lt;!-- more --&amp;gt; 上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。 首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Scanner">
 <meta property="og:url" content="https://kyrie17.github.io/2019/03/30/Scanner/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。 首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。） 比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行">
+<meta property="og:description" content="Scanner.next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止。 &amp;lt;!-- more --&amp;gt; 上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。 首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/Scanner1.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/Scanner2.png">
-<meta property="og:updated_time" content="2019-05-01T07:49:18.714Z">
+<meta property="og:updated_time" content="2019-06-02T01:25:01.803Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Scanner">
-<meta name="twitter:description" content="上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。 首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。） 比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行">
+<meta name="twitter:description" content="Scanner.next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止。 &amp;lt;!-- more --&amp;gt; 上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。 首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了">
 <meta name="twitter:image" content="https://kyrie17.github.io/img/Scanner1.png">
 
 
@@ -102,7 +102,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
     fancybox: true,
@@ -334,8 +334,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-01T15:49:18+08:00">
-                2019-05-01
+              <time title="更新于" itemprop="dateModified" datetime="2019-06-02T09:25:01+08:00">
+                2019-06-02
               </time>
             
           </span>
@@ -390,7 +390,9 @@
       
 
       
-        <p>上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。
+        <p>Scanner.next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止。</p>
+<p>&lt;!-- more --&gt;
+上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。
 首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。）
 比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行验证。
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        sc.nextInt();</span><br><span class="line">        String s = sc.nextLine();</span><br><span class="line">        System.out.print(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>

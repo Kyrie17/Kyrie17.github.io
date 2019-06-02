@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -81,13 +81,13 @@
 
 
 
-<meta name="description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  只有自己写的java程序会用到这些数据 如果数据需要被其他程序引用  &amp;lt;!-- more --&amp;gt; 概述  对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表">
+<meta name="description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  写入文件的序列化对象 写入文本文件  &amp;lt;!-- more --&amp;gt; 概述  对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能">
 <meta name="keywords" content="序列化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="保存对象">
 <meta property="og:url" content="https://kyrie17.github.io/2019/04/12/保存对象/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  只有自己写的java程序会用到这些数据 如果数据需要被其他程序引用  &amp;lt;!-- more --&amp;gt; 概述  对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表">
+<meta property="og:description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  写入文件的序列化对象 写入文本文件  &amp;lt;!-- more --&amp;gt; 概述  对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/Serializable1.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/Serializable2.png">
@@ -95,10 +95,10 @@
 <meta property="og:image" content="https://kyrie17.github.io/img/Serializable4.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/Serializable5.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/Serializable6.png">
-<meta property="og:updated_time" content="2019-06-01T15:38:01.715Z">
+<meta property="og:updated_time" content="2019-06-02T01:05:23.046Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="保存对象">
-<meta name="twitter:description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  只有自己写的java程序会用到这些数据 如果数据需要被其他程序引用  &amp;lt;!-- more --&amp;gt; 概述  对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表">
+<meta name="twitter:description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  写入文件的序列化对象 写入文本文件  &amp;lt;!-- more --&amp;gt; 概述  对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能">
 <meta name="twitter:image" content="https://kyrie17.github.io/img/Serializable1.png">
 
 
@@ -107,7 +107,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
     fancybox: true,
@@ -339,8 +339,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-06-01T23:38:01+08:00">
-                2019-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2019-06-02T09:05:23+08:00">
+                2019-06-02
               </time>
             
           </span>
@@ -397,8 +397,8 @@
       
         <p>如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：</p>
 <ul>
-<li>只有自己写的java程序会用到这些数据</li>
-<li>如果数据需要被其他程序引用</li>
+<li>写入文件的序列化对象</li>
+<li>写入文本文件</li>
 </ul>
 <p>&lt;!-- more --&gt;</p>
 <h2>概述</h2>
