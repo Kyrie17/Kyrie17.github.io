@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="泛型,">
 
 
 
@@ -81,16 +81,18 @@
 
 
 
-<meta name="description" content="You got a dream..You gotta protect it.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Kyrie17&#39;s Blog">
-<meta property="og:url" content="https://kyrie17.github.io/categories/算法/index.html">
+<meta name="description" content="对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好）">
+<meta name="keywords" content="泛型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为何不能创建参数化类型数组">
+<meta property="og:url" content="https://kyrie17.github.io/2019/08/10/为何不能创建参数化类型数组/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="You got a dream..You gotta protect it.">
+<meta property="og:description" content="对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好）">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-10T02:50:21.847Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kyrie17&#39;s Blog">
-<meta name="twitter:description" content="You got a dream..You gotta protect it.">
+<meta name="twitter:title" content="为何不能创建参数化类型数组">
+<meta name="twitter:description" content="对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好）">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="https://kyrie17.github.io/categories/算法/">
+  <link rel="canonical" href="https://kyrie17.github.io/2019/08/10/为何不能创建参数化类型数组/">
 
 
 
 
 
-  <title>分类: 算法 | Kyrie17's Blog</title>
+  <title>为何不能创建参数化类型数组 | Kyrie17's Blog</title>
   
 
 
@@ -145,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -271,105 +273,207 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>算法<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kyrie17.github.io/2019/08/10/为何不能创建参数化类型数组/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyrie17">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myself.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kyrie17's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/02/26/背包问题/" itemprop="url">
-              
-                <span itemprop="name">背包问题</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">为何不能创建参数化类型数组</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-26T21:55:46+08:00" content="2019-02-26">
-          02-26
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-10T10:47:24+08:00">
+                2019-08-10
+              </time>
+            
 
-    </header>
-  </article>
+            
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-10T10:50:21+08:00">
+                2019-08-10
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java乐园/" itemprop="url" rel="index">
+                    <span itemprop="name">Java乐园</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/13/Manacher算法/" itemprop="url">
-              
-                <span itemprop="name">Manacher算法</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-13T12:42:20+08:00" content="2019-02-13">
-          02-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/13/滑动窗口/" itemprop="url">
-              
-                <span itemprop="name">滑动窗口</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-13T10:53:29+08:00" content="2019-02-13">
-          02-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>对<a href="https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好）" target="_blank" rel="noopener">https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好）</a></p>
+<a id="more"></a>
+<p>在Java中是不能实例化参数化类型数组的，例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] ls = <span class="keyword">new</span> ArrayList&lt;String&gt;[<span class="number">10</span>];</span><br></pre></td></tr></table></figure></p>
+<p>而使用通配符创建泛型数组是可以的，例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;?&gt;[] ls = <span class="keyword">new</span> ArrayList&lt;?&gt;[<span class="number">10</span>];</span><br></pre></td></tr></table></figure></p>
+<p>这样也是可以的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] ls = <span class="keyword">new</span> ArrayList[<span class="number">10</span>];</span><br></pre></td></tr></table></figure></p>
+<p>文中举了一个例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] lsa = <span class="keyword">new</span> List&lt;String&gt;[<span class="number">10</span>]; <span class="comment">// Not really allowed.    </span></span><br><span class="line">Object o = lsa;    </span><br><span class="line">Object[] oa = (Object[]) o;    </span><br><span class="line">List&lt;Integer&gt; li = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();    </span><br><span class="line">li.add(<span class="keyword">new</span> Integer(<span class="number">3</span>));    </span><br><span class="line">oa[<span class="number">1</span>] = li; <span class="comment">// Unsound, but passes run time store check    </span></span><br><span class="line">String s = lsa[<span class="number">1</span>].get(<span class="number">0</span>); <span class="comment">// Run-time error: ClassCastException.</span></span><br></pre></td></tr></table></figure></p>
+<p>对于<strong>oa[1] = li;</strong> 如果试图存储其他类型的元素，就会抛出一个ArrayStoreException异常，不过对于泛型类型，擦除会使这种机制无效。所以文中会说 Unsound, but passes run time store check（不健全，但通过运行时存储检查 ）。</p>
+<p>它的重点在下一句<strong>String s = lsa[1].get(0);</strong>抛出Run-time error: ClassCastException。在取出数据的时候却要做一次类型转换，所以就会出现ClassCastException，如果可以进行泛型数组的声明，上面说的这种情况在编译期将不会出现任何的警告和错误，只有在运行时才会出错。但通配符方式取出数据是会做显示的类型转换的，所以不会抛出这个运行时异常。这也就是为什么第一种情况不被允许而使用通配符创建泛型数组可以。</p>
+<p>下面采用通配符的方式是被允许的:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;?&gt;[] lsa = <span class="keyword">new</span> List&lt;?&gt;[<span class="number">10</span>]; <span class="comment">// OK, array of unbounded wildcard type.    </span></span><br><span class="line">Object o = lsa;    </span><br><span class="line">Object[] oa = (Object[]) o;    </span><br><span class="line">List&lt;Integer&gt; li = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();    </span><br><span class="line">li.add(<span class="keyword">new</span> Integer(<span class="number">3</span>));    </span><br><span class="line">oa[<span class="number">1</span>] = li; <span class="comment">// Correct.    </span></span><br><span class="line">Integer i = (Integer) lsa[<span class="number">1</span>].get(<span class="number">0</span>); <span class="comment">// OK</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Kyrie17
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://kyrie17.github.io/2019/08/10/为何不能创建参数化类型数组/" title="为何不能创建参数化类型数组">https://kyrie17.github.io/2019/08/10/为何不能创建参数化类型数组/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/泛型/" rel="tag"># 泛型</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/10/通配符类型/" rel="next" title="通配符类型">
+                <i class="fa fa-chevron-left"></i> 通配符类型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -377,6 +481,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -415,7 +523,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -437,7 +545,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -638,6 +746,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
