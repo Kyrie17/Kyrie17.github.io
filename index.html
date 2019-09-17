@@ -180,6 +180,10 @@
 
     
         浅析JDK1.7 ConcurrentHashMap源码。
+&lt;!-- more --&gt;
+Segment
+先看下Segment的定义，是ConcurrentHashMap的一个静态内部类，继承了ReentrantLock。
+1static final class Segment&lt;K,V&gt; extends ReentrantLock implements Serializ...
     
 
         <a href="/2019/09/07/ConcurrentHashMap源码分析-JDK1-7/" class="post-more waves-effect waves-button">
@@ -227,6 +231,9 @@
 
     
         浅析JDK1.7 HashMap源码。
+&lt;!-- more --&gt;
+HashMap中几个重要的属性
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354/**    * 默认初始化化容量,即16      */   static fin...
     
 
         <a href="/2019/09/05/HashMap源码分析-JDK1-7/" class="post-more waves-effect waves-button">
@@ -274,6 +281,10 @@
 
     
         今天同学给了我一道题目，发现自己对interrupt()、isInterrupted()、interrupted()理解的不好。
+&lt;!-- more --&gt;
+interrupt()、isInterrupted()、interrupted()
+我们先看一下例子。
+123456789101112131415161718192021222324252627282930313233343...
     
 
         <a href="/2019/09/02/线程中断/" class="post-more waves-effect waves-button">
@@ -321,6 +332,10 @@
 
     
         浅析JDK1.8 HashMap源码。
+&lt;!-- more --&gt;
+HashMap构造函数
+我们看下不带参数的构造方法：
+1234567 /**  * Constructs an empty &#123;@code HashMap&#125; with the default initial capacity  * (16) and the default load factor...
     
 
         <a href="/2019/08/20/HashMap源码分析-JDK1-8/" class="post-more waves-effect waves-button">
@@ -368,6 +383,10 @@
 
     
         对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好）
+&lt;!-- more --&gt;
+在Java中是不能实例化参数化类型数组的，例如：
+1List&lt;String&gt;[] ls = new ArrayList&lt;String&gt;[10];
+而使用通配符创建泛...
     
 
         <a href="/2019/08/10/为何不能创建参数化类型数组/" class="post-more waves-effect waves-button">
@@ -416,8 +435,12 @@
     
         在 Java 泛型中存在通配符的概念:
 
-&lt;? extends C&gt;是上界通配符&lt;? super C&gt;是下界通配符
+&lt;? extends C&gt;是上界通配符
+&lt;? super C&gt;是下界通配符
 
+&lt;!-- more --&gt;
+接下来对这些进行说明，先定义几个类：
+1234567class A&#123;&#125;;class B extends A&#123;&#125;;class C extends B&#123;&#125;...
     
 
         <a href="/2019/08/10/通配符类型/" class="post-more waves-effect waves-button">
@@ -465,6 +488,13 @@
 
     
         反射就是在运行时才知道要操作的类是什么，并且可以在运行时获取类的完整构造，并调用对应的方法。
+&lt;!-- more --&gt;
+转载自：http://www.cnblogs.com/chanshuyi/p/head_first_of_reflection.html
+概述
+
+反射就是在运行时才知道要操作的类是什么，并且可以在运行时获取类的完整构造，并调用对应的方法。
+
+反射之中包含了一个...
     
 
         <a href="/2019/04/20/Java反射/" class="post-more waves-effect waves-button">
@@ -510,6 +540,12 @@
 写入文件的序列化对象
 写入文本文件
 
+&lt;!-- more --&gt;
+概述
+
+对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。
+
+如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开...
     
 
         <a href="/2019/04/12/保存对象/" class="post-more waves-effect waves-button">
@@ -555,6 +591,10 @@
 
     
         在Spring中，它会认为一切Java类都是资源，而资源都是Bean，容纳这些Bean的是Spring所提供的IoC容器（所以Spring是一种基于Bean的编程）。
+&lt;!-- more --&gt;
+Spring IoC概述
+
+控制反转是一种通过描述（在Java中可以是XML或者是注解）并通过第三方去产生或获取特定对象的方式。而在Spring中实现控制反转的是IoC容器，其实现方式是...
     
 
         <a href="/2019/04/11/Spring IoC容器浅析/" class="post-more waves-effect waves-button">
@@ -599,7 +639,8 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        很多人有过这样的疑问：为什么有的地方必须使用接口而不是抽象类，而在另一些地方，又必须使用抽象类而不是接口呢？或者说，在考虑Java类的一般化问题时，很多人会在接口和抽象类之间犹豫不决，甚至随便选择一种。  实际上接口和抽象类的选择不是随心所欲的。要理解接口和抽象类的选择原则，有两个概念很重要：对象的行为和对象的实现。如果一个实体可以有多种实现方式，则在设计实体行为的描述方式时，应当达到这样一个目标：在使用实体的时候，无需详细了解实体行为的实现方式。也就是说，要把对象的行为和对象的实现分离开来。既然Java的接口和抽象类都可以定义不提供具体实现的方法，在分离对象的行为和对象的实现时，到底应该使用接口还是使用抽象类呢？
+        很多人有过这样的疑问：为什么有的地方必须使用接口而不是抽象类，而在另一些地方，又必须使用抽象类而不是接口呢？或者说，在考虑Java类的一般化问题时，很多人会在接口和抽象类之间犹豫不决，甚至随便选择一种。
+实际上接口和抽象类的选择不是随心所欲的。要理解接口和抽象类的选择原则，有两个概念很重要：对象的行为和对象的实现。如果一个实体可以有多种实现方式，则在设计实体行为的描述方式时，应当达到这样一个...
     
 
         <a href="/2019/03/30/选择Java接口还是抽象类/" class="post-more waves-effect waves-button">
