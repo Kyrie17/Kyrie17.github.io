@@ -21,18 +21,18 @@
     
     
     <meta name="keywords" content="泛型">
-    <meta name="description" content="对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好） 在Java中是不能实例化参数化类型数组的，例如： 1List&amp;lt;String&amp;gt;[] ls = new ArrayList&amp;lt;String&amp;gt;[10]; 而使用通配符创建泛型数组是可以的，例如： 1List&amp;lt;?&amp;">
+    <meta name="description" content="对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好） 在Java中是不能实例化参数化类型数组的，例如：1List&amp;lt;String&amp;gt;[] ls = new ArrayList&amp;lt;String&amp;gt;[10]; 而使用通配符创建泛型数组是可以的，例如：1List&amp;lt;?&amp;gt">
 <meta name="keywords" content="泛型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为何不能创建参数化类型数组">
 <meta property="og:url" content="https://kyrie17.github.io/2019/08/10/为何不能创建参数化类型数组/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好） 在Java中是不能实例化参数化类型数组的，例如： 1List&amp;lt;String&amp;gt;[] ls = new ArrayList&amp;lt;String&amp;gt;[10]; 而使用通配符创建泛型数组是可以的，例如： 1List&amp;lt;?&amp;">
+<meta property="og:description" content="对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好） 在Java中是不能实例化参数化类型数组的，例如：1List&amp;lt;String&amp;gt;[] ls = new ArrayList&amp;lt;String&amp;gt;[10]; 而使用通配符创建泛型数组是可以的，例如：1List&amp;lt;?&amp;gt">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2019-09-18T06:25:06.034Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为何不能创建参数化类型数组">
-<meta name="twitter:description" content="对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好） 在Java中是不能实例化参数化类型数组的，例如： 1List&amp;lt;String&amp;gt;[] ls = new ArrayList&amp;lt;String&amp;gt;[10]; 而使用通配符创建泛型数组是可以的，例如： 1List&amp;lt;?&amp;">
+<meta name="twitter:description" content="对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好） 在Java中是不能实例化参数化类型数组的，例如：1List&amp;lt;String&amp;gt;[] ls = new ArrayList&amp;lt;String&amp;gt;[10]; 而使用通配符创建泛型数组是可以的，例如：1List&amp;lt;?&amp;gt">
     
         <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
     
@@ -119,7 +119,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -175,19 +175,14 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>对https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好）</p>
-<p>在Java中是不能实例化参数化类型数组的，例如：
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] ls = <span class="keyword">new</span> ArrayList&lt;String&gt;[<span class="number">10</span>];</span><br></pre></td></tr></table></figure></p>
-<p>而使用通配符创建泛型数组是可以的，例如：
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;?&gt;[] ls = <span class="keyword">new</span> ArrayList&lt;?&gt;[<span class="number">10</span>];</span><br></pre></td></tr></table></figure></p>
-<p>这样也是可以的：
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] ls = <span class="keyword">new</span> ArrayList[<span class="number">10</span>];</span><br></pre></td></tr></table></figure></p>
-<p>文中举了一个例子：
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] lsa = <span class="keyword">new</span> List&lt;String&gt;[<span class="number">10</span>]; <span class="comment">// Not really allowed.    </span></span><br><span class="line">Object o = lsa;    </span><br><span class="line">Object[] oa = (Object[]) o;    </span><br><span class="line">List&lt;Integer&gt; li = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();    </span><br><span class="line">li.add(<span class="keyword">new</span> Integer(<span class="number">3</span>));    </span><br><span class="line">oa[<span class="number">1</span>] = li; <span class="comment">// Unsound, but passes run time store check    </span></span><br><span class="line">String s = lsa[<span class="number">1</span>].get(<span class="number">0</span>); <span class="comment">// Run-time error: ClassCastException.</span></span><br></pre></td></tr></table></figure></p>
+            <p>对<a href="https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好）" target="_blank" rel="noopener">https://blog.csdn.net/s10461/article/details/53941091中泛型数组做一下补充总结。（这篇博客对于泛型总结得挺好）</a></p>
+<p>在Java中是不能实例化参数化类型数组的，例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] ls = <span class="keyword">new</span> ArrayList&lt;String&gt;[<span class="number">10</span>];</span><br></pre></td></tr></table></figure></p>
+<p>而使用通配符创建泛型数组是可以的，例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;?&gt;[] ls = <span class="keyword">new</span> ArrayList&lt;?&gt;[<span class="number">10</span>];</span><br></pre></td></tr></table></figure></p>
+<p>这样也是可以的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] ls = <span class="keyword">new</span> ArrayList[<span class="number">10</span>];</span><br></pre></td></tr></table></figure></p>
+<p>文中举了一个例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;[] lsa = <span class="keyword">new</span> List&lt;String&gt;[<span class="number">10</span>]; <span class="comment">// Not really allowed.    </span></span><br><span class="line">Object o = lsa;    </span><br><span class="line">Object[] oa = (Object[]) o;    </span><br><span class="line">List&lt;Integer&gt; li = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();    </span><br><span class="line">li.add(<span class="keyword">new</span> Integer(<span class="number">3</span>));    </span><br><span class="line">oa[<span class="number">1</span>] = li; <span class="comment">// Unsound, but passes run time store check    </span></span><br><span class="line">String s = lsa[<span class="number">1</span>].get(<span class="number">0</span>); <span class="comment">// Run-time error: ClassCastException.</span></span><br></pre></td></tr></table></figure></p>
 <p>对于<strong>oa[1] = li;</strong> 如果试图存储其他类型的元素，就会抛出一个ArrayStoreException异常，不过对于泛型类型，擦除会使这种机制无效。所以文中会说 Unsound, but passes run time store check（不健全，但通过运行时存储检查 ）。</p>
-<p>它的重点在下一句**String s = lsa[1].get(0);**抛出Run-time error: ClassCastException。在取出数据的时候却要做一次类型转换，所以就会出现ClassCastException，如果可以进行泛型数组的声明，上面说的这种情况在编译期将不会出现任何的警告和错误，只有在运行时才会出错。但通配符方式取出数据是会做显示的类型转换的，所以不会抛出这个运行时异常。这也就是为什么第一种情况不被允许而使用通配符创建泛型数组可以。</p>
-<p>下面采用通配符的方式是被允许的:
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;?&gt;[] lsa = <span class="keyword">new</span> List&lt;?&gt;[<span class="number">10</span>]; <span class="comment">// OK, array of unbounded wildcard type.    </span></span><br><span class="line">Object o = lsa;    </span><br><span class="line">Object[] oa = (Object[]) o;    </span><br><span class="line">List&lt;Integer&gt; li = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();    </span><br><span class="line">li.add(<span class="keyword">new</span> Integer(<span class="number">3</span>));    </span><br><span class="line">oa[<span class="number">1</span>] = li; <span class="comment">// Correct.    </span></span><br><span class="line">Integer i = (Integer) lsa[<span class="number">1</span>].get(<span class="number">0</span>); <span class="comment">// OK</span></span><br></pre></td></tr></table></figure></p>
+<p>它的重点在下一句<strong>String s = lsa[1].get(0);</strong>抛出Run-time error: ClassCastException。在取出数据的时候却要做一次类型转换，所以就会出现ClassCastException，如果可以进行泛型数组的声明，上面说的这种情况在编译期将不会出现任何的警告和错误，只有在运行时才会出错。但通配符方式取出数据是会做显示的类型转换的，所以不会抛出这个运行时异常。这也就是为什么第一种情况不被允许而使用通配符创建泛型数组可以。</p>
+<p>下面采用通配符的方式是被允许的:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;?&gt;[] lsa = <span class="keyword">new</span> List&lt;?&gt;[<span class="number">10</span>]; <span class="comment">// OK, array of unbounded wildcard type.    </span></span><br><span class="line">Object o = lsa;    </span><br><span class="line">Object[] oa = (Object[]) o;    </span><br><span class="line">List&lt;Integer&gt; li = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();    </span><br><span class="line">li.add(<span class="keyword">new</span> Integer(<span class="number">3</span>));    </span><br><span class="line">oa[<span class="number">1</span>] = li; <span class="comment">// Correct.    </span></span><br><span class="line">Integer i = (Integer) lsa[<span class="number">1</span>].get(<span class="number">0</span>); <span class="comment">// OK</span></span><br></pre></td></tr></table></figure></p>
 
         </div>
 
@@ -196,7 +191,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-09-18T06:25:06.034Z" itemprop="dateUpdated">2019-09-18 14:25:06</time>
+    最終更新：<time datetime="2019-09-18T06:25:06.034Z" itemprop="dateUpdated">2019-09-18 14:25:06</time>
 </span><br>
 
 
@@ -358,7 +353,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
         </p>
     </div>
     <div class="bottom">
