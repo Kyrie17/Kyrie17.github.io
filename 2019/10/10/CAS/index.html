@@ -14,27 +14,25 @@
     
     
     
-    <title>学习新知识的心得体会 | Kyrie17&#39;s Blog</title>
+    <title>CAS | Kyrie17&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="learnSkill">
-    <meta name="description" content="看到一个大佬总结的经验，觉得很有道理，所以先码下来。                                                                                              learningskill">
-<meta name="keywords" content="learnSkill">
+    <meta name="keywords" content="CAS">
+    <meta name="description" content="这篇 https://juejin.im/post/5ae753d8f265da0ba56753ca 博客中，已经对CAS做了很详细的解释，这篇文章目的是整理一下思路。 写在开篇 CAS（compareAndSwap，比较交换，一种无锁原子算法）过程是这样：它包含 3 个参数 CAS（V，E，N），V表示要更新变量的值，E表示预期值，N表示新值。仅当V值等于E值时，才会将V的值设为N，如果V值和E">
+<meta name="keywords" content="CAS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="学习新知识的心得体会">
-<meta property="og:url" content="https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/index.html">
+<meta property="og:title" content="CAS">
+<meta property="og:url" content="https://kyrie17.github.io/2019/10/10/CAS/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="看到一个大佬总结的经验，觉得很有道理，所以先码下来。                                                                                              learningskill">
+<meta property="og:description" content="这篇 https://juejin.im/post/5ae753d8f265da0ba56753ca 博客中，已经对CAS做了很详细的解释，这篇文章目的是整理一下思路。 写在开篇 CAS（compareAndSwap，比较交换，一种无锁原子算法）过程是这样：它包含 3 个参数 CAS（V，E，N），V表示要更新变量的值，E表示预期值，N表示新值。仅当V值等于E值时，才会将V的值设为N，如果V值和E">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://kyrie17.github.io/img/learningskill.png">
-<meta property="og:updated_time" content="2019-09-17T09:44:32.464Z">
+<meta property="og:updated_time" content="2019-10-10T13:34:02.402Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="学习新知识的心得体会">
-<meta name="twitter:description" content="看到一个大佬总结的经验，觉得很有道理，所以先码下来。                                                                                              learningskill">
-<meta name="twitter:image" content="https://kyrie17.github.io/img/learningskill.png">
+<meta name="twitter:title" content="CAS">
+<meta name="twitter:description" content="这篇 https://juejin.im/post/5ae753d8f265da0ba56753ca 博客中，已经对CAS做了很详细的解释，这篇文章目的是整理一下思路。 写在开篇 CAS（compareAndSwap，比较交换，一种无锁原子算法）过程是这样：它包含 3 个参数 CAS（V，E，N），V表示要更新变量的值，E表示预期值，N表示新值。仅当V值等于E值时，才会将V的值设为N，如果V值和E">
     
         <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
     
@@ -115,7 +113,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">学习新知识的心得体会</div>
+        <div class="flex-col header-title ellipsis">CAS</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -137,15 +135,15 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">学习新知识的心得体会</h1>
+        <h1 class="title">CAS</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-03-17T03:15:14.000Z" itemprop="datePublished" class="page-time">
-  2019-03-17
+                <time datetime="2019-10-10T13:33:08.000Z" itemprop="datePublished" class="page-time">
+  2019-10-10
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/人生苦旅/">人生苦旅</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java乐园/">Java乐园</a></li></ul>
 
             
         </h5>
@@ -159,17 +157,24 @@
 
 <div class="container body-wrap">
     
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.</span> <span class="post-toc-text">写在开篇</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.</span> <span class="post-toc-text">非阻塞算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">3.</span> <span class="post-toc-text">底层原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.</span> <span class="post-toc-text">Java如何实现原子操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">5.</span> <span class="post-toc-text">缺点</span></a></li></ol>
+        </nav>
+    </aside>
 
-<article id="post-学习新知识的心得体会"
+
+<article id="post-CAS"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">学习新知识的心得体会</h1>
+        <h1 class="post-card-title">CAS</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-03-17 11:15:14" datetime="2019-03-17T03:15:14.000Z"  itemprop="datePublished">2019-03-17</time>
+            <time class="post-time" title="2019-10-10 21:33:08" datetime="2019-10-10T13:33:08.000Z"  itemprop="datePublished">2019-10-10</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/人生苦旅/">人生苦旅</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java乐园/">Java乐园</a></li></ul>
 
 
 
@@ -177,14 +182,22 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>看到一个大佬总结的经验，觉得很有道理，所以先码下来。</p>
-<p><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/learningskill.png" alt="learningskill" title>
-                </div>
-                <div class="image-caption">learningskill</div>
-            </figure></p>
+            <p>这篇 https://juejin.im/post/5ae753d8f265da0ba56753ca 博客中，已经对CAS做了很详细的解释，这篇文章目的是整理一下思路。</p>
+<h2>写在开篇</h2>
+<p>CAS（compareAndSwap，比较交换，一种无锁原子算法）过程是这样：它包含 3 个参数 CAS（V，E，N），V表示要更新变量的值，E表示预期值，N表示新值。仅当V值等于E值时，才会将V的值设为N，如果V值和E值不同，则说明已经有其他线程做两个更新，则当前线程则什么都不做。最后，CAS 返回当前V的真实值。CAS 操作时抱着乐观的态度进行的，它总是认为自己可以成功完成操作。</p>
+<h2>非阻塞算法</h2>
+<p>一个线程失败或挂起，不应该影响其他线程失败或挂起算法。</p>
+<h2>底层原理</h2>
+<p>归功硬件指令集的发展，硬件保证一个从语义上需要多次操作只通过一条指令就能完成。</p>
+<h2>Java如何实现原子操作</h2>
+<p>Java提供了java.util.concurrent.atomic包。</p>
+<p>我们可以通过AtomicInteger的compareAndSet简单看一下其内部实现。
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">compareAndSet</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> unsafe.compareAndSwapInt(<span class="keyword">this</span>, valueOffset, expect, update);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>该方法调用了unsafe类（本地方法）的compareAndSwapInt方法，有几个参数，一个是对象自身，一个是该变量的内存地址，一个是期望值，一个是更新值。完全符合我们之前CAS的定义。</p>
+<h2>缺点</h2>
+<p>CAS看起来非常优秀了，但它存在的ABA问题：假设一个变量A，修改为B之后又修改为A，CAS的机制是无法察觉的，但实际上已经被修改过了。如果在基本类型上是没有问题的，但是如果是引用类型呢？这个对象中有多个变量，我们怎么知道有没有被改过？</p>
+<p>聪明的你一定想到了，加个版本号啊。每次修改就检查版本号，如果版本号变了，说明改过，就算你还是A，也不行。</p>
+<p>在java.util.concurrent.atomic包中，通过tomicReference来保证引用的原子性。</p>
 
         </div>
 
@@ -193,7 +206,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-09-17T09:44:32.464Z" itemprop="dateUpdated">2019-09-17 17:44:32</time>
+    Last updated: <time datetime="2019-10-10T13:34:02.402Z" itemprop="dateUpdated">2019-10-10 21:34:02</time>
 </span><br>
 
 
@@ -217,7 +230,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learnSkill/">learnSkill</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CAS/">CAS</a></li></ul>
 
 
             
@@ -227,7 +240,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/&title=《学习新知识的心得体会》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2019/10/10/CAS/&title=《CAS》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -237,22 +250,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/&title=《学习新知识的心得体会》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2019/10/10/CAS/&title=《CAS》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2019/10/10/CAS/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《学习新知识的心得体会》 — Kyrie17's Blog&url=https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/&via=https://kyrie17.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CAS》 — Kyrie17's Blog&url=https://kyrie17.github.io/2019/10/10/CAS/&via=https://kyrie17.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2019/10/10/CAS/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -272,21 +285,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2019/03/30/Java代理模式/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">Java代理模式</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/02/26/背包问题/" id="post-next" class="post-nav-link">
+      <a href="/2019/09/24/ReentrantLock源码分析-JDK1-8/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">背包问题</h4>
+        <h4 class="title">ReentrantLock源码分析-JDK1.8</h4>
       </a>
     </div>
   
@@ -377,7 +383,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/&title=《学习新知识的心得体会》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2019/10/10/CAS/&title=《CAS》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -387,22 +393,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/&title=《学习新知识的心得体会》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2019/10/10/CAS/&title=《CAS》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2019/10/10/CAS/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《学习新知识的心得体会》 — Kyrie17's Blog&url=https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/&via=https://kyrie17.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CAS》 — Kyrie17's Blog&url=https://kyrie17.github.io/2019/10/10/CAS/&via=https://kyrie17.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2019/03/17/学习新知识的心得体会/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2019/10/10/CAS/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -413,7 +419,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvklEQVR42u3aQU7lQAwEUO5/aUaaLfyfcrl7GKSXFQok8csi3ZT98REfn3+PV2e+/vz+THKHr9d+vcOxAw8PD68q/dXxvugN6VUNyStOasbDw8O7zUtulz8mWVoSWFLDw1Pw8PDwfpQ33ewmf/++6OQqPDw8vN/CS+4whXWBBR4eHt5P8ZIwIv+UJ7/ttu8XsxY8PDy8mDdtgP0PP1/s7+Hh4eEtuup5S6zbEOdb9q5aPDw8vBu86ZBTF8JuAovk6Q9PwcPDwzvKy4PU7ny+eEyXnyjmwMPDw7vAy5tPeRwwXSqmm/XkPB4eHt49Xv746QhUN5LVxbUva8bDw8O7xtu04ZN4YvqCTm3H8fDw8G7wzg6G5rv4/dZ8XDMeHh7eIV7e0OpC2+miMm10PbDx8PDwLvCmsWke8k432fmI1fRl4eHh4Z3lnfqsd9d241Z5qwwPDw/vNm8T1E5jgryR1oXFeHh4ePd4XYnTQvNwYQqLLHh4eHhHefnC0AUE3VhA/lofXgceHh7eBV4Xy25i3K7EJEoeTEbg4eHhLXjdcMB+SCsfGphu6L/ZUuPh4eFd5uXLQBfd5oFCN3T1zX8MeHh4eEd5yUd2vyR0m/L8tT6MIODh4eFd400/uF1AMB3nmobCgxQZDw8Pr+LlJXZNr1PjAvmgQzQ6gIeHh7fgRVvSGNldNV14VqsfHh4e3pqXfKzzOHW6hOR3y0cQHmbK8PDw8Na8vKHVNfjz4YPB5jhuvOHh4eHd4H0Oj2lZ0zskV+Xn8fDw8G7w8iNpa02jhGQoIR9ZKFc/PDw8vIqXLwabmHUzgjB9lXh4eHj/htc1mU5tu7sYAg8PD++38LqiNw2zTSV4eHh4P8vrQtvubt2139wBDw8P7xpvGkZ0swnTADf/+4eFAQ8PD+8orxvA2owaJItKjlnB8PDw8Ga8P0VpQQWJpSjaAAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABz0lEQVR42u3aSY7CMBAFUO5/aVrqbYj5VR4UpOcVQsZ5YVGqwa9XvN7/6/rNdV33J58XL1xc3Gnue7iue+5+W/3+7vy7Pbi4uOe54+CVB6NxeKoGNVxc3Odzc+j4zOQ0XFzc3+ImwWscsHBxcX+F22tz5CEvOXNxrYaLizvBrTZMd3ze2N/FxcUtct+tNT5nVfD6cAIuLu4Rbq/IyQuhfHCSN19wcXF3c+eHJatKpuTPwsXFPcNNEpTeNYtqm7XZMMXFxd3AzUenzX+i2E798qq4uLgHuXlgqhZI1SZpoSGCi4t7nFu9SjWTxDRrNVxc3G3cagjrhb/qyc3mCC4u7gbu1OCzOETpPREXF/c8NwlGyQOSM6voctzFxcWd4OYjkGpro5rcRPtxcXGPcPMWRt4W6Y1my61bXFzcbdyZoUgOnS+cPsyEcXFxt3HzcNZLeqrpUXkMg4uLu4E70x6tpj55YnRbnuHi4h7h5qs6Ik2ud8y8Bi4u7m5uEryqQ5F8oJI8qxB9cXFxl3J7Q5FeM2WqVsPFxX0kt1oI5fuj1AoXF/dh3F4S0wt8zTsjuLi4S7l58VMdosyMUqJLGLi4uBu4vYbpqtfLxzC4uLhHuH8SqyULKuoUAAAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 
