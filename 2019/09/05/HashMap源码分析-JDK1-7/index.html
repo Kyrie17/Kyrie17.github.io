@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://kyrie17.github.io/img/HashMap04.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/HashMap05.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/HashMap06.png">
-<meta property="og:updated_time" content="2020-03-09T10:04:36.423Z">
+<meta property="og:updated_time" content="2020-03-09T15:16:27.679Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap源码分析-JDK1.7">
 <meta name="twitter:description" content="浅析JDK1.7 HashMap源码。 HashMap中几个重要的属性1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556/**    * 默认初始化化容量,即16      */   static final int DEFAULT_INITI">
@@ -127,7 +127,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -278,8 +278,7 @@
             </figure></p>
 <p>此时next=null，将不会进行下一轮循环。到此线程A、B的扩容操作完成，很明显当线程A执行完后，HashMap中出现了环形结构，当在以后对该HashMap进行操作时会出现死循环。</p>
 <p>并且从上图可以发现，元素5在扩容期间被莫名的丢失了，这就发生了数据丢失的问题。</p>
-<h3 id="数据覆盖"><a href="#数据覆盖" class="headerlink" title="数据覆盖"></a>数据覆盖</h3><p>还是在put()中：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">modCount++;</span><br><span class="line">addEntry(hash, key, value, i);</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure></p>
-<p>线程A执行至<code>modCount++;</code>后由于时间片耗尽导致被挂起，而线程B得到时间片后在该下标处插入了元素，完成了正常的插入，接着线程A获得时间片，由于之前已经进行了hash碰撞的判断，所有此时不会再进行判断，而是直接进行插入，这就导致了线程B插入的数据被线程A覆盖了。</p>
+<h3 id="数据覆盖"><a href="#数据覆盖" class="headerlink" title="数据覆盖"></a>数据覆盖</h3><p>还是在put()中：<br>比如有两个线程A和B，首先A希望插入一个元素到HashMap中，首先计算记录所要落到的桶的索引坐标，然后获取到该桶里面的链表头结点，此时线程A后由于时间片耗尽导致被挂起，而线程B得到时间片后在该下标处插入了元素，完成了正常的插入，假设线程A插入的记录计算出来的桶索引和线程B要插入的记录计算出来的桶索引是一样的，那么当线程B成功插入之后，线程A再次被调度运行时，它依然<strong>持有过期的链表头</strong>，这就导致了线程B插入的数据被线程A覆盖了。</p>
 <p>参考：<br>Alternative hashing和hashSeed部分 <a href="https://segmentfault.com/a/1190000018520768" target="_blank" rel="noopener">https://segmentfault.com/a/1190000018520768</a></p>
 
         </div>
@@ -289,7 +288,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-03-09T10:04:36.423Z" itemprop="dateUpdated">2020-03-09 18:04:36</time>
+    最終更新：<time datetime="2020-03-09T15:16:27.679Z" itemprop="dateUpdated">2020-03-09 23:16:27</time>
 </span><br>
 
 
@@ -451,7 +450,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
         </p>
     </div>
     <div class="bottom">
