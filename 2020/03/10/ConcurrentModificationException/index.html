@@ -31,7 +31,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/cme01.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/cme02.png">
-<meta property="og:updated_time" content="2020-03-10T11:00:19.768Z">
+<meta property="og:image" content="https://kyrie17.github.io/img/cme03.png">
+<meta property="og:updated_time" content="2020-03-11T07:50:08.200Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ConcurrentModificationException">
 <meta name="twitter:description" content="浅析ConcurrentModificationException出现的原因。 写在开篇ConcurrentModificationException，也就是并发修改异常，当我们使用一些Java集合类时，有时需要遍历集合并根据条件remove其中的元素，此时就有可能出现该异常。 接下来我们通过下面这个例子来分析一下：12345678910111213141516public class Solut">
@@ -122,7 +123,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -163,7 +164,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#写在开篇"><span class="post-toc-number">1.</span> <span class="post-toc-text">写在开篇</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#从ArrayList内部看异常出现的原因"><span class="post-toc-number">2.</span> <span class="post-toc-text">从ArrayList内部看异常出现的原因</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ArrayList的遍历"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">ArrayList的遍历</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ArrayList的删除"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">ArrayList的删除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#真相大白"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">真相大白</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#另一种情况"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">另一种情况</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#写在开篇"><span class="post-toc-number">1.</span> <span class="post-toc-text">写在开篇</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#从ArrayList内部看异常出现的原因"><span class="post-toc-number">2.</span> <span class="post-toc-text">从ArrayList内部看异常出现的原因</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ArrayList的遍历"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">ArrayList的遍历</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ArrayList的删除"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">ArrayList的删除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#真相大白"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">真相大白</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#另一种情况"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">另一种情况</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#多线程下的解决方案"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">多线程下的解决方案</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -211,6 +212,21 @@
                 <div class="image-caption">CME02</div>
             </figure><br>程序没有抛出ConcurrentModificationException，但是在打印“4”之前程序就结束了，这是为什么呢？</p>
 <p>因为List在删除元素后会减小记录自身元素个数的值，也就是size从5变为了4，而此时，遍历访问的下标由3来到了4，也就是访问i = 3的下标向后移了。Itr的hasNext()此时判断，List已经没有元素可以访问了，于是返回了false。</p>
+<h3 id="多线程下的解决方案"><a href="#多线程下的解决方案" class="headerlink" title="多线程下的解决方案"></a>多线程下的解决方案</h3><p>上面我们已经给出了单线程环境下的解决方案，不过它在多线程下适用吗，我们一起来看看下面这个例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        list.add(<span class="number">0</span>);</span><br><span class="line">        list.add(<span class="number">1</span>);</span><br><span class="line">        list.add(<span class="number">2</span>);</span><br><span class="line">        list.add(<span class="number">3</span>);</span><br><span class="line">        list.add(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread()&#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                Iterator&lt;Integer&gt; iterator = list.iterator();</span><br><span class="line">                <span class="keyword">while</span>(iterator.hasNext())&#123;</span><br><span class="line">                    Integer integer = iterator.next();</span><br><span class="line">                    System.out.println(integer);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">        Thread thread2 = <span class="keyword">new</span> Thread()&#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                Iterator&lt;Integer&gt; iterator = list.iterator();</span><br><span class="line">                <span class="keyword">while</span>(iterator.hasNext())&#123;</span><br><span class="line">                    Integer integer = iterator.next();</span><br><span class="line">                    <span class="keyword">if</span>(integer==<span class="number">2</span>)</span><br><span class="line">                        iterator.remove(); </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line">        thread1.start();</span><br><span class="line">        thread2.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/cme03.png" alt="CME03" title>
+                </div>
+                <div class="image-caption">CME03</div>
+            </figure><br>可能有人说ArrayList是非线程安全的容器，换成Vector就没问题了，实际上换成Vector还是会出现这种错误。</p>
+<p>原因在于，虽然Vector的方法采用了synchronized进行了同步，但是实际上通过Iterator访问的情况下，<strong>每个线程里面返回的是不同的iterator</strong>，也即是说expectedModCount是每个线程私有。假若此时有2个线程，线程1在进行遍历，线程2在进行修改，那么很有可能导致线程2修改后导致Vector中的modCount自增了，线程2的expectedModCount也自增了，但是线程1的expectedModCount没有自增，此时线程1遍历时就会出现expectedModCount不等于modCount的情况了。</p>
+<p>因此一般有2种解决办法：</p>
+<ol>
+<li>在使用iterator迭代的时候使用synchronized或者Lock进行同步</li>
+<li>使用并发容器CopyOnWriteArrayList代替ArrayList和Vector</li>
+</ol>
+<p>参考：<br><a href="https://www.cnblogs.com/dolphin0520/p/3933551.html" target="_blank" rel="noopener">https://www.cnblogs.com/dolphin0520/p/3933551.html</a></p>
 
         </div>
 
@@ -219,7 +235,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2020-03-10T11:00:19.768Z" itemprop="dateUpdated">2020-03-10 19:00:19</time>
+    Last updated: <time datetime="2020-03-11T07:50:08.200Z" itemprop="dateUpdated">2020-03-11 15:50:08</time>
 </span><br>
 
 
@@ -381,7 +397,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
