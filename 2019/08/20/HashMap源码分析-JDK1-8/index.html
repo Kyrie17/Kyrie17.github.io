@@ -29,7 +29,7 @@
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
 <meta property="og:description" content="浅析JDK1.8 HashMap源码。 写在开篇HashMap是最常用的数据结构之一，是JDK中util包下的一个集合类，基于Map接口实现、允许null键/值、非同步、不保证有序(比如插入的顺序)、也不保证顺序不随时间变化。 类的继承关系12public class HashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt;    implements M">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-11T15:25:29.745Z">
+<meta property="og:updated_time" content="2020-03-11T15:29:18.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap源码分析-JDK1.8">
 <meta name="twitter:description" content="浅析JDK1.8 HashMap源码。 写在开篇HashMap是最常用的数据结构之一，是JDK中util包下的一个集合类，基于Map接口实现、允许null键/值、非同步、不保证有序(比如插入的顺序)、也不保证顺序不随时间变化。 类的继承关系12public class HashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt;    implements M">
@@ -219,7 +219,7 @@
 <li>同一个键值对在不同 JVM 下，所处的桶位置可能是不同的，在不同的 JVM 下反序列化 table 可能会发生错误。</li>
 </ol>
 <p>以上两个问题中，第一个问题比较好理解，第二个问题解释一下。HashMap的get/put/remove等方法第一步就是根据hash找到键所在的桶位置，但如果键没有覆写hashCode方法，计算hash时最终调用Object中的hashCode方法。但Object中的hashCode方法是native型的，不同的JVM下，可能会有不同的实现，产生的hash可能也是不一样的。也就是说同一个键在不同平台下可能会产生不同的 hash，此时再对在同一个table继续操作，就会出现问题。</p>
-<p>参考：<br>被transient所修饰table变量转载自 <a href="https://segmentfault.com/a/1190000012926722?utm_source=tag-newest#item-3-6" target="_blank" rel="noopener">https://segmentfault.com/a/1190000012926722?utm_source=tag-newest#item-3-6</a></p>
+<p>参考：<br>transient所修饰table变量 <a href="https://segmentfault.com/a/1190000012926722?utm_source=tag-newest#item-3-6" target="_blank" rel="noopener">https://segmentfault.com/a/1190000012926722?utm_source=tag-newest#item-3-6</a></p>
 
         </div>
 
@@ -228,7 +228,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-03-11T15:25:29.745Z" itemprop="dateUpdated">2020-03-11 23:25:29</time>
+    Last updated: <time datetime="2020-03-11T15:29:18.528Z" itemprop="dateUpdated">2020-03-11 23:29:18</time>
 </span><br>
 
 
