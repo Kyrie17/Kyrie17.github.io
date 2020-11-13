@@ -21,12 +21,12 @@
     
     
     <meta name="keywords" content>
-    <meta name="description" content="epoll的实现原理写在开篇浅析epoll的实现原理。 recv先看下只监听一个socket的程序流程：123456789101112//创建socketint s = socket(AF_INET, SOCK_STREAM, 0);   //绑定bind(s, ...)//监听listen(s, ...)//接受客户端连接int c = accept(s, ...)//接收客户端数据recv(c">
+    <meta name="description" content="写在开篇浅析epoll的实现原理。 recv先看下只监听一个socket的程序流程：123456789101112//创建socketint s = socket(AF_INET, SOCK_STREAM, 0);   //绑定bind(s, ...)//监听listen(s, ...)//接受客户端连接int c = accept(s, ...)//接收客户端数据recv(c, ...);//将">
 <meta property="og:type" content="article">
 <meta property="og:title" content="epoll的实现原理">
 <meta property="og:url" content="https://kyrie17.github.io/2020/04/19/epoll的实现原理/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="epoll的实现原理写在开篇浅析epoll的实现原理。 recv先看下只监听一个socket的程序流程：123456789101112//创建socketint s = socket(AF_INET, SOCK_STREAM, 0);   //绑定bind(s, ...)//监听listen(s, ...)//接受客户端连接int c = accept(s, ...)//接收客户端数据recv(c">
+<meta property="og:description" content="写在开篇浅析epoll的实现原理。 recv先看下只监听一个socket的程序流程：123456789101112//创建socketint s = socket(AF_INET, SOCK_STREAM, 0);   //绑定bind(s, ...)//监听listen(s, ...)//接受客户端连接int c = accept(s, ...)//接收客户端数据recv(c, ...);//将">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/epoll01.jpg">
 <meta property="og:image" content="https://kyrie17.github.io/img/epoll02.jpg">
@@ -41,10 +41,10 @@
 <meta property="og:image" content="https://kyrie17.github.io/img/epoll11.jpg">
 <meta property="og:image" content="https://kyrie17.github.io/img/epoll12.jpg">
 <meta property="og:image" content="https://kyrie17.github.io/img/epoll13.jpg">
-<meta property="og:updated_time" content="2020-04-19T07:50:18.771Z">
+<meta property="og:updated_time" content="2020-04-19T07:53:37.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="epoll的实现原理">
-<meta name="twitter:description" content="epoll的实现原理写在开篇浅析epoll的实现原理。 recv先看下只监听一个socket的程序流程：123456789101112//创建socketint s = socket(AF_INET, SOCK_STREAM, 0);   //绑定bind(s, ...)//监听listen(s, ...)//接受客户端连接int c = accept(s, ...)//接收客户端数据recv(c">
+<meta name="twitter:description" content="写在开篇浅析epoll的实现原理。 recv先看下只监听一个socket的程序流程：123456789101112//创建socketint s = socket(AF_INET, SOCK_STREAM, 0);   //绑定bind(s, ...)//监听listen(s, ...)//接受客户端连接int c = accept(s, ...)//接收客户端数据recv(c, ...);//将">
 <meta name="twitter:image" content="https://kyrie17.github.io/img/epoll01.jpg">
     
         <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
@@ -173,7 +173,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#epoll的实现原理"><span class="post-toc-number">1.</span> <span class="post-toc-text">epoll的实现原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#写在开篇"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">写在开篇</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#recv"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">recv</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建socket"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">创建socket</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#阻塞进程"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">阻塞进程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#唤醒进程"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">唤醒进程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#select"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">select</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#epoll"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">epoll</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建-epoll-对象"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">创建 epoll 对象</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#维护监视列表"><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">维护监视列表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#阻塞进程-1"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">阻塞进程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#唤醒进程-1"><span class="post-toc-number">1.4.4.</span> <span class="post-toc-text">唤醒进程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#小结"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">小结</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#写在开篇"><span class="post-toc-number">1.</span> <span class="post-toc-text">写在开篇</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#recv"><span class="post-toc-number">2.</span> <span class="post-toc-text">recv</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建socket"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">创建socket</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#阻塞进程"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">阻塞进程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#唤醒进程"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">唤醒进程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#select"><span class="post-toc-number">3.</span> <span class="post-toc-text">select</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#epoll"><span class="post-toc-number">4.</span> <span class="post-toc-text">epoll</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建-epoll-对象"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">创建 epoll 对象</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#维护监视列表"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">维护监视列表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#阻塞进程-1"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">阻塞进程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#唤醒进程-1"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">唤醒进程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#小结"><span class="post-toc-number">5.</span> <span class="post-toc-text">小结</span></a></li></ol>
         </nav>
     </aside>
 
@@ -195,7 +195,7 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="epoll的实现原理"><a href="#epoll的实现原理" class="headerlink" title="epoll的实现原理"></a>epoll的实现原理</h1><h2 id="写在开篇"><a href="#写在开篇" class="headerlink" title="写在开篇"></a>写在开篇</h2><p>浅析epoll的实现原理。</p>
+            <h2 id="写在开篇"><a href="#写在开篇" class="headerlink" title="写在开篇"></a>写在开篇</h2><p>浅析epoll的实现原理。</p>
 <h2 id="recv"><a href="#recv" class="headerlink" title="recv"></a>recv</h2><p>先看下只监听一个socket的程序流程：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建socket</span></span><br><span class="line"><span class="keyword">int</span> s = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);   </span><br><span class="line"><span class="comment">//绑定</span></span><br><span class="line">bind(s, ...)</span><br><span class="line"><span class="comment">//监听</span></span><br><span class="line">listen(s, ...)</span><br><span class="line"><span class="comment">//接受客户端连接</span></span><br><span class="line"><span class="keyword">int</span> c = accept(s, ...)</span><br><span class="line"><span class="comment">//接收客户端数据</span></span><br><span class="line">recv(c, ...);</span><br><span class="line"><span class="comment">//将数据打印出来</span></span><br><span class="line"><span class="built_in">printf</span>(...)</span><br></pre></td></tr></table></figure></p>
 <p>这是一段最基础的网络编程代码，先新建socket对象，依次调用bind、listen与accept，最后调用recv接收数据。recv是个阻塞方法，当程序运行到recv时，它会一直等待，直到接收到数据才往下执行。</p>
 <p>下图的计算机中运行着A、B与C三个进程，其中进程A执行着上述基础网络程序，一开始，这3个进程都被操作系统的工作队列所引用，处于运行状态，会分时执行。<br><figure class="image-bubble">
@@ -313,7 +313,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-04-19T07:50:18.771Z" itemprop="dateUpdated">2020-04-19 15:50:18</time>
+    Last updated: <time datetime="2020-04-19T07:53:37.885Z" itemprop="dateUpdated">2020-04-19 15:53:37</time>
 </span><br>
 
 
@@ -390,7 +390,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/11/13/操作系统/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">操作系统</h4>
+      </a>
+    </div>
   
 
   
