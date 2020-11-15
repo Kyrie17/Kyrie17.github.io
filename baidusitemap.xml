@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://kyrie17.github.io/2020/11/16/Java%E7%B1%BB%E6%98%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E5%8A%A0%E8%BD%BD%E7%9A%84/</loc>
+    <lastmod>2020-11-15</lastmod>
+  </url>  <url>
+    <loc>https://kyrie17.github.io/2019/04/20/Java%E5%8F%8D%E5%B0%84/</loc>
+    <lastmod>2020-11-15</lastmod>
+  </url>  <url>
     <loc>https://kyrie17.github.io/2020/11/13/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2020-11-13</lastmod>
   </url>  <url>
@@ -86,9 +92,6 @@
     <lastmod>2019-09-18</lastmod>
   </url>  <url>
     <loc>https://kyrie17.github.io/2019/02/13/Manacher%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2019-09-18</lastmod>
-  </url>  <url>
-    <loc>https://kyrie17.github.io/2019/04/20/Java%E5%8F%8D%E5%B0%84/</loc>
     <lastmod>2019-09-18</lastmod>
   </url>  <url>
     <loc>https://kyrie17.github.io/2019/03/17/%E5%AD%A6%E4%B9%A0%E6%96%B0%E7%9F%A5%E8%AF%86%E7%9A%84%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A/</loc>
