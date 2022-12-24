@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>背包问题 | Kyrie17&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="动态规划">
+    <meta name="description" content="整理一下0-1背包、完全背包、多重背包问题。 背包问题 01背包 概述 01背包是在M件物品取出若干件放在空间为W的背包里，每件物品的体积为W1，W2至Wn，与之相对应的价值为P1,P2至Pn。（这是最基础的背包问题） 思路 在前n件物品中，选取若干件物品放入所剩空间为w的背包中的所能获得的最大价值。（实际上是对一件件物品选与不选的问题） 我们用f[i][j]表示在前 i 件物品中选择若干件放在已">
+<meta name="keywords" content="动态规划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="背包问题">
+<meta property="og:url" content="https://kyrie17.github.io/2019/02/26/背包问题/index.html">
+<meta property="og:site_name" content="Kyrie17&#39;s Blog">
+<meta property="og:description" content="整理一下0-1背包、完全背包、多重背包问题。 背包问题 01背包 概述 01背包是在M件物品取出若干件放在空间为W的背包里，每件物品的体积为W1，W2至Wn，与之相对应的价值为P1,P2至Pn。（这是最基础的背包问题） 思路 在前n件物品中，选取若干件物品放入所剩空间为w的背包中的所能获得的最大价值。（实际上是对一件件物品选与不选的问题） 我们用f[i][j]表示在前 i 件物品中选择若干件放在已">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-18T06:24:37.360Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="背包问题">
+<meta name="twitter:description" content="整理一下0-1背包、完全背包、多重背包问题。 背包问题 01背包 概述 01背包是在M件物品取出若干件放在空间为W的背包里，每件物品的体积为W1，W2至Wn，与之相对应的价值为P1,P2至Pn。（这是最基础的背包问题） 思路 在前n件物品中，选取若干件物品放入所剩空间为w的背包中的所能获得的最大价值。（实际上是对一件件物品选与不选的问题） 我们用f[i][j]表示在前 i 件物品中选择若干件放在已">
+    
+        <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/favicon.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Kyrie17</h5>
+          <a href="mailto:1130089209@qq.com" title="1130089209@qq.com" class="mail">1130089209@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Kyrie17" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">背包问题</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">背包问题</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-02-26T13:55:46.000Z" itemprop="datePublished" class="page-time">
+  2019-02-26
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Algorithms/">Algorithms</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.</span> <span class="post-toc-text">背包问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">01背包</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">思路</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">完全背包</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">思路</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">多重背包</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">思路</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.3.3.</span> <span class="post-toc-text">代码</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-背包问题"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">背包问题</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-02-26 21:55:46" datetime="2019-02-26T13:55:46.000Z"  itemprop="datePublished">2019-02-26</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Algorithms/">Algorithms</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>整理一下0-1背包、完全背包、多重背包问题。</p>
+<h1>背包问题</h1>
+<h2>01背包</h2>
+<h3>概述</h3>
+<p>01背包是在M件物品取出若干件放在空间为W的背包里，每件物品的体积为W1，W2至Wn，与之相对应的价值为P1,P2至Pn。（这是最基础的背包问题）</p>
+<h3>思路</h3>
+<p>在前n件物品中，选取若干件物品放入所剩空间为w的背包中的所能获得的最大价值。（实际上是对一件件物品选与不选的问题）
+我们用f[i][j]表示在前 i 件物品中选择若干件放在已用空间为 j 的背包里所能获得的最大价值
+对一个物体，只有两种情况：</p>
+<ol>
+<li>选：f[i][j] = f[i - 1][j - W[i]] + P[i]</li>
+<li>不选：f[i][j] = f[i - 1][j]</li>
+</ol>
+<p>由此可以得到状态转移方程：
+<code>f[i][j] = max(f[i - 1][j - W[i]] + P[i], f[i - 1][j]);</code></p>
+<h3>代码</h3>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> m 表示背包的容量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> n 表示物品的个数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> w 表示物品所占空间</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> p 表示物品的价值</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] backpack01(<span class="keyword">int</span> m,<span class="keyword">int</span> n,<span class="keyword">int</span>[] w,<span class="keyword">int</span>[] p)&#123;</span><br><span class="line">    <span class="comment">//f[i][v]表示前i件物品恰放入一个容量为m的背包可以获得的最大价值</span></span><br><span class="line">    <span class="keyword">int</span>[][] f = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>][m + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n + <span class="number">1</span>; i++)&#123;</span><br><span class="line">    	f[i][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; m + <span class="number">1</span>; j++)&#123;</span><br><span class="line">    	f[<span class="number">0</span>][j] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n + <span class="number">1</span>; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; m + <span class="number">1</span>; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(w[i - <span class="number">1</span>] &lt;= j)&#123;	<span class="comment">//物品所占空间小于剩余空间，w[i-1]中i-1是对应数组w中的取值，下面w[i-1]p[i-1]同理</span></span><br><span class="line">                <span class="keyword">if</span>(f[i - <span class="number">1</span>][j] &lt; f[i - <span class="number">1</span>][j - w[i - <span class="number">1</span>]] + p[i - <span class="number">1</span>])&#123;</span><br><span class="line">                    f[i][j] = f[i - <span class="number">1</span>][j - w[i - <span class="number">1</span>]] + p[i - <span class="number">1</span>];</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    f[i][j] = f[i - <span class="number">1</span>][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                f[i][j] = f[i - <span class="number">1</span>][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2>完全背包</h2>
+<h3>概述</h3>
+<p>完全背包问题跟01背包的区别是01背包每个物品只能选一次，总共就这几个，而完全背包问题是每个物品可以无限选，只要装得下。可以看成是有几种物品，每种都无限多个。</p>
+<h3>思路</h3>
+<p>01背包在选第i个物品时，容积够用情况下，只有2种状态可选，放还是不放，找出最大价值的选择
+而完全背包在选第i种物品时，容积够用情况下，可能有2种以上状态可选，放1个，或者2个，3个，或者不放。找出最大价值的选择
+可以利用k = j/w[i]算出最多可以放几个，然后<strong>状态转移方程</strong>改为<code>f[i][j] = max(f[i - 1][j - k*w[m]] + k * p[i])</code> 从0到k遍历一遍求出最大值即可</p>
+<h3>代码</h3>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> m 表示背包的容量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> n 表示物品的个数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> w 表示物品所占空间</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> p 表示物品的价值</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line">    <span class="comment">//f[i][v]表示前i件物品恰放入一个容量为m的背包可以获得的最大价值</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] backpack02(<span class="keyword">int</span> m,<span class="keyword">int</span> n,<span class="keyword">int</span>[] w,<span class="keyword">int</span>[] p)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[][] f = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>][m + <span class="number">1</span>];</span><br><span class="line">        <span class="comment">//初始化边界</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n + <span class="number">1</span>; i++)&#123;</span><br><span class="line">            f[i][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; m + <span class="number">1</span>; j++)&#123;</span><br><span class="line">            f[<span class="number">0</span>][j] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n + <span class="number">1</span>; i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; m + <span class="number">1</span>; j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(w[i - <span class="number">1</span>] &lt;= j)&#123;</span><br><span class="line">                    <span class="keyword">int</span> k = j / w[i - <span class="number">1</span>];</span><br><span class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> t = <span class="number">0</span>; t &lt; k + <span class="number">1</span>; t++)&#123;</span><br><span class="line">                        <span class="keyword">if</span>(f[i - <span class="number">1</span>][j - t * w[i - <span class="number">1</span>]] + t * p[i - <span class="number">1</span>] &gt; f[i][j])&#123;</span><br><span class="line">                            f[i][j] = f[i - <span class="number">1</span>][j - t * w[i - <span class="number">1</span>]] + t * p[i - <span class="number">1</span>];</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    f[i][j] = f[i - <span class="number">1</span>][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> f;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2>多重背包</h2>
+<h3>概述</h3>
+<p>与“完全背包”相比，在每个物品的选取次数上给出了限定，即选取次数k不能无限的增大</p>
+<h3>思路</h3>
+<p>其实与完全背包相似，只是k的限定条件发生了变化。</p>
+<h3>代码</h3>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> m 表示背包的容量</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> n 表示物品的个数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> w 表示物品所占空间</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> p 表示物品的价值</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> num 表示物品的数量</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line">    <span class="comment">//f[i][v]表示前i件物品恰放入一个容量为m的背包可以获得的最大价值</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] backpack03(<span class="keyword">int</span> m,<span class="keyword">int</span> n,<span class="keyword">int</span>[] w,<span class="keyword">int</span>[] p,<span class="keyword">int</span>[] num)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[][] f = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>][m + <span class="number">1</span>];</span><br><span class="line">        <span class="comment">//初始化边界</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n + <span class="number">1</span>; i++)&#123;</span><br><span class="line">            f[i][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; m + <span class="number">1</span>; j++)&#123;</span><br><span class="line">            f[<span class="number">0</span>][j] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n + <span class="number">1</span>; i++) &#123; <span class="comment">//遍历每个物品</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; m + <span class="number">1</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; (k &lt;= num[i - <span class="number">1</span>]) &amp;&amp; (k &gt;= <span class="number">0</span>); k++) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (j &gt; k * w[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (f[i - <span class="number">1</span>][j - k * w[i - <span class="number">1</span>]] + k * p[i - <span class="number">1</span>] &gt; f[i][j]) &#123;</span><br><span class="line">                            f[i][j] = f[i - <span class="number">1</span>][j - k * w[i - <span class="number">1</span>]] + k * p[i - <span class="number">1</span>];</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> f;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-09-18T06:24:37.360Z" itemprop="dateUpdated">2019-09-18 14:24:37</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://kyrie17.github.io">
+            <img src="/img/favicon.jpeg" alt="Kyrie17">
+            Kyrie17
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/动态规划/">动态规划</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2019/02/26/背包问题/&title=《背包问题》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2019/02/26/背包问题/&title=《背包问题》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2019/02/26/背包问题/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《背包问题》 — Kyrie17's Blog&url=https://kyrie17.github.io/2019/02/26/背包问题/&via=https://kyrie17.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2019/02/26/背包问题/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/17/学习新知识的心得体会/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">学习新知识的心得体会</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/02/13/Manacher算法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Manacher算法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Kyrie17 &copy; 2017 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2019/02/26/背包问题/&title=《背包问题》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2019/02/26/背包问题/&title=《背包问题》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2019/02/26/背包问题/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《背包问题》 — Kyrie17's Blog&url=https://kyrie17.github.io/2019/02/26/背包问题/&via=https://kyrie17.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2019/02/26/背包问题/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLklEQVR42u3aQZKkMAxE0br/pZl1RzTmp0RPREmfVS3A+LHIkmx/Pvi6bi5y/ye8ak/JkCFjNuM6Xnf3pC++G/M8PpmbDBky9jDOwXe+5zw5MuaZgUJZhgwZMmpDt8NUhgwZMjqBS5DnqdciW4YMGZsZPPj4pMnrOfK1XlyGDBlfyEgX6//n7z/Z35AhQ8ZXMa7wSl9PCkGy9PYwKxkyZIxm1DYga20nLyVrG6IyZMiYzSBxyYOVN5wkoEnrK0OGjNmM2nI/D0F+vKxWkv6ocGXIkDGUwcu+WpYX29Fwe1WGDBkbGPyARVrYnT9BWjKeI1uGDBlTGZ1lfdLcpg1qMYJlyJCxgMEPWqULZOkBMjL1X37LkCFjMSNta2slZmdMGTJk7GGQiEy3AWoHv3j43m5hypAhYyiDByt/PQ/QFw6KyZAhYwGDF3O1ZrVfaMaloQwZMgYxeAimS2y8QOw0tDJkyNjA4I1oGs2El25LPBy2kCFDxlBGJ3BrWwKE8cLnkyFDxjhGbZGr03x2jlbcjiBDhow1DF668UmcwbWm9yFwZciQsYxBXsmnG2xMpk2sDBkyhjKu8KptMfKmly/5Ff8xZMiQ8YWMF9K6VCzy5jl9VoYMGVMZ/cV68my/AI2/tAwZMsYxagv6tba28w/wUOfKkCFDBg7c9BBGZ4tUhgwZMsg9tQjmsYvKShkyZCxgdF6Twsh2JmmkZciQsYeR1l18cb8W02mrLEOGjNGMf1FDslBu+QXBAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

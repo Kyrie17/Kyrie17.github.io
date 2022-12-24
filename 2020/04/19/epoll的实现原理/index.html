@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>epoll的实现原理 | Kyrie17&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="写在开篇 浅析epoll的实现原理。 recv 先看下只监听一个socket的程序流程： 123456789101112//创建socketint s = socket(AF_INET, SOCK_STREAM, 0);   //绑定bind(s, ...)//监听listen(s, ...)//接受客户端连接int c = accept(s, ...)//接收客户端数据recv(c, ...);">
+<meta property="og:type" content="article">
+<meta property="og:title" content="epoll的实现原理">
+<meta property="og:url" content="https://kyrie17.github.io/2020/04/19/epoll的实现原理/index.html">
+<meta property="og:site_name" content="Kyrie17&#39;s Blog">
+<meta property="og:description" content="写在开篇 浅析epoll的实现原理。 recv 先看下只监听一个socket的程序流程： 123456789101112//创建socketint s = socket(AF_INET, SOCK_STREAM, 0);   //绑定bind(s, ...)//监听listen(s, ...)//接受客户端连接int c = accept(s, ...)//接收客户端数据recv(c, ...);">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll01.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll02.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll03.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll04.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll05.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll06.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll07.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll08.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll09.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll10.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll11.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll12.jpg">
+<meta property="og:image" content="https://kyrie17.github.io/img/epoll13.jpg">
+<meta property="og:updated_time" content="2020-04-19T07:53:37.885Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="epoll的实现原理">
+<meta name="twitter:description" content="写在开篇 浅析epoll的实现原理。 recv 先看下只监听一个socket的程序流程： 123456789101112//创建socketint s = socket(AF_INET, SOCK_STREAM, 0);   //绑定bind(s, ...)//监听listen(s, ...)//接受客户端连接int c = accept(s, ...)//接收客户端数据recv(c, ...);">
+<meta name="twitter:image" content="https://kyrie17.github.io/img/epoll01.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/favicon.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Kyrie17</h5>
+          <a href="mailto:1130089209@qq.com" title="1130089209@qq.com" class="mail">1130089209@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Kyrie17" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">epoll的实现原理</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">epoll的实现原理</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-04-19T07:45:06.000Z" itemprop="datePublished" class="page-time">
+  2020-04-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/I-O/">I/O</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.</span> <span class="post-toc-text">写在开篇</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.</span> <span class="post-toc-text">recv</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">创建socket</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">阻塞进程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">唤醒进程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">3.</span> <span class="post-toc-text">select</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.</span> <span class="post-toc-text">epoll</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">创建 epoll 对象</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">维护监视列表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">阻塞进程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">唤醒进程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">5.</span> <span class="post-toc-text">小结</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-epoll的实现原理"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">epoll的实现原理</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-04-19 15:45:06" datetime="2020-04-19T07:45:06.000Z"  itemprop="datePublished">2020-04-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/I-O/">I/O</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2>写在开篇</h2>
+<p>浅析epoll的实现原理。</p>
+<h2>recv</h2>
+<p>先看下只监听一个socket的程序流程：
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建socket</span></span><br><span class="line"><span class="keyword">int</span> s = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);   </span><br><span class="line"><span class="comment">//绑定</span></span><br><span class="line">bind(s, ...)</span><br><span class="line"><span class="comment">//监听</span></span><br><span class="line">listen(s, ...)</span><br><span class="line"><span class="comment">//接受客户端连接</span></span><br><span class="line"><span class="keyword">int</span> c = accept(s, ...)</span><br><span class="line"><span class="comment">//接收客户端数据</span></span><br><span class="line">recv(c, ...);</span><br><span class="line"><span class="comment">//将数据打印出来</span></span><br><span class="line"><span class="built_in">printf</span>(...)</span><br></pre></td></tr></table></figure></p>
+<p>这是一段最基础的网络编程代码，先新建socket对象，依次调用bind、listen与accept，最后调用recv接收数据。recv是个阻塞方法，当程序运行到recv时，它会一直等待，直到接收到数据才往下执行。</p>
+<p>下图的计算机中运行着A、B与C三个进程，其中进程A执行着上述基础网络程序，一开始，这3个进程都被操作系统的工作队列所引用，处于运行状态，会分时执行。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll01.jpg" alt="epoll01" title>
+                </div>
+                <div class="image-caption">epoll01</div>
+            </figure></p>
+<h3>创建socket</h3>
+<p>当进程A执行到创建socket的语句时，操作系统会创建一个由文件系统管理的socket对象。这个socket对象包含了发送缓冲区、接收缓冲区与等待队列等成员。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll02.jpg" alt="epoll02" title>
+                </div>
+                <div class="image-caption">epoll02</div>
+            </figure></p>
+<h3>阻塞进程</h3>
+<p>当程序执行到recv时，操作系统会将进程A从工作队列移动到该socket的等待队列中。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll03.jpg" alt="epoll03" title>
+                </div>
+                <div class="image-caption">epoll03</div>
+            </figure></p>
+<h3>唤醒进程</h3>
+<p>当socket接收到数据后，操作系统将该socket等待队列上的进程重新放回到工作队列。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll04.jpg" alt="epoll04" title>
+                </div>
+                <div class="image-caption">epoll04</div>
+            </figure></p>
+<p>那我们接下来要讨论的问题是如何同时监视多个socket的数据？</p>
+<h2>select</h2>
+<p>下面是selec的用法：
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> s = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);  </span><br><span class="line">bind(s, ...);</span><br><span class="line">listen(s, ...);</span><br><span class="line"><span class="keyword">int</span> fds[] =  存放需要监听的socket;</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">int</span> n = select(..., fds, ...)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; fds.count; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(FD_ISSET(fds[i], ...))&#123;</span><br><span class="line">            <span class="comment">//fds[i]的数据处理</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>先准备一个数组fds，让fds存放着所有需要监视的socket。然后调用select，如果fds中的所有socket都没有数据，select会阻塞，直到有一个socket接收到数据，select返回，唤醒进程。</p>
+<p>select的实现思路很直接，假如程序同时监视如下图的sock1、sock2和sock3三个socket，那么在调用select之后，操作系统把进程A分别加入这三个socket的等待队列中。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll05.jpg" alt="epoll05" title>
+                </div>
+                <div class="image-caption">epoll05</div>
+            </figure></p>
+<p>假如sock2接收到了数据，中断程序唤起进程A。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll06.jpg" alt="epoll06" title>
+                </div>
+                <div class="image-caption">epoll06</div>
+            </figure></p>
+<p>所谓唤起进程，就是将进程从所有的等待队列中移除，加入到工作队列里面。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll07.jpg" alt="epoll07" title>
+                </div>
+                <div class="image-caption">epoll07</div>
+            </figure></p>
+<p>将进程A从所有等待队列中移除，再加入到工作队列里面。</p>
+<p>经由这些步骤，当进程A被唤醒后，它知道至少有一个socket接收了数据。程序只需遍历一遍socket列表，就可以得到就绪的socket。</p>
+<p>这种简单方式行之有效，在几乎所有操作系统都有对应的实现。</p>
+<p>但是简单的方法往往有缺点，主要是：</p>
+<ul>
+<li>每次调用select都需要将进程加入到所有监视socket的等待队列，每次唤醒都需要从每个队列中移除。这里涉及了两次遍历，而且每次都要将整个fds列表传递给内核，有一定的开销。正是因为遍历操作开销大，出于效率的考量，才会规定select的最大监视数量，默认只能监视1024个socket。</li>
+<li>进程被唤醒后，程序并不知道哪些socket收到数据，还需要遍历一次。</li>
+</ul>
+<h2>epoll</h2>
+<p>先看下epoll的程序流程：
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> s = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);   </span><br><span class="line">bind(s, ...)</span><br><span class="line">listen(s, ...)</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> epfd = epoll_create(...);</span><br><span class="line">epoll_ctl(epfd, ...); <span class="comment">//将所有需要监听的socket添加到epfd中</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">int</span> n = epoll_wait(...)</span><br><span class="line">    <span class="keyword">for</span>(接收到数据的socket)&#123;</span><br><span class="line">        <span class="comment">//处理</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到epoll将select中的“维护等待队列”和“阻塞进程”这两个操作分开，先用epoll_ctl维护等待队列，再调用epoll_wait阻塞进程。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll08.jpg" alt="epoll08" title>
+                </div>
+                <div class="image-caption">epoll08</div>
+            </figure>
+每次调用select都需要这两步操作，然而大多数应用场景中，需要监视的socket相对固定，并不需要每次都修改。epoll将这两个操作分开，先用epoll_ctl维护等待队列，再调用epoll_wait阻塞进程。显而易见地，效率就能得到提升。</p>
+<p>我们接着讲epoll的工作流程：</p>
+<h3>创建 epoll 对象</h3>
+<p>当某个进程调用epoll_create方法时，内核会创建一个eventpoll对象。而eventpoll维护着<strong>一个等待队列和一个就绪列表（rdlist）。</strong>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll09.jpg" alt="epoll09" title>
+                </div>
+                <div class="image-caption">epoll09</div>
+            </figure></p>
+<h3>维护监视列表</h3>
+<p>创建epoll对象后，可以用epoll_ctl添加或删除所要监听的socket。</p>
+<p>如果通过epoll_ctl添加sock1、sock2和sock3的监视，内核会将eventpoll添加到这三个socket的等待队列中。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll10.jpg" alt="epoll10" title>
+                </div>
+                <div class="image-caption">epoll10</div>
+            </figure></p>
+<h3>阻塞进程</h3>
+<p>假设计算机中正在运行进程A和进程B，在某时刻进程A运行到了epoll_wait语句。如下图所示，内核会将进程A放入eventpoll的等待队列中，阻塞进程。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll11.jpg" alt="epoll11" title>
+                </div>
+                <div class="image-caption">epoll11</div>
+            </figure></p>
+<h3>唤醒进程</h3>
+<p>当socket收到数据后，中断程序会操作eventpoll对象，而不是直接操作进程。</p>
+<p>当socket接收到数据，中断程序一方面修改就绪列表，另一方面唤醒eventpoll等待队列中的进程，进程A再次进入运行状态（如下图）。也因为rdlist的存在，进程A可以知道哪些socket发生了变化。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll12.jpg" alt="epoll12" title>
+                </div>
+                <div class="image-caption">epoll12</div>
+            </figure></p>
+<h2>小结</h2>
+<p>epoll在select和poll的基础上引入了eventpoll作为中间层，使用了先进的数据结构，是一种高效的多路复用技术。这里也以表格形式简单对比一下select、poll与epoll结束此文。
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/epoll13.jpg" alt="epoll13" title>
+                </div>
+                <div class="image-caption">epoll13</div>
+            </figure></p>
+<p>整理自：https://my.oschina.net/editorial-story/blog/3052308#comments</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-04-19T07:53:37.885Z" itemprop="dateUpdated">2020-04-19 15:53:37</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://kyrie17.github.io">
+            <img src="/img/favicon.jpeg" alt="Kyrie17">
+            Kyrie17
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2020/04/19/epoll的实现原理/&title=《epoll的实现原理》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2020/04/19/epoll的实现原理/&title=《epoll的实现原理》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2020/04/19/epoll的实现原理/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《epoll的实现原理》 — Kyrie17's Blog&url=https://kyrie17.github.io/2020/04/19/epoll的实现原理/&via=https://kyrie17.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2020/04/19/epoll的实现原理/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/11/13/操作系统/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">操作系统</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/04/17/Socket/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Socket</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Kyrie17 &copy; 2017 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2020/04/19/epoll的实现原理/&title=《epoll的实现原理》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2020/04/19/epoll的实现原理/&title=《epoll的实现原理》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2020/04/19/epoll的实现原理/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《epoll的实现原理》 — Kyrie17's Blog&url=https://kyrie17.github.io/2020/04/19/epoll的实现原理/&via=https://kyrie17.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2020/04/19/epoll的实现原理/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJklEQVR42u3a0Y6jMAwF0P7/T3elfd2F3uvQ0UBOnlAHQg4jWXHs1yse77/j3+vz+5M7z9918cDAwLgt4306jhhHC03mOUee33/4LAYGxgaMfLqjp/LF5QG9mA0DAwOjvM4DKAYGBsb3Am7y+uT+NqxjYGDszFhPPpOQ2m4uv5KLY2Bg3JCxUhj49vUP1TcwMDB+MeNdjlmgnBUMilVhYGA8mnG+rLyFYoZP5i/mwcDAeCijDaZt+tpu8pJDuv/8goGBsQ3jqrA7K1W2bRkYGBj7MK460J8tZb39IqpyYGBg3JyRJKWzMmfeirHeroGBgbEDIw+4s3S3nTOZAQMDYzfGbImzVon8XcXBHAYGxgaMfOuWH3u1G76lII6BgfFoxqxIufLLVX/FwMDYh5EXFK8KzbP2i6gSi4GBsQFjVoDMF5Gnwe1sGBgYz2a0qeNKqXKlSBAFbgwMjA0Y+TZxFkyTBDVp6Tj8B2BgYDyakZQqZ0WCWcvXrNUDAwPjqYxZaEuealso8jk/bAoxMDAeysiv28O4Nt2dJdUYGBjPZuQbu3Vq+zmS0IyBgbED412O9cS1LR5E82NgYDyasd6eddVR3eyQDgMDYx9G8uL2qyQlhCSUF98bAwNjA8bs4KwtJ7wWxoePhYGBgbFcNmibLeq9LQYGBkaQauYFyxyWJMwYGBj7MJIktk1u62pqmQYPc3EMDIwbMtoEsqVeW9pcwmBgYNyP8Qesp7JQEBMQygAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
