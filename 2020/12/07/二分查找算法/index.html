@@ -21,20 +21,20 @@
     
     
     <meta name="keywords" content="二分">
-    <meta name="description" content="写在开篇二分模板一共有两个，分别适用于不同情况。 满足某个条件的第一个数当我们将区间[l, r]划分成[l, mid]和[mid + 1, r]时，其更新操作是r = mid或者l = mid + 1;，计算mid时不需要加1。12345678910int bsearch_1(int l, int r)&amp;#123;    while (l &amp;lt; r)    &amp;#123;        int">
+    <meta name="description" content="写在开篇 二分模板一共有两个，分别适用于不同情况。 满足某个条件的第一个数 当我们将区间[l, r]划分成[l, mid]和[mid + 1, r]时，其更新操作是r = mid或者l = mid + 1;，计算mid时不需要加1。 12345678910int bsearch_1(int l, int r)&amp;#123;    while (l &amp;lt; r)    &amp;#123;        i">
 <meta name="keywords" content="二分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="二分查找算法">
 <meta property="og:url" content="https://kyrie17.github.io/2020/12/07/二分查找算法/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="写在开篇二分模板一共有两个，分别适用于不同情况。 满足某个条件的第一个数当我们将区间[l, r]划分成[l, mid]和[mid + 1, r]时，其更新操作是r = mid或者l = mid + 1;，计算mid时不需要加1。12345678910int bsearch_1(int l, int r)&amp;#123;    while (l &amp;lt; r)    &amp;#123;        int">
+<meta property="og:description" content="写在开篇 二分模板一共有两个，分别适用于不同情况。 满足某个条件的第一个数 当我们将区间[l, r]划分成[l, mid]和[mid + 1, r]时，其更新操作是r = mid或者l = mid + 1;，计算mid时不需要加1。 12345678910int bsearch_1(int l, int r)&amp;#123;    while (l &amp;lt; r)    &amp;#123;        i">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/erfen01.jpg">
 <meta property="og:image" content="https://kyrie17.github.io/img/erfen02.png">
 <meta property="og:updated_time" content="2020-12-07T15:47:31.983Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="二分查找算法">
-<meta name="twitter:description" content="写在开篇二分模板一共有两个，分别适用于不同情况。 满足某个条件的第一个数当我们将区间[l, r]划分成[l, mid]和[mid + 1, r]时，其更新操作是r = mid或者l = mid + 1;，计算mid时不需要加1。12345678910int bsearch_1(int l, int r)&amp;#123;    while (l &amp;lt; r)    &amp;#123;        int">
+<meta name="twitter:description" content="写在开篇 二分模板一共有两个，分别适用于不同情况。 满足某个条件的第一个数 当我们将区间[l, r]划分成[l, mid]和[mid + 1, r]时，其更新操作是r = mid或者l = mid + 1;，计算mid时不需要加1。 12345678910int bsearch_1(int l, int r)&amp;#123;    while (l &amp;lt; r)    &amp;#123;        i">
 <meta name="twitter:image" content="https://kyrie17.github.io/img/erfen01.jpg">
     
         <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
@@ -122,7 +122,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -163,7 +163,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#写在开篇"><span class="post-toc-number">1.</span> <span class="post-toc-text">写在开篇</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#满足某个条件的第一个数"><span class="post-toc-number">2.</span> <span class="post-toc-text">满足某个条件的第一个数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#满足某个条件的最后一个数"><span class="post-toc-number">3.</span> <span class="post-toc-text">满足某个条件的最后一个数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#选择"><span class="post-toc-number">4.</span> <span class="post-toc-text">选择</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.</span> <span class="post-toc-text">写在开篇</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.</span> <span class="post-toc-text">满足某个条件的第一个数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">3.</span> <span class="post-toc-text">满足某个条件的最后一个数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.</span> <span class="post-toc-text">选择</span></a></li></ol>
         </nav>
     </aside>
 
@@ -185,31 +185,42 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h2 id="写在开篇"><a href="#写在开篇" class="headerlink" title="写在开篇"></a>写在开篇</h2><p>二分模板一共有两个，分别适用于不同情况。</p>
-<h2 id="满足某个条件的第一个数"><a href="#满足某个条件的第一个数" class="headerlink" title="满足某个条件的第一个数"></a>满足某个条件的第一个数</h2><p>当我们将区间[l, r]划分成[l, mid]和[mid + 1, r]时，其更新操作是r = mid或者l = mid + 1;，计算mid时不需要加1。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bsearch_1</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (check(mid)) r = mid;</span><br><span class="line">        <span class="keyword">else</span> l = mid + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="满足某个条件的最后一个数"><a href="#满足某个条件的最后一个数" class="headerlink" title="满足某个条件的最后一个数"></a>满足某个条件的最后一个数</h2><p>当我们将区间[l, r]划分成[l, mid - 1]和[mid, r]时，其更新操作是r = mid - 1或者l = mid;，此时为了防止死循环，计算mid时需要加1。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bsearch_2</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = l + r + <span class="number">1</span> &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (check(mid)) l = mid;</span><br><span class="line">        <span class="keyword">else</span> r = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当我们将区间[l, r]划分成[r, mid - 1]和[mid, r]时，其更新操作是r = mid - 1或l = mid，此时为防止死循环，计算mid时需要+1，即：<br><figure class="image-bubble">
+            <h2>写在开篇</h2>
+<p>二分模板一共有两个，分别适用于不同情况。</p>
+<h2>满足某个条件的第一个数</h2>
+<p>当我们将区间[l, r]划分成[l, mid]和[mid + 1, r]时，其更新操作是r = mid或者l = mid + 1;，计算mid时不需要加1。
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bsearch_1</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (check(mid)) r = mid;</span><br><span class="line">        <span class="keyword">else</span> l = mid + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2>满足某个条件的最后一个数</h2>
+<p>当我们将区间[l, r]划分成[l, mid - 1]和[mid, r]时，其更新操作是r = mid - 1或者l = mid;，此时为了防止死循环，计算mid时需要加1。
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bsearch_2</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = l + r + <span class="number">1</span> &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (check(mid)) l = mid;</span><br><span class="line">        <span class="keyword">else</span> r = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当我们将区间[l, r]划分成[r, mid - 1]和[mid, r]时，其更新操作是r = mid - 1或l = mid，此时为防止死循环，计算mid时需要+1，即：
+<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/erfen01.jpg" alt="二分查找01" title>
                 </div>
                 <div class="image-caption">二分查找01</div>
             </figure></p>
-<h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><p>二分只有上述两种情况：</p>
+<h2>选择</h2>
+<p>二分只有上述两种情况：</p>
 <ul>
 <li>找大于等于给定数的第一个数</li>
-<li>找小于等于给定数的最后一个数<figure class="image-bubble">
+<li>找小于等于给定数的最后一个数
+<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/erfen02.png" alt="二分查找02" title>
                 </div>
                 <div class="image-caption">二分查找02</div>
-            </figure>
-</li>
+            </figure></li>
 </ul>
-<p>下面给一个对比的例子（leetcode34）：<br>Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.<br>If target is not found in the array, return [-1, -1].<br>Follow up: Could you write an algorithm with O(log n) runtime complexity?</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Example 1:</span><br><span class="line">Input: nums = [5,7,7,8,8,10], target = 8</span><br><span class="line">Output: [3,4]</span><br></pre></td></tr></table></figure>
-<p>思路：分别找出第一次出现的位置和最后一次出现的位置，即分别对应模板1和模板2。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] searchRange(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;-<span class="number">1</span>, -<span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>, r = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &gt;= target) </span><br><span class="line">                r = mid;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                l = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (nums[l] != target) <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;-<span class="number">1</span>, -<span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> start = l;</span><br><span class="line"></span><br><span class="line">        l = <span class="number">0</span>;</span><br><span class="line">        r = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = l + r + <span class="number">1</span> &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &lt;= target) </span><br><span class="line">                l = mid;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                r = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> end = r;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;start, end&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面给一个对比的例子（leetcode34）：
+Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.
+If target is not found in the array, return [-1, -1].
+Follow up: Could you write an algorithm with O(log n) runtime complexity?</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Example 1:</span><br><span class="line">Input: nums = [5,7,7,8,8,10], target = 8</span><br><span class="line">Output: [3,4]</span><br></pre></td></tr></table></figure></p>
+<p>思路：分别找出第一次出现的位置和最后一次出现的位置，即分别对应模板1和模板2。
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] searchRange(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;-<span class="number">1</span>, -<span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>, r = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &gt;= target) </span><br><span class="line">                r = mid;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                l = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (nums[l] != target) <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;-<span class="number">1</span>, -<span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> start = l;</span><br><span class="line"></span><br><span class="line">        l = <span class="number">0</span>;</span><br><span class="line">        r = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = l + r + <span class="number">1</span> &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &lt;= target) </span><br><span class="line">                l = mid;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                r = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> end = r;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;start, end&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>巨人的肩膀：</p>
 <ul>
 <li>acwing.com</li>
@@ -222,7 +233,7 @@
     <div class="content">
         
 <span class="post-time">
-    最後更新時間：<time datetime="2020-12-07T15:47:31.983Z" itemprop="dateUpdated">2020-12-07 23:47:31</time>
+    Last updated: <time datetime="2020-12-07T15:47:31.983Z" itemprop="dateUpdated">2020-12-07 23:47:31</time>
 </span><br>
 
 
@@ -384,7 +395,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
