@@ -21,13 +21,13 @@
     
     
     <meta name="keywords" content="序列化">
-    <meta name="description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  写入文件的序列化对象 写入文本文件  概述  对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：">
+    <meta name="description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  写入文件的序列化对象 写入文本文件  概述 对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  只">
 <meta name="keywords" content="序列化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="保存对象">
 <meta property="og:url" content="https://kyrie17.github.io/2019/04/12/保存对象/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  写入文件的序列化对象 写入文本文件  概述  对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：">
+<meta property="og:description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  写入文件的序列化对象 写入文本文件  概述 对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  只">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/Serializable1.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/Serializable2.png">
@@ -38,7 +38,7 @@
 <meta property="og:updated_time" content="2019-09-18T06:24:29.185Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="保存对象">
-<meta name="twitter:description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  写入文件的序列化对象 写入文本文件  概述  对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：">
+<meta name="twitter:description" content="如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  写入文件的序列化对象 写入文本文件  概述 对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。  如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：  只">
 <meta name="twitter:image" content="https://kyrie17.github.io/img/Serializable1.png">
     
         <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
@@ -126,7 +126,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -167,7 +167,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.</span> <span class="post-toc-text">序列化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">序列化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">解序列化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">接下来我们通过一个实例来进一步了解序列化的用法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">3.</span> <span class="post-toc-text">文件输入输出</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#序列化"><span class="post-toc-number">2.</span> <span class="post-toc-text">序列化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#序列化-1"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">序列化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解序列化"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">解序列化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#接下来我们通过一个实例来进一步了解序列化的用法"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">接下来我们通过一个实例来进一步了解序列化的用法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#文件输入输出"><span class="post-toc-number">3.</span> <span class="post-toc-text">文件输入输出</span></a></li></ol>
         </nav>
     </aside>
 
@@ -194,58 +194,44 @@
 <li>写入文件的序列化对象</li>
 <li>写入文本文件</li>
 </ul>
-<h2>概述</h2>
-<blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
 <p>对象有状态和行为两种属性。行为存在于类中，而状态存在于个别对象中。</p>
 </blockquote>
 <p>如果你正在编写游戏，就得有存储和恢复游戏的功能。如果你编写的是创建图表的程序，也必须有存储/打开的功能。如果程序需要存储状态，有两种方式：</p>
 <ul>
-<li>
-<p>只有自己写的java程序会用到这些数据：
-用序列化（serialization）。这采用了面向对象的方式来做，将被序列化的对象写到文件中，然后就可以让你的程序去文件中读取序列化的对象并把它们展开回到活生生的状态。</p>
+<li><p>只有自己写的java程序会用到这些数据：<br>用序列化（serialization）。这采用了面向对象的方式来做，将被序列化的对象写到文件中，然后就可以让你的程序去文件中读取序列化的对象并把它们展开回到活生生的状态。</p>
 </li>
-<li>
-<p>如果数据需要被其他程序引用：
-写一个纯文本文件。用其他程序可以解析的特殊字符写到文件中，例如写成用tab字符来隔的档案以便让电子表格或数据库应用程序能够应用。</p>
+<li><p>如果数据需要被其他程序引用：<br>写一个纯文本文件。用其他程序可以解析的特殊字符写到文件中，例如写成用tab字符来隔的档案以便让电子表格或数据库应用程序能够应用。</p>
 </li>
 </ul>
-<h2>序列化</h2>
-<h3>序列化</h3>
-<p>下面是将对象序列化的方法步骤。
-<figure class="image-bubble">
+<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><h3 id="序列化-1"><a href="#序列化-1" class="headerlink" title="序列化"></a>序列化</h3><p>下面是将对象序列化的方法步骤。<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/Serializable1.png" alt="Serializable1" title>
                 </div>
                 <div class="image-caption">Serializable1</div>
             </figure></p>
-<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建出FileOutputStream</span></span><br><span class="line">FileOutputStream fileStream = <span class="keyword">new</span> FileOutputStream(<span class="string">"MyGame.ser"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建ObjectOutputStream</span></span><br><span class="line">ObjectOutputStream os = <span class="keyword">new</span> ObjectOutputStream(fileStream);</span><br><span class="line"></span><br><span class="line"><span class="comment">//写入对象</span></span><br><span class="line">os.writeObject(characterOne);</span><br><span class="line">os.writeObject(characterTwo);</span><br><span class="line">os.writeObject(characterThree);</span><br><span class="line"></span><br><span class="line"><span class="comment">//关闭ObjectOutputStream</span></span><br><span class="line">os.close();</span><br></pre></td></tr></table></figure></p>
-<h3>解序列化</h3>
-<p>下面是解序列化的方法步骤。
-<figure class="image-bubble">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建出FileOutputStream</span></span><br><span class="line">FileOutputStream fileStream = <span class="keyword">new</span> FileOutputStream(<span class="string">"MyGame.ser"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建ObjectOutputStream</span></span><br><span class="line">ObjectOutputStream os = <span class="keyword">new</span> ObjectOutputStream(fileStream);</span><br><span class="line"></span><br><span class="line"><span class="comment">//写入对象</span></span><br><span class="line">os.writeObject(characterOne);</span><br><span class="line">os.writeObject(characterTwo);</span><br><span class="line">os.writeObject(characterThree);</span><br><span class="line"></span><br><span class="line"><span class="comment">//关闭ObjectOutputStream</span></span><br><span class="line">os.close();</span><br></pre></td></tr></table></figure>
+<h3 id="解序列化"><a href="#解序列化" class="headerlink" title="解序列化"></a>解序列化</h3><p>下面是解序列化的方法步骤。<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/Serializable2.png" alt="Serializable2" title>
                 </div>
                 <div class="image-caption">Serializable2</div>
             </figure></p>
-<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建出FileInputStream</span></span><br><span class="line">FileInputStream fileStream = <span class="keyword">new</span> FileIntStream(<span class="string">"MyGame.ser"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建ObjectInputStream</span></span><br><span class="line">ObjecInputStream os = <span class="keyword">new</span> ObjecInputStream(fileStream);</span><br><span class="line"></span><br><span class="line"><span class="comment">//写入对象</span></span><br><span class="line">Object one = os.readObject();</span><br><span class="line">Object two = os.writeObject();</span><br><span class="line">Object three = os.writeObject();</span><br><span class="line"></span><br><span class="line"><span class="comment">//关闭ObjectInputStream</span></span><br><span class="line">os.close();</span><br></pre></td></tr></table></figure></p>
-<h3>接下来我们通过一个实例来进一步了解序列化的用法</h3>
-<p>代码如下：
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GameCharacter</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> power;    </span><br><span class="line">    <span class="keyword">private</span> String type;   </span><br><span class="line">    <span class="keyword">private</span> Weapon weapon;  </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPower</span><span class="params">()</span> </span>&#123;       </span><br><span class="line">        <span class="keyword">return</span> power;    </span><br><span class="line">    &#125;   </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPower</span><span class="params">(<span class="keyword">int</span> power)</span> </span>&#123;       </span><br><span class="line">        <span class="keyword">this</span>.power = power;   </span><br><span class="line">    &#125;   </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getType</span><span class="params">()</span> </span>&#123;        </span><br><span class="line">        <span class="keyword">return</span> type;    </span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setType</span><span class="params">(String type)</span> </span>&#123;        </span><br><span class="line">        <span class="keyword">this</span>.type = type;   </span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Weapon <span class="title">getWeapon</span><span class="params">()</span> </span>&#123;        </span><br><span class="line">        <span class="keyword">return</span> weapon;    </span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWeapon</span><span class="params">(Weapon weapon)</span> </span>&#123;        </span><br><span class="line">        <span class="keyword">this</span>.weapon = weapon;    </span><br><span class="line">    &#125;   </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">useWeapon</span><span class="params">()</span></span>&#123;        </span><br><span class="line">        System.out.println(<span class="string">"user weapon"</span>);    </span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">     <span class="meta">@Override</span>    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;        </span><br><span class="line">         <span class="keyword">return</span> <span class="string">"GameCharacter&#123;"</span> +                </span><br><span class="line">         <span class="string">"power="</span> + power +               </span><br><span class="line">         <span class="string">", type='"</span> + type + <span class="string">'\''</span> +               </span><br><span class="line">         <span class="string">", weapon="</span> + weapon +               </span><br><span class="line">         <span class="string">'&#125;'</span>;   </span><br><span class="line">     &#125;   </span><br><span class="line">     </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;       </span><br><span class="line">        GameCharacter gameCharacter = <span class="keyword">new</span> GameCharacter();                                gameCharacter.setPower(<span class="number">3</span>);        </span><br><span class="line">        gameCharacter.setType(<span class="string">"士兵"</span>);        </span><br><span class="line">        Weapon weapon = <span class="keyword">new</span> Weapon(<span class="number">1</span>,<span class="string">"长矛"</span>);                                                  gameCharacter.setWeapon(weapon);        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span> &#123;            </span><br><span class="line">            <span class="comment">//创建出FileOutputStream            </span></span><br><span class="line">            FileOutputStream fileStream = <span class="keyword">new</span> FileOutputStream(<span class="string">"d://MyGame.ser"</span>);            </span><br><span class="line">            <span class="comment">//创建ObjectOutputStream            </span></span><br><span class="line">            ObjectOutputStream os = <span class="keyword">new</span> ObjectOutputStream(fileStream);            </span><br><span class="line">            <span class="comment">//写入对象            </span></span><br><span class="line">            os.writeObject(gameCharacter);           </span><br><span class="line">            <span class="comment">//关闭ObjectOutputStream            </span></span><br><span class="line">            os.close();       </span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;            </span><br><span class="line">            e.printStackTrace();       </span><br><span class="line">        &#125;</span><br><span class="line">&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Weapon</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;    </span><br><span class="line">    <span class="keyword">int</span> id;    </span><br><span class="line">    String name; </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Weapon</span><span class="params">(<span class="keyword">int</span> id, String name)</span> </span>&#123;        </span><br><span class="line">        <span class="keyword">this</span>.id = id;        </span><br><span class="line">        <span class="keyword">this</span>.name = name;    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建出FileInputStream</span></span><br><span class="line">FileInputStream fileStream = <span class="keyword">new</span> FileIntStream(<span class="string">"MyGame.ser"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建ObjectInputStream</span></span><br><span class="line">ObjecInputStream os = <span class="keyword">new</span> ObjecInputStream(fileStream);</span><br><span class="line"></span><br><span class="line"><span class="comment">//写入对象</span></span><br><span class="line">Object one = os.readObject();</span><br><span class="line">Object two = os.writeObject();</span><br><span class="line">Object three = os.writeObject();</span><br><span class="line"></span><br><span class="line"><span class="comment">//关闭ObjectInputStream</span></span><br><span class="line">os.close();</span><br></pre></td></tr></table></figure>
+<h3 id="接下来我们通过一个实例来进一步了解序列化的用法"><a href="#接下来我们通过一个实例来进一步了解序列化的用法" class="headerlink" title="接下来我们通过一个实例来进一步了解序列化的用法"></a>接下来我们通过一个实例来进一步了解序列化的用法</h3><p>代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GameCharacter</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> power;    </span><br><span class="line">    <span class="keyword">private</span> String type;   </span><br><span class="line">    <span class="keyword">private</span> Weapon weapon;  </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPower</span><span class="params">()</span> </span>&#123;       </span><br><span class="line">        <span class="keyword">return</span> power;    </span><br><span class="line">    &#125;   </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPower</span><span class="params">(<span class="keyword">int</span> power)</span> </span>&#123;       </span><br><span class="line">        <span class="keyword">this</span>.power = power;   </span><br><span class="line">    &#125;   </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getType</span><span class="params">()</span> </span>&#123;        </span><br><span class="line">        <span class="keyword">return</span> type;    </span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setType</span><span class="params">(String type)</span> </span>&#123;        </span><br><span class="line">        <span class="keyword">this</span>.type = type;   </span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Weapon <span class="title">getWeapon</span><span class="params">()</span> </span>&#123;        </span><br><span class="line">        <span class="keyword">return</span> weapon;    </span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWeapon</span><span class="params">(Weapon weapon)</span> </span>&#123;        </span><br><span class="line">        <span class="keyword">this</span>.weapon = weapon;    </span><br><span class="line">    &#125;   </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">useWeapon</span><span class="params">()</span></span>&#123;        </span><br><span class="line">        System.out.println(<span class="string">"user weapon"</span>);    </span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">     <span class="meta">@Override</span>    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;        </span><br><span class="line">         <span class="keyword">return</span> <span class="string">"GameCharacter&#123;"</span> +                </span><br><span class="line">         <span class="string">"power="</span> + power +               </span><br><span class="line">         <span class="string">", type='"</span> + type + <span class="string">'\''</span> +               </span><br><span class="line">         <span class="string">", weapon="</span> + weapon +               </span><br><span class="line">         <span class="string">'&#125;'</span>;   </span><br><span class="line">     &#125;   </span><br><span class="line">     </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;       </span><br><span class="line">        GameCharacter gameCharacter = <span class="keyword">new</span> GameCharacter();                                gameCharacter.setPower(<span class="number">3</span>);        </span><br><span class="line">        gameCharacter.setType(<span class="string">"士兵"</span>);        </span><br><span class="line">        Weapon weapon = <span class="keyword">new</span> Weapon(<span class="number">1</span>,<span class="string">"长矛"</span>);                                                  gameCharacter.setWeapon(weapon);        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span> &#123;            </span><br><span class="line">            <span class="comment">//创建出FileOutputStream            </span></span><br><span class="line">            FileOutputStream fileStream = <span class="keyword">new</span> FileOutputStream(<span class="string">"d://MyGame.ser"</span>);            </span><br><span class="line">            <span class="comment">//创建ObjectOutputStream            </span></span><br><span class="line">            ObjectOutputStream os = <span class="keyword">new</span> ObjectOutputStream(fileStream);            </span><br><span class="line">            <span class="comment">//写入对象            </span></span><br><span class="line">            os.writeObject(gameCharacter);           </span><br><span class="line">            <span class="comment">//关闭ObjectOutputStream            </span></span><br><span class="line">            os.close();       </span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;            </span><br><span class="line">            e.printStackTrace();       </span><br><span class="line">        &#125;</span><br><span class="line">&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Weapon</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;    </span><br><span class="line">    <span class="keyword">int</span> id;    </span><br><span class="line">    String name; </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Weapon</span><span class="params">(<span class="keyword">int</span> id, String name)</span> </span>&#123;        </span><br><span class="line">        <span class="keyword">this</span>.id = id;        </span><br><span class="line">        <span class="keyword">this</span>.name = name;    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <ol>
-<li>
-<p>当对象被序列化时，被该对象引用的实例 变量也会被序列化。（也就是当保存gameCharacter对象时，所有的对象都会被保存），所以如果对象被实例化时，被该对象引用的实例变量也需要实现Serializable接口。否则会抛出下面这个异常：
+<li><p>当对象被序列化时，被该对象引用的实例 变量也会被序列化。（也就是当保存gameCharacter对象时，所有的对象都会被保存），所以如果对象被实例化时，被该对象引用的实例变量也需要实现Serializable接口。否则会抛出下面这个异常：</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/Serializable3.png" alt="Serializable3" title>
                 </div>
                 <div class="image-caption">Serializable3</div>
-            </figure></p>
+            </figure>
 </li>
-<li>
-<p>如果某实例变量不能或不应该被实例化，就把它标记为transient（瞬时）的。
+<li><p>如果某实例变量不能或不应该被实例化，就把它标记为transient（瞬时）的。</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
@@ -253,7 +239,7 @@
                 </div>
                 <div class="image-caption">Serializable4</div>
             </figure>
-为什么有些变量不能被序列化？</p>
+<p>为什么有些变量不能被序列化？</p>
 </li>
 </ol>
 <ul>
@@ -261,15 +247,14 @@
 <li>或者动态数据只可以在执行时求出而不能或不必储存。</li>
 </ul>
 <ol start="3">
-<li>VersionID: 序列化的识别（版本控制）
-如果你将对象序列化，你必须有该类才能还原和使用该对象。但若你同时修改了该类会发生什么事情？假设你尝试把GameCharacter对象带回来，而非transient的变量type已经从String被改成int。这样会严重的违反java大的类型安全性。在对象被序列化之后类有了不同的serialVersionUID，则会还原失败。
-<figure class="image-bubble">
+<li>VersionID: 序列化的识别（版本控制）<br>如果你将对象序列化，你必须有该类才能还原和使用该对象。但若你同时修改了该类会发生什么事情？假设你尝试把GameCharacter对象带回来，而非transient的变量type已经从String被改成int。这样会严重的违反java大的类型安全性。在对象被序列化之后类有了不同的serialVersionUID，则会还原失败。<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/Serializable5.png" alt="Serializable5" title>
                 </div>
                 <div class="image-caption">Serializable5</div>
-            </figure></li>
+            </figure>
+</li>
 </ol>
 <blockquote>
 <p>会损害序列化的修改：</p>
@@ -291,8 +276,7 @@
 <li>将实例变量从瞬时改成非瞬时（会使用默认值）</li>
 </ul>
 </blockquote>
-<p><strong>如果你认为类有可能会演化，就把版本识别ID放在类中</strong>
-<figure class="image-bubble">
+<p><strong>如果你认为类有可能会演化，就把版本识别ID放在类中</strong><br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/Serializable6.png" alt="Serializable6" title>
@@ -301,8 +285,7 @@
             </figure></p>
 <p>因此解决方案就是把serialVersionUID放在class中，让类在演化过程中还维持相同的ID。</p>
 <p>但这只会在你有很小心地维护类的变动才办得到！也就是你得要对带回旧对象的任何问题负起全责。</p>
-<h2>文件输入输出</h2>
-
+<h2 id="文件输入输出"><a href="#文件输入输出" class="headerlink" title="文件输入输出"></a>文件输入输出</h2>
         </div>
 
         <blockquote class="post-copyright">
@@ -310,7 +293,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2019-09-18T06:24:29.185Z" itemprop="dateUpdated">2019-09-18 14:24:29</time>
+    Last updated: <time datetime="2019-09-18T06:24:29.185Z" itemprop="dateUpdated">2019-09-18 14:24:29</time>
 </span><br>
 
 
@@ -472,7 +455,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">

@@ -21,18 +21,18 @@
     
     
     <meta name="keywords" content="泛型">
-    <meta name="description" content="在 Java 泛型中存在通配符的概念:  &amp;lt;? extends C&amp;gt;是上界通配符 &amp;lt;? super C&amp;gt;是下界通配符  接下来对这些进行说明，先定义几个类： 1234567class A&amp;#123;&amp;#125;;class B extends A&amp;#123;&amp;#125;;class C extends B&amp;#123;&amp;#125;;class D extends B&amp;#123">
+    <meta name="description" content="在 Java 泛型中存在通配符的概念:  &amp;lt;? extends C&amp;gt;是上界通配符&amp;lt;? super C&amp;gt;是下界通配符  接下来对这些进行说明，先定义几个类：1234567class A&amp;#123;&amp;#125;;class B extends A&amp;#123;&amp;#125;;class C extends B&amp;#123;&amp;#125;;class D extends B&amp;#123;&amp;">
 <meta name="keywords" content="泛型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通配符类型">
 <meta property="og:url" content="https://kyrie17.github.io/2019/08/10/通配符类型/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="在 Java 泛型中存在通配符的概念:  &amp;lt;? extends C&amp;gt;是上界通配符 &amp;lt;? super C&amp;gt;是下界通配符  接下来对这些进行说明，先定义几个类： 1234567class A&amp;#123;&amp;#125;;class B extends A&amp;#123;&amp;#125;;class C extends B&amp;#123;&amp;#125;;class D extends B&amp;#123">
+<meta property="og:description" content="在 Java 泛型中存在通配符的概念:  &amp;lt;? extends C&amp;gt;是上界通配符&amp;lt;? super C&amp;gt;是下界通配符  接下来对这些进行说明，先定义几个类：1234567class A&amp;#123;&amp;#125;;class B extends A&amp;#123;&amp;#125;;class C extends B&amp;#123;&amp;#125;;class D extends B&amp;#123;&amp;">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2019-09-18T06:24:58.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通配符类型">
-<meta name="twitter:description" content="在 Java 泛型中存在通配符的概念:  &amp;lt;? extends C&amp;gt;是上界通配符 &amp;lt;? super C&amp;gt;是下界通配符  接下来对这些进行说明，先定义几个类： 1234567class A&amp;#123;&amp;#125;;class B extends A&amp;#123;&amp;#125;;class C extends B&amp;#123;&amp;#125;;class D extends B&amp;#123">
+<meta name="twitter:description" content="在 Java 泛型中存在通配符的概念:  &amp;lt;? extends C&amp;gt;是上界通配符&amp;lt;? super C&amp;gt;是下界通配符  接下来对这些进行说明，先定义几个类：1234567class A&amp;#123;&amp;#125;;class B extends A&amp;#123;&amp;#125;;class C extends B&amp;#123;&amp;#125;;class D extends B&amp;#123;&amp;">
     
         <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
     
@@ -119,7 +119,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -160,7 +160,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.</span> <span class="post-toc-text">为什么会出现这个呢？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.</span> <span class="post-toc-text">局限性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">上界&lt;? extends B&gt;不能往里存，只能往外取</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">下界&lt;? super B&gt;可以存（存的只能是B或者B的子类），但往外取只能放在Object对象里</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么会出现这个呢？"><span class="post-toc-number">1.</span> <span class="post-toc-text">为什么会出现这个呢？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#局限性"><span class="post-toc-number">2.</span> <span class="post-toc-text">局限性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#上界-lt-extends-B-gt-不能往里存，只能往外取"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">上界&lt;? extends B&gt;不能往里存，只能往外取</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#下界-lt-super-B-gt-可以存（存的只能是B或者B的子类），但往外取只能放在Object对象里"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">下界&lt;? super B&gt;可以存（存的只能是B或者B的子类），但往外取只能放在Object对象里</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -184,25 +184,17 @@
         <div class="post-content" id="post-content" itemprop="postContent">
             <p>在 Java 泛型中存在通配符的概念:</p>
 <blockquote>
-<p>&lt;? extends C&gt;是上界通配符
-&lt;? super C&gt;是下界通配符</p>
+<p>&lt;? extends C&gt;是上界通配符<br>&lt;? super C&gt;是下界通配符</p>
 </blockquote>
-<p>接下来对这些进行说明，先定义几个类：
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">B</span></span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> <span class="keyword">extends</span> <span class="title">B</span></span>&#123;&#125;;</span><br></pre></td></tr></table></figure></p>
-<h2>为什么会出现这个呢？</h2>
-<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A a = <span class="keyword">new</span> B();</span><br><span class="line">List&lt;A&gt; list= <span class="keyword">new</span> ArrayList&lt;B&gt;();	 <span class="comment">// 报错Type mismatch</span></span><br></pre></td></tr></table></figure></p>
-<p>这是因为无论A和B有什么关系，通常，List&lt;A&gt;和List&lt;B&gt;没有什么联系。
-那么我们通过&lt;? extends B&gt;解决这个问题：
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		List&lt;? extends A&gt; list = <span class="keyword">new</span> ArrayList&lt;B&gt;(); 	<span class="comment">//OK</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下来对这些进行说明，先定义几个类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">B</span></span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> <span class="keyword">extends</span> <span class="title">B</span></span>&#123;&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2 id="为什么会出现这个呢？"><a href="#为什么会出现这个呢？" class="headerlink" title="为什么会出现这个呢？"></a>为什么会出现这个呢？</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A a = <span class="keyword">new</span> B();</span><br><span class="line">List&lt;A&gt; list= <span class="keyword">new</span> ArrayList&lt;B&gt;();	 <span class="comment">// 报错Type mismatch</span></span><br></pre></td></tr></table></figure>
+<p>这是因为无论A和B有什么关系，通常，List<a>和List<b>没有什么联系。<br>那么我们通过&lt;? extends B&gt;解决这个问题：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		List&lt;? extends A&gt; list = <span class="keyword">new</span> ArrayList&lt;B&gt;(); 	<span class="comment">//OK</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></b></a></p>
 <p>这里用的是 ArrayList 做例子，但并不是只针对集合，是针对类似集合出现的问题的情景。</p>
-<h2>局限性</h2>
-<h3>上界&lt;? extends B&gt;不能往里存，只能往外取</h3>
-<ul>
+<h2 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h2><h3 id="上界-lt-extends-B-gt-不能往里存，只能往外取"><a href="#上界-lt-extends-B-gt-不能往里存，只能往外取" class="headerlink" title="上界&lt;? extends B&gt;不能往里存，只能往外取"></a>上界&lt;? extends B&gt;不能往里存，只能往外取</h3><ul>
 <li>add() 编译器只知道类型是B或者B的子类，所以可能是B、C、D其中的一个类型，但为了保证类型的安全就不能添加除了null之外的元素，即使是B本身也不行。（因为B不能代表C或者D）</li>
 <li>get() 此时不知道返回的是B、C、D其中哪个类型，所以返回类型是B</li>
 </ul>
-<h3>下界&lt;? super B&gt;可以存（存的只能是B或者B的子类），但往外取只能放在Object对象里</h3>
-<ul>
+<h3 id="下界-lt-super-B-gt-可以存（存的只能是B或者B的子类），但往外取只能放在Object对象里"><a href="#下界-lt-super-B-gt-可以存（存的只能是B或者B的子类），但往外取只能放在Object对象里" class="headerlink" title="下界&lt;? super B&gt;可以存（存的只能是B或者B的子类），但往外取只能放在Object对象里"></a>下界&lt;? super B&gt;可以存（存的只能是B或者B的子类），但往外取只能放在Object对象里</h3><ul>
 <li>add() 可以添加B、C、D（因为C或D可以代表B）</li>
 <li>get()  因为是下边界，所以返回类型只能是Object，所以说它的get()受到限制</li>
 </ul>
@@ -214,7 +206,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2019-09-18T06:24:58.730Z" itemprop="dateUpdated">2019-09-18 14:24:58</time>
+    Last updated: <time datetime="2019-09-18T06:24:58.730Z" itemprop="dateUpdated">2019-09-18 14:24:58</time>
 </span><br>
 
 
@@ -376,7 +368,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">

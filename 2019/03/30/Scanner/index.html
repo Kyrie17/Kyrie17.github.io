@@ -21,19 +21,19 @@
     
     
     <meta name="keywords" content>
-    <meta name="description" content="上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。 首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。） 比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行">
+    <meta name="description" content="上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。）比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行验证">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Scanner">
 <meta property="og:url" content="https://kyrie17.github.io/2019/03/30/Scanner/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。 首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。） 比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行">
+<meta property="og:description" content="上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。）比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行验证">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/Scanner1.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/Scanner2.png">
 <meta property="og:updated_time" content="2019-09-18T06:24:10.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Scanner">
-<meta name="twitter:description" content="上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。 首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。） 比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行">
+<meta name="twitter:description" content="上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。）比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行验证">
 <meta name="twitter:image" content="https://kyrie17.github.io/img/Scanner1.png">
     
         <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
@@ -121,7 +121,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -177,37 +177,32 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。
-首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。）
-比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行验证。
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        sc.nextInt();</span><br><span class="line">        String s = sc.nextLine();</span><br><span class="line">        System.out.print(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+            <p>上星期在蓝桥杯考场上发现一个之前没有注意到的问题：Scanner类中的nextInt()、next()、nextLine()方法的使用。<br>首先没有注意到：next()方法读取字符串的时候在遇到空格、换行符的时候都会结束截止（在这里读取数据的时候，就已经宣告我这道题解不出了。。）<br>比完赛后百度，原来可以用nextLine()，这样读取字符串遇到空格就不会截止，而是等到回车。于是就写了下面这段代码进行验证。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        sc.nextInt();</span><br><span class="line">        String s = sc.nextLine();</span><br><span class="line">        System.out.print(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>不过在输入第一个数字验证的时候呢出现了如下结果：</p>
-<p><figure class="image-bubble">
+<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/Scanner1.png" alt="Scanner1" title>
                 </div>
                 <div class="image-caption">Scanner1</div>
-            </figure></p>
+            </figure>
 <p>输入字符串的机会都不给我。。</p>
 <p>这时我猜想，可能是写入了一个空字符或者转义字符之类的。这个时候我们去看官方文档：</p>
 <blockquote>
 <p>nextInt(): it only reads the int value, nextInt() places the cursor in the same line after reading the input.</p>
-<p>next(): read the input only till the space. It can’t read two words separated by space. Also, next() places the cursor in the same line after reading the input.</p>
+<p>next(): read the input only till the space. It can’t read two words separated by space. Also, next() places the cursor in the same line after reading the input. </p>
 <p>nextLine(): reads input including space between the words (that is, it reads till the end of line \n). Once the input is read, nextLine() positions the cursor in the next line.</p>
 </blockquote>
 <p>每一次读取过程是从光标位置开始的。所以，一开始那个程序当我们输入4并按下回车，由于nextInt()方法只读取数值而不会读取换行符，所以光标停在了4和\n之间，于是nextLine()方法将4后面的换行符给读掉了，所以造成字符串s是一个换行符。</p>
-<p>为了完成最后的输入，程序应该这样写：
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        sc.nextInt();</span><br><span class="line">        sc.nextLine();    <span class="comment">//读取掉数字后面的换行符</span></span><br><span class="line">        String s = sc.nextLine();</span><br><span class="line">        System.out.println(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为了完成最后的输入，程序应该这样写：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        sc.nextInt();</span><br><span class="line">        sc.nextLine();    <span class="comment">//读取掉数字后面的换行符</span></span><br><span class="line">        String s = sc.nextLine();</span><br><span class="line">        System.out.println(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>结果如下：</p>
-<p><figure class="image-bubble">
+<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/Scanner2.png" alt="Scanner2" title>
                 </div>
                 <div class="image-caption">Scanner2</div>
-            </figure></p>
-
+            </figure>
         </div>
 
         <blockquote class="post-copyright">
@@ -215,7 +210,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2019-09-18T06:24:10.440Z" itemprop="dateUpdated">2019-09-18 14:24:10</time>
+    Last updated: <time datetime="2019-09-18T06:24:10.440Z" itemprop="dateUpdated">2019-09-18 14:24:10</time>
 </span><br>
 
 
@@ -375,7 +370,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
