@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>加载catboost模型导致Java进程异常退出 | Kyrie17&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="内存泄露,堆外内存,JNI,c++">
+    <meta name="description" content="现象在对catboost模型（大小1g）做切换测试的时候，出现Java进程异常退出的情况。 JVM监控：内存稳定，且没有出现FullGC，没有发生oom                                                                                             catboost1              MDC监控：cp">
+<meta name="keywords" content="内存泄露,堆外内存,JNI,c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="加载catboost模型导致Java进程异常退出">
+<meta property="og:url" content="https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/index.html">
+<meta property="og:site_name" content="Kyrie17&#39;s Blog">
+<meta property="og:description" content="现象在对catboost模型（大小1g）做切换测试的时候，出现Java进程异常退出的情况。 JVM监控：内存稳定，且没有出现FullGC，没有发生oom                                                                                             catboost1              MDC监控：cp">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost1.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost2.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost3.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost4.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost5.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost6.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost7.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost8.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost9.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost10.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost11.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost12.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost13.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/catboost14.png">
+<meta property="og:updated_time" content="2023-08-01T15:17:28.103Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="加载catboost模型导致Java进程异常退出">
+<meta name="twitter:description" content="现象在对catboost模型（大小1g）做切换测试的时候，出现Java进程异常退出的情况。 JVM监控：内存稳定，且没有出现FullGC，没有发生oom                                                                                             catboost1              MDC监控：cp">
+<meta name="twitter:image" content="https://kyrie17.github.io/img/catboost1.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/favicon.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Kyrie17</h5>
+          <a href="mailto:1130089209@qq.com" title="1130089209@qq.com" class="mail">1130089209@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Kyrie17" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">加载catboost模型导致Java进程异常退出</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">加载catboost模型导致Java进程异常退出</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2023-08-01T14:43:32.000Z" itemprop="datePublished" class="page-time">
+  2023-08-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java乐园/">Java乐园</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#现象"><span class="post-toc-number">1.</span> <span class="post-toc-text">现象</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#调整堆外内存大小调整机器配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">调整堆外内存大小调整机器配置</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#主动释放模型资源"><span class="post-toc-number">3.</span> <span class="post-toc-text">主动释放模型资源</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#NMT定位内存区域"><span class="post-toc-number">4.</span> <span class="post-toc-text">NMT定位内存区域</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#系统层面的工具定位堆外内存"><span class="post-toc-number">5.</span> <span class="post-toc-text">系统层面的工具定位堆外内存</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#pmap"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">pmap</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#strace"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">strace</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#proc-pid-smaps"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">/proc/pid/smaps</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gdb"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">gdb</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#github相似issue"><span class="post-toc-number">6.</span> <span class="post-toc-text">github相似issue</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-加载catboost模型导致Java进程异常退出"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">加载catboost模型导致Java进程异常退出</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2023-08-01 22:43:32" datetime="2023-08-01T14:43:32.000Z"  itemprop="datePublished">2023-08-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java乐园/">Java乐园</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h1><p>在对catboost模型（大小1g）做切换测试的时候，出现Java进程异常退出的情况。</p>
+<p>JVM监控：<br>内存稳定，且没有出现FullGC，没有发生oom<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost1.png" alt="catboost1" title>
+                </div>
+                <div class="image-caption">catboost1</div>
+            </figure></p>
+<p>MDC监控：<br>cpu使用率接近70%，内存使用率接近100%<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost2.png" alt="catboost2" title>
+                </div>
+                <div class="image-caption">catboost2</div>
+            </figure></p>
+<p><strong>怀疑使用了堆外内存，导致容器内存打满。</strong><br>排查加载catboost模型代码，发现catboost提供sdk中loadModel方法调用了JNI，推测在native方法中申请了内存。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CatBoostModel <span class="title">loadModel</span><span class="params">(InputStream in)</span> <span class="keyword">throws</span> CatBoostError, IOException </span>&#123;</span><br><span class="line">    <span class="keyword">long</span>[] handles = <span class="keyword">new</span> <span class="keyword">long</span>[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">byte</span>[] copyBuffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4096</span>];</span><br><span class="line">    ByteArrayOutputStream out = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> bytesRead;</span><br><span class="line">    <span class="keyword">while</span>((bytesRead = in.read(copyBuffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">        out.write(copyBuffer, <span class="number">0</span>, bytesRead);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    implLibrary.catBoostLoadModelFromArray(out.toByteArray(), handles);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> CatBoostModel(handles[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">catBoostLoadModelFromArray</span><span class="params">(@NotNull <span class="keyword">byte</span>[] data, @NotNull <span class="keyword">long</span>[] handle)</span> <span class="keyword">throws</span> CatBoostError </span>&#123;</span><br><span class="line">    CatBoostJNIImpl.checkCall(CatBoostJNIImpl.catBoostLoadModelFromArray(data, handle));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="调整堆外内存大小调整机器配置"><a href="#调整堆外内存大小调整机器配置" class="headerlink" title="调整堆外内存大小调整机器配置"></a>调整堆外内存大小调整机器配置</h1><p>8c12g -&gt; 8c16g<br>JVM堆内存参数配置不变（即堆外内存增大4g）<br>-Xms9632M<br>-Xmx9632M</p>
+<p>JVM监控：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost3.png" alt="catboost3" title>
+                </div>
+                <div class="image-caption">catboost3</div>
+            </figure></p>
+<p>MDC监控：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost4.png" alt="catboost4" title>
+                </div>
+                <div class="image-caption">catboost4</div>
+            </figure></p>
+<p>模型切换次数由原来的1、2次，提升到7次才出现Java进程异常退出的情况，基本可以确定堆外内存搞的鬼了。</p>
+<h1 id="主动释放模型资源"><a href="#主动释放模型资源" class="headerlink" title="主动释放模型资源"></a>主动释放模型资源</h1><p>在CatBoostModel对象被回收的时候，finalize方法中会自己调用dispose方法，释放资源<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.dispose();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.finalize();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">dispose</span><span class="params">()</span> <span class="keyword">throws</span> CatBoostError </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.handle != <span class="number">0L</span>) &#123;</span><br><span class="line">        implLibrary.catBoostFreeModel(<span class="keyword">this</span>.handle);</span><br><span class="line">        <span class="keyword">this</span>.handle = <span class="number">0L</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不过我们还是在加载新模型后，尝试主动调用释放旧模型，即增加oldModel.close()代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">convert</span><span class="params">(String modelKey, InputStream inputStream)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        CatBoostModel catBoostModel = CatBoostModel.loadModel(inputStream);</span><br><span class="line">        CatBoostModel oldModel = modelMap.get(modelKey);</span><br><span class="line">        modelMap.put(modelKey, catBoostModel);</span><br><span class="line">        <span class="keyword">if</span>(Objects.nonNull(oldModel))&#123;</span><br><span class="line">            log.info(<span class="string">"释放catboost资源"</span>);</span><br><span class="line">            oldModel.close();</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">"CatBoost init model ：&#123;&#125; success！"</span>, modelKey);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"CatBoost init model ：&#123;&#125; fail！ exception ："</span>, modelKey, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> BusinessException(<span class="string">"CatBoost模型加载失败"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> CatBoostError </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dispose();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>JVM监控<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost5.png" alt="catboost5" title>
+                </div>
+                <div class="image-caption">catboost5</div>
+            </figure></p>
+<p>MDC监控<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost6.png" alt="catboost6" title>
+                </div>
+                <div class="image-caption">catboost6</div>
+            </figure></p>
+<p>还是一样存在内存泄漏的问题。</p>
+<h1 id="NMT定位内存区域"><a href="#NMT定位内存区域" class="headerlink" title="NMT定位内存区域"></a>NMT定位内存区域</h1><blockquote>
+<p>可以展示堆内内存、Code区域或者使用unsafe.allocateMemory和DirectByteBuffer申请的堆外内存<br>JVM启动参数增加：-XX:NativeMemoryTracking=detail</p>
+</blockquote>
+<p>查看命令：jcmd pid VM.native_memory detail</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">[admin@host-11-68-72-16 ~]$ jcmd 217 VM.native_memory detail</span><br><span class="line">217:</span><br><span class="line"></span><br><span class="line">Native Memory Tracking:</span><br><span class="line"></span><br><span class="line">Total: reserved=11242880KB, committed=9746476KB</span><br><span class="line">-                 Java Heap (reserved=8839168KB, committed=8839168KB)</span><br><span class="line">                            (mmap: reserved=8839168KB, committed=8839168KB) </span><br><span class="line"></span><br><span class="line">-                     Class (reserved=1176337KB, committed=143121KB)</span><br><span class="line">                            (classes #23536)</span><br><span class="line">                            (malloc=2833KB #43400) </span><br><span class="line">                            (mmap: reserved=1173504KB, committed=140288KB) </span><br><span class="line"></span><br><span class="line">-                    Thread (reserved=437769KB, committed=437769KB)</span><br><span class="line">                            (thread #425)</span><br><span class="line">                            (stack: reserved=435872KB, committed=435872KB)</span><br><span class="line">                            (malloc=1400KB #2133) </span><br><span class="line">                            (arena=498KB #849)</span><br><span class="line"></span><br><span class="line">-                      Code (reserved=548090KB, committed=84902KB)</span><br><span class="line">                            (malloc=15610KB #19166) </span><br><span class="line">                            (mmap: reserved=532480KB, committed=69292KB) </span><br><span class="line"></span><br><span class="line">-                        GC (reserved=62053KB, committed=62053KB)</span><br><span class="line">                            (malloc=36149KB #493) </span><br><span class="line">                            (mmap: reserved=25904KB, committed=25904KB) </span><br><span class="line"></span><br><span class="line">-                  Compiler (reserved=1664KB, committed=1664KB)</span><br><span class="line">                            (malloc=1533KB #2248) </span><br><span class="line">                            (arena=131KB #3)</span><br><span class="line"></span><br><span class="line">-                  Internal (reserved=38055KB, committed=38055KB)</span><br><span class="line">                            (malloc=38023KB #89946) </span><br><span class="line">                            (mmap: reserved=32KB, committed=32KB) </span><br><span class="line"></span><br><span class="line">-                    Symbol (reserved=29710KB, committed=29710KB)</span><br><span class="line">                            (malloc=27017KB #264972) </span><br><span class="line">                            (arena=2693KB #1)</span><br><span class="line"></span><br><span class="line">-    Native Memory Tracking (reserved=6936KB, committed=6936KB)</span><br><span class="line">                            (malloc=261KB #3929) </span><br><span class="line">                            (tracking overhead=6675KB)</span><br><span class="line"></span><br><span class="line">-               Arena Chunk (reserved=190KB, committed=190KB)</span><br><span class="line">                            (malloc=190KB) </span><br><span class="line"></span><br><span class="line">-                   Unknown (reserved=102908KB, committed=102908KB)</span><br><span class="line">                            (mmap: reserved=102908KB, committed=102908KB)</span><br></pre></td></tr></table></figure>
+<p>可以发现Native Memory Tracking中，只分配了6m的空间，我们更加相信是Native Code（C代码）申请的堆外内存导致的问题。</p>
+<h1 id="系统层面的工具定位堆外内存"><a href="#系统层面的工具定位堆外内存" class="headerlink" title="系统层面的工具定位堆外内存"></a>系统层面的工具定位堆外内存</h1><h2 id="pmap"><a href="#pmap" class="headerlink" title="pmap"></a>pmap</h2><blockquote>
+<p>显示进程的地址空间的相关信息</p>
+</blockquote>
+<p>切换前<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost7.png" alt="catboost7" title>
+                </div>
+                <div class="image-caption">catboost7</div>
+            </figure></p>
+<p>切换后<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost8.png" alt="catboost8" title>
+                </div>
+                <div class="image-caption">catboost8</div>
+            </figure></p>
+<p>对比切换前后进程分配的内存空间，可以看到每次loadModel会增加700m的内存，而且旧模型申请的空间也没有释放。</p>
+<h2 id="strace"><a href="#strace" class="headerlink" title="strace"></a>strace</h2><blockquote>
+<p>我们可以用它来监控用户空间进程和内核的交互。如对应用程序的系统调用、信号传递与进程状态变更等进行跟踪与分析，以达到解决问题的目的。</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost9.png" alt="catboost9" title>
+                </div>
+                <div class="image-caption">catboost9</div>
+            </figure>
+<p>通过strace监控，切换模型过程中申请内存的命令，可以看到申请了差不多700m内存，可以与上面pmap对应上。</p>
+<h2 id="proc-pid-smaps"><a href="#proc-pid-smaps" class="headerlink" title="/proc/pid/smaps"></a>/proc/pid/smaps</h2><p>我们通过pmap已经发现了可疑的内存区间，在/proc/pid/smaps可以找到分配内存块的起始地址和结束地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost10.png" alt="catboost10" title>
+                </div>
+                <div class="image-caption">catboost10</div>
+            </figure>
+<h2 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h2><p>通过gdb对可疑内存区间进行dump</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost11.png" alt="catboost11" title>
+                </div>
+                <div class="image-caption">catboost11</div>
+            </figure>
+<p>编码可视化其内容，进行分析，可以看到是模型相关的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost12.png" alt="catboost12" title>
+                </div>
+                <div class="image-caption">catboost12</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost13.png" alt="catboost13" title>
+                </div>
+                <div class="image-caption">catboost13</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/catboost14.png" alt="catboost14" title>
+                </div>
+                <div class="image-caption">catboost14</div>
+            </figure>
+<h1 id="github相似issue"><a href="#github相似issue" class="headerlink" title="github相似issue"></a>github相似issue</h1><p><a href="https://github.com/catboost/catboost/issues/1979" target="_blank" rel="noopener">https://github.com/catboost/catboost/issues/1979</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2023-08-01T15:17:28.103Z" itemprop="dateUpdated">2023-08-01 23:17:28</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://kyrie17.github.io">
+            <img src="/img/favicon.jpeg" alt="Kyrie17">
+            Kyrie17
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JNI/">JNI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存泄露/">内存泄露</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/堆外内存/">堆外内存</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/&title=《加载catboost模型导致Java进程异常退出》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/&title=《加载catboost模型导致Java进程异常退出》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《加载catboost模型导致Java进程异常退出》 — Kyrie17's Blog&url=https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/&via=https://kyrie17.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2023/01/01/git-merge与rebase对比/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">git merge与rebase对比</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Kyrie17 &copy; 2017 - 2023</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/&title=《加载catboost模型导致Java进程异常退出》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/&title=《加载catboost模型导致Java进程异常退出》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《加载catboost模型导致Java进程异常退出》 — Kyrie17's Blog&url=https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/&via=https://kyrie17.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2023/08/01/加载catboost模型导致Java进程异常退出/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADM0lEQVR42u3ay07jQBAFUP7/pzPSrJAg4d6qGCXN8SoyjrtPZ1HU4+Mjvm7/r8+fP9/5+kzyra/P31v33pW/Z3hhY2Njvwl79uqE9Pj+5gdI3n/vGWxsbOxT2UnQmgWz/JlNQM0t2NjY2H+ZnVz5MSXhrQ1O2NjY2Nj7AHYvUM0wLQkbGxv7L7Pb0DJLDGalqOSwLqylYWNjY788+1lFnFf4fHl/GxsbG/vF2Lf19fhts/ttKKr3jI2NjX0QezNG8zhV+M1mw3C4ExsbG/sI9uMiUV7iyRsDmyGetoT0Q+jCxsbGPoI9G4XcNHfbN7dP1sUmbGxs7Ddnb0ZtNt9qDzffZxQssbGxsQ9i539ug0o7BpSkDUk4rId1sLGxsY9gJ0X24vzKQ2wbw7Mk6pv72NjY2Eew80ZpmzYk7dgcPys53V0RGxsb+1B2vsWi51Bua9+QKApJ2NjY2Eew8xL/LFF5bqGqLSf9EIaxsbGxj2Anp3LF+M5slc1xYGNjY5/Nvrronzdx8/20paVoGggbGxv7Ddntv/6bkn0StPKjyX+84bwSNjY29puw82QgT1dmR7NZvQ7M2NjY2Aex26CVtHs345KbA6oDLTY2NvYR7HzTefG9Pb52TDNp62JjY2P/HXbSrM0bwMWU0Lq1PGtdYGNjY5/HzhfIE4B94rEJadEq2NjY2Eez20Zv8p5NCGwDVdSiwMbGxj6I3f6jnyMTcL6tZ6VA2NjY2Oex80GZWUqQj+BcnagM54OwsbGxX549+3ISftpGbLu3tnSFjY2NfTZ7Fq7aAtMs+G3yqqQcho2NjX0Suy27t2OReVjK7+wbEtjY2NgnsfOtzxoAeZkpbzYkx1HsBxsbG/sIdltI2pfy83JSe6BF6wIbGxv7bdm38potnKQQbViaFaqwsbGxz2O3ScKswHTdzEwb6rCxsbFPZedBqz2C5w7c5A3dKAPDxsbGPo4920qehCRH1rYQZo0HbGxsbOxk60lrtn2mbV1cHsCwsbGx35A9G4hJSkttAtOGxm/2gI2NjX0cu10+bw+0Rai89Tv7LjY2NvZ57E2jd9NV3gzl5OnQphSFjY2N/fLsf0rmB0pX2In3AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
