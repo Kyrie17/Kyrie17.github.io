@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>频繁young gc问题排查 | Kyrie17&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JVM,young-gc">
+    <meta name="description" content="现象实习生对新开发的推理接口进行压测时，发现tp99异常，大概在9000ms左右                                                                                             acr1              young gc也十分频繁，还伴随着2次的full gc">
+<meta name="keywords" content="JVM,young-gc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="频繁young gc问题排查">
+<meta property="og:url" content="https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/index.html">
+<meta property="og:site_name" content="Kyrie17&#39;s Blog">
+<meta property="og:description" content="现象实习生对新开发的推理接口进行压测时，发现tp99异常，大概在9000ms左右                                                                                             acr1              young gc也十分频繁，还伴随着2次的full gc">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://kyrie17.github.io/img/acr1.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/acr2.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/acr3.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/acr4.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/acr5.png">
+<meta property="og:updated_time" content="2023-08-02T14:11:19.782Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="频繁young gc问题排查">
+<meta name="twitter:description" content="现象实习生对新开发的推理接口进行压测时，发现tp99异常，大概在9000ms左右                                                                                             acr1              young gc也十分频繁，还伴随着2次的full gc">
+<meta name="twitter:image" content="https://kyrie17.github.io/img/acr1.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/favicon.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Kyrie17</h5>
+          <a href="mailto:1130089209@qq.com" title="1130089209@qq.com" class="mail">1130089209@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Kyrie17" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">频繁young gc问题排查</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">频繁young gc问题排查</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2023-08-02T13:58:35.000Z" itemprop="datePublished" class="page-time">
+  2023-08-02
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java乐园/">Java乐园</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#现象"><span class="post-toc-number">1.</span> <span class="post-toc-text">现象</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#解决方案"><span class="post-toc-number">3.</span> <span class="post-toc-text">解决方案</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-频繁young-gc问题排查"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">频繁young gc问题排查</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2023-08-02 21:58:35" datetime="2023-08-02T13:58:35.000Z"  itemprop="datePublished">2023-08-02</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java乐园/">Java乐园</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h1><p>实习生对新开发的推理接口进行压测时，发现tp99异常，大概在9000ms左右<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/acr1.png" alt="acr1" title>
+                </div>
+                <div class="image-caption">acr1</div>
+            </figure></p>
+<p>young gc也十分频繁，还伴随着2次的full gc<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/acr2.png" alt="acr2" title>
+                </div>
+                <div class="image-caption">acr2</div>
+            </figure></p>
+<p>cpu使用率也飙升到了100%<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/acr3.png" alt="acr3" title>
+                </div>
+                <div class="image-caption">acr3</div>
+            </figure></p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>通过jstask发现大量线程处于CaseFormat.convert方法中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&quot;JSF-BZ-22000-23-T-110&quot; #247 daemon prio=5 os_prio=0 tid=0x00007fb0d8110800 nid=0x527 runnable [0x00007faf366ed000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">	at java.util.Arrays.copyOfRange(Arrays.java:3664)</span><br><span class="line">	at java.lang.String.&lt;init&gt;(String.java:207)</span><br><span class="line">	at java.lang.StringBuilder.toString(StringBuilder.java:407)</span><br><span class="line">	at com.google.common.base.CaseFormat.convert(CaseFormat.java:150)</span><br><span class="line">	at com.google.common.base.CaseFormat.to(CaseFormat.java:128)</span><br><span class="line">	at com.jd.jdl.sj.acr.utils.JDBCUtils.Populate(JDBCUtils.java:184)</span><br><span class="line">	at com.jd.jdl.sj.acr.mapper.RecommendedMapper.queryByAssociateData(RecommendedMapper.java:87)</span><br><span class="line">	at com.jd.jdl.sj.acr.algo.AcrAlgoStrategyA.predict(AcrAlgoStrategyA.java:73)</span><br><span class="line">	at com.jd.jdl.sj.acr.algo.AcrAlgoStrategyB.predict(AcrAlgoStrategyB.java:56)</span><br><span class="line">	at com.jd.jdl.sj.predict.service.impl.AlgoServiceImpl.predict(AlgoServiceImpl.java:26)</span><br><span class="line">	at com.jd.jdl.sj.predict.service.impl.AlgoServiceImpl$$FastClassBySpringCGLIB$$211fefd6.invoke(&lt;generated&gt;)</span><br></pre></td></tr></table></figure></p>
+<p>且jmap中发现jvm内存中存在大量String对象<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/acr4.png" alt="acr4" title>
+                </div>
+                <div class="image-caption">acr4</div>
+            </figure></p>
+<p>最终定位到问题代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List <span class="title">Populate</span><span class="params">(ResultSet rs, Class cc)</span> <span class="keyword">throws</span> SQLException, InstantiationException, IllegalAccessException </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//结果集 中列的名称和类型的信息</span></span><br><span class="line">        ResultSetMetaData rsm = rs.getMetaData();</span><br><span class="line">        <span class="keyword">int</span> colNumber = rsm.getColumnCount();</span><br><span class="line">        List res = <span class="keyword">new</span> ArrayList();</span><br><span class="line">        Field[] fields = cc.getDeclaredFields();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//遍历每条记录</span></span><br><span class="line">        <span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">            <span class="comment">//实例化对象</span></span><br><span class="line">            Object obj = cc.newInstance();</span><br><span class="line">            <span class="comment">//取出每一个字段进行赋值</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= colNumber; i++) &#123;</span><br><span class="line">                Object value = rs.getObject(i);</span><br><span class="line">                <span class="comment">//匹配实体类中对应的属性</span></span><br><span class="line">                <span class="keyword">for</span> (Field f : fields) &#123;</span><br><span class="line">                    <span class="comment">// 驼峰转下划线命名</span></span><br><span class="line">                    String name = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, f.getName());</span><br><span class="line">                    <span class="keyword">if</span> (name.equals(rsm.getColumnName(i))) &#123;</span><br><span class="line">                        <span class="keyword">boolean</span> flag = f.isAccessible();</span><br><span class="line">                        f.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                        f.set(obj, value);</span><br><span class="line">                        f.setAccessible(flag);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            res.add(obj);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> BusinessException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这段代码是通过jdbc查询结果后，需要将ResultSet映射成pojo中的结果。<br>主要问题出在这行驼峰转下划线的代码中：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String name = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, f.getName());</span><br></pre></td></tr></table></figure></p>
+<p>查询一次数据库大概返回400行数据，每条数据25个字段，一次查询就会执行2.5w次这行代码，创建出2.5w个String。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>将驼峰转下划线前置，这样一次调用只会执行25次这个方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List <span class="title">Populate</span><span class="params">(ResultSet rs, Class cc)</span> <span class="keyword">throws</span> SQLException, InstantiationException, IllegalAccessException </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">        List res = <span class="keyword">new</span> ArrayList();</span><br><span class="line">        Field[] fields = cc.getDeclaredFields();</span><br><span class="line">        Map&lt;String, Field&gt; fieldMap = <span class="keyword">new</span> HashMap&lt;&gt;(fields.length);</span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            String fieldUnderscoreName = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName());</span><br><span class="line">            fieldMap.put(fieldUnderscoreName, field);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//结果集 中列的名称和类型的信息</span></span><br><span class="line">        ResultSetMetaData rsm = rs.getMetaData();</span><br><span class="line">        <span class="comment">//遍历每条记录</span></span><br><span class="line">        <span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">            <span class="comment">//实例化对象</span></span><br><span class="line">            Object obj = cc.newInstance();</span><br><span class="line">            <span class="comment">//取出每一个字段进行赋值</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= rsm.getColumnCount(); i++) &#123;</span><br><span class="line">                Object value = rs.getObject(i);</span><br><span class="line">                String columnName = rsm.getColumnName(i);</span><br><span class="line"></span><br><span class="line">                Field field = fieldMap.get(columnName);</span><br><span class="line">                <span class="keyword">if</span> (field == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//                    boolean flag = field.isAccessible();</span></span><br><span class="line">                field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                field.set(obj, value);</span><br><span class="line">                <span class="comment">//                    field.setAccessible(flag);</span></span><br><span class="line">            &#125;</span><br><span class="line">            res.add(obj);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> BusinessException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>压测结果性能大幅提升，tp99在20ms以下。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/acr5.png" alt="acr5" title>
+                </div>
+                <div class="image-caption">acr5</div>
+            </figure></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2023-08-02T14:11:19.782Z" itemprop="dateUpdated">2023-08-02 22:11:19</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://kyrie17.github.io">
+            <img src="/img/favicon.jpeg" alt="Kyrie17">
+            Kyrie17
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/young-gc/">young-gc</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/&title=《频繁young gc问题排查》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/&title=《频繁young gc问题排查》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《频繁young gc问题排查》 — Kyrie17's Blog&url=https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/&via=https://kyrie17.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2023/08/01/加载catboost模型导致Java进程异常退出/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">加载catboost模型导致Java进程异常退出</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Kyrie17 &copy; 2017 - 2023</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/&title=《频繁young gc问题排查》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/&title=《频繁young gc问题排查》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《频繁young gc问题排查》 — Kyrie17's Blog&url=https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/&via=https://kyrie17.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2023/08/02/频繁young-gc问题排查/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACuUlEQVR42u3awW7bQAwE0Pz/T7dATi1QOTOkVnaBp5Og2NE+G9DSQ359xcev7+P19avzP68kx9V/u1rDDQceHh7eaOntza7em1+/WkPCS9aMh4eHd5qXPPTb2+ebxObuP1jw8PDw3sq7610JL9828PDw8D6Z9xpZ3DLeHvDw8PA+mZeEEbMr7XJnYccNWQseHh5ezGsbYJ9wfrC/h4eHh7foqr9+4LbxRLJt5IV1tFo8PDy8A7zNQjejVPsAIi/f8fDw8O7lJc37vM0/G6Vqz4stCg8PD+8wL39YtxHwLEqYtbuiXwx4eHh4N/Hy5lNeTM+aWG08gYeHh/c8rx2TmgUZs6Gr5HqRsuDh4eGteW08msQNG+rsLsV3iIeHh7fmzTB51JsMDcwGAqJ14uHh4b2J10YSM0DeBsvbb3h4eHgnePkAU1LUbkLb5MpsPXh4eHj38mYlcvuwng1jtVsRHh4e3jO8NpBNtpDX/y159OcleL1J4OHh4a15szK3XW5SNOfldTFMgIeHh3eMN9se2hGBNsiYBSV//RUPDw/vAC8pnWclbxJV5ANYs3EEPDw8vOd5bassL3bbgYOcWo8R4OHh4ZW82Q3yB/qsXM43px9WgoeHh3eAt19iHlWc2ADagQY8PDy8PS8PDjZLnA0BFN/JbBoCDw8Pb8HLH/qbVtYG0H5Y/xgdwMPDw7uJl7Te86Gr16+fhbz5Ci+/Hjw8PLxbebPNYHM+K9nbca7LlBoPDw/vVt4mOEh4OaPdHi5/GODh4eEd4N2ViG6WkoQX7TkeHh7eaV4djJbNs7Yg3m8YeHh4eM/wZgFr0vrK49eklK/HIPDw8PDeystj2X1c27bl8PDw8P5H3mwR7bBC/qHg4eHhneYlYcSsmJ69si3i8fDw8J7kzRpg7RBVO1KwCUTqAw8PDy/l/QYoJCIW/oChYgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
