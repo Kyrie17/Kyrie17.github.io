@@ -31,7 +31,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/jsf_block01.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/jsf_block02.png">
-<meta property="og:updated_time" content="2023-11-12T14:51:06.546Z">
+<meta property="og:image" content="https://kyrie17.github.io/img/jsf_block02.png">
+<meta property="og:updated_time" content="2023-12-13T14:59:34.347Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSF线程阻塞问题排查">
 <meta name="twitter:description" content="现象在压测一个新上线服务核心接口的时候，出现接口响应时间、TPS不满足预期的问题。                                                                                             jsf_block01              问题排查通过Jstack发现大量JSF线程处于阻塞状态，都在ClassLoader">
@@ -122,7 +123,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -163,7 +164,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#现象"><span class="post-toc-number">1.</span> <span class="post-toc-text">现象</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题排查"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题排查</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#简化代码"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">简化代码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#log4j打印异常堆栈机制"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">log4j打印异常堆栈机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#classload加载class锁机制"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">classload加载class锁机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-classloader-loadClass加锁过程分析"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">1. classloader.loadClass加锁过程分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-classloader加载无效类效率问题"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">2.classloader加载无效类效率问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#反射调用优化"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">反射调用优化</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题总结"><span class="post-toc-number">3.</span> <span class="post-toc-text">问题总结</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题处理"><span class="post-toc-number">4.</span> <span class="post-toc-text">问题处理</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#现象"><span class="post-toc-number">1.</span> <span class="post-toc-text">现象</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题排查"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题排查</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#简化代码"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">简化代码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#log4j打印异常堆栈机制"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">log4j打印异常堆栈机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#classload加载class锁机制"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">classload加载class锁机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-classloader-loadClass加锁过程分析"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">1. classloader.loadClass加锁过程分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-classloader加载无效类效率问题"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">2.classloader加载无效类效率问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#反射调用优化"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">反射调用优化</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题总结"><span class="post-toc-number">3.</span> <span class="post-toc-text">问题总结</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题处理"><span class="post-toc-number">4.</span> <span class="post-toc-text">问题处理</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#压测结果"><span class="post-toc-number">5.</span> <span class="post-toc-text">压测结果</span></a></li></ol>
         </nav>
     </aside>
 
@@ -247,6 +248,13 @@
 <li>之后再需要抛出的时候，将缓存实例抛出去</li>
 </ol>
 <p>可以通过参数-XX:-OmitStackTraceInFastThrow关闭这一优化，但是对于性能会有比较大的影响，我执行了500 000次，fast throw处理时长是11802ms，而关闭了这个优化后处理时长涨到了32423ms，对于目前的场景，建议是打开优化，如果出现大规模异常的情况，可以搜索异常初期的日志，获得详细的异常信息。</p>
+<h1 id="压测结果"><a href="#压测结果" class="headerlink" title="压测结果"></a>压测结果</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/jsf_block02.png" alt="jsf_block02" title>
+                </div>
+                <div class="image-caption">jsf_block02</div>
+            </figure>
 
         </div>
 
@@ -255,7 +263,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2023-11-12T14:51:06.546Z" itemprop="dateUpdated">2023-11-12 22:51:06</time>
+    Last updated: <time datetime="2023-12-13T14:59:34.347Z" itemprop="dateUpdated">2023-12-13 22:59:34</time>
 </span><br>
 
 
@@ -334,7 +342,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2023/12/13/算法包类加载异常问题排查/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">算法包类加载异常问题排查</h4>
+      </a>
+    </div>
   
 
   
@@ -410,7 +425,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">

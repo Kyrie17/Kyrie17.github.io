@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>算法包类加载异常问题排查 | Kyrie17&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="ClassLoader,双亲委派机制">
+    <meta name="description" content="问题插件发送jdq消息失败异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData 神机sdk发送Jdq消息代码：123456789101112131415161718192021@Ove">
+<meta name="keywords" content="ClassLoader,双亲委派机制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法包类加载异常问题排查">
+<meta property="og:url" content="https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/index.html">
+<meta property="og:site_name" content="Kyrie17&#39;s Blog">
+<meta property="og:description" content="问题插件发送jdq消息失败异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData 神机sdk发送Jdq消息代码：123456789101112131415161718192021@Ove">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://kyrie17.github.io/img/plugin_classloader01.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/plugin_classloader02.png">
+<meta property="og:image" content="https://kyrie17.github.io/img/plugin_classloader03.png">
+<meta property="og:updated_time" content="2023-12-13T15:11:11.970Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法包类加载异常问题排查">
+<meta name="twitter:description" content="问题插件发送jdq消息失败异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData 神机sdk发送Jdq消息代码：123456789101112131415161718192021@Ove">
+<meta name="twitter:image" content="https://kyrie17.github.io/img/plugin_classloader01.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/favicon.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Kyrie17</h5>
+          <a href="mailto:1130089209@qq.com" title="1130089209@qq.com" class="mail">1130089209@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Kyrie17" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">算法包类加载异常问题排查</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">算法包类加载异常问题排查</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2023-12-13T15:03:24.000Z" itemprop="datePublished" class="page-time">
+  2023-12-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/问题排查/">问题排查</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#插件发送jdq消息失败"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">插件发送jdq消息失败</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#StringUtils找不到compare方法"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">StringUtils找不到compare方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#神机类加载器加载规则"><span class="post-toc-number">2.</span> <span class="post-toc-text">神机类加载器加载规则</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题分析"><span class="post-toc-number">3.</span> <span class="post-toc-text">问题分析</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题解决"><span class="post-toc-number">4.</span> <span class="post-toc-text">问题解决</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-算法包类加载异常问题排查"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">算法包类加载异常问题排查</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2023-12-13 23:03:24" datetime="2023-12-13T15:03:24.000Z"  itemprop="datePublished">2023-12-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/问题排查/">问题排查</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="插件发送jdq消息失败"><a href="#插件发送jdq消息失败" class="headerlink" title="插件发送jdq消息失败"></a>插件发送jdq消息失败</h2><p>异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData</p>
+<p>神机sdk发送Jdq消息代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(ShenJiMessage shenJiMessage)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (shenJiMessage.getText() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"消息内容不能为空"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] data = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (MqMessageType.STRING.equals(messageType)) &#123;</span><br><span class="line">            String text = (String)shenJiMessage.getText();</span><br><span class="line">            data = text.getBytes();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (MqMessageType.JDW_DATA.equals(messageType)) &#123;</span><br><span class="line">            <span class="comment">// 在此行出现异常！！</span></span><br><span class="line">            JdwData text = (JdwData) shenJiMessage.getText();</span><br><span class="line">            data = serializer.toBytes(text);</span><br><span class="line">        &#125;</span><br><span class="line">        producer.send(<span class="keyword">new</span> ProducerRecord&lt;&gt;(shenJiMessage.getTopic(), <span class="keyword">new</span> Bytes(data)), (metadata, exception) -&gt; &#123;&#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"发送jdq消息异常"</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>猜测类加载器shenJiMessage.getText()类加载器和声明JdwData类加载器不一致，分别打印下类加载器看看：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(ShenJiMessage shenJiMessage)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (shenJiMessage.getText() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"消息内容不能为空"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] data = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (MqMessageType.STRING.equals(messageType)) &#123;</span><br><span class="line">            String text = (String)shenJiMessage.getText();</span><br><span class="line">            data = text.getBytes();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (MqMessageType.JDW_DATA.equals(messageType)) &#123;</span><br><span class="line">            JdwData jdwData = <span class="keyword">new</span> JdwData();</span><br><span class="line">            ClassLoader classLoader = shenJiMessage.getText().getClass().getClassLoader();</span><br><span class="line">            ClassLoader classLoader1 = jdwData.getClass().getClassLoader();</span><br><span class="line">            log.info(<span class="string">"send message, classLoader:&#123;&#125;, classLoader1:&#123;&#125;"</span>, classLoader, classLoader1);</span><br><span class="line">            JdwData text = (JdwData) shenJiMessage.getText();</span><br><span class="line">            data = serializer.toBytes(text);</span><br><span class="line">        &#125;</span><br><span class="line">        producer.send(<span class="keyword">new</span> ProducerRecord&lt;&gt;(shenJiMessage.getTopic(), <span class="keyword">new</span> Bytes(data)), (metadata, exception) -&gt; &#123;&#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"发送jdq消息异常"</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2023-12-13 15:03:49.928[INFO ]send message, classLoader:org.pf4j.PluginClassLoader@57e11696, classLoader1:sun.misc.Launcher$AppClassLoader@14dad5dc[com.jdl.shenji.sdk.framework.ioc.mq.jdq.ShenJiJdqProducer.send:42]</span><br></pre></td></tr></table></figure></p>
+<p>和猜想一致，shenJiMessage.getText()使用了插件类加载器，JdwData使用AppClassLoader。</p>
+<h2 id="StringUtils找不到compare方法"><a href="#StringUtils找不到compare方法" class="headerlink" title="StringUtils找不到compare方法"></a>StringUtils找不到compare方法</h2><p>异常：java.lang.NoSuchMethodError: org.apache.commons.lang3.StringUtils.compare(Ljava/lang/String;Ljava/lang/String;)</p>
+<h1 id="神机类加载器加载规则"><a href="#神机类加载器加载规则" class="headerlink" title="神机类加载器加载规则"></a>神机类加载器加载规则</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/plugin_classloader01.png" alt="plugin_classloader01" title>
+                </div>
+                <div class="image-caption">plugin_classloader01</div>
+            </figure>
+<ol>
+<li>打破双亲委派机制：插件中的类会先由插件类加载器进行加载，如果判断插件类加载器加载不了再交给父类加载器(AppClassLoader)进行加载</li>
+<li>插件类加载器findClass(String name)逻辑，根据类全限定名在插件路径下搜索是否有此类</li>
+</ol>
+<h1 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h1><ol>
+<li>依据目前插件类加载的规则，我们认为是插件中引入了jdwdata、commons-lang3的依赖，但发现插件pom文件中对应的依赖的scope都是provided的，且在行云部署对应插件目录中却没有找到jdwdata、commons-lang3两个jar包</li>
+<li>我们转换思路，是否插件中有和com.jd.bdp.jdw.avro.JdwData、org.apache.commons.lang3.StringUtils相同的类全限定名的类。发现有一个新引入的依赖rapp-common，打开jar包便可以发现端倪</li>
+</ol>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/plugin_classloader02.png" alt="plugin_classloader02" title>
+                </div>
+                <div class="image-caption">plugin_classloader02</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/plugin_classloader03.png" alt="plugin_classloader03" title>
+                </div>
+                <div class="image-caption">plugin_classloader03</div>
+            </figure>
+<ol start="3">
+<li>结合类加载的规则com.jd.bdp.jdw.avro.JdwData是rapp-common中的类，而且是由PluginClassLoader加载的，所以出现了ClassCastException</li>
+<li>org.apache.commons.lang3.StringUtils是rapp-common中的类，方法中缺少了compare方法，所以出现NoSuchMethodError</li>
+</ol>
+<h1 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h1><p>rapp-common这个包是有问题的，重写了大量第三方类且使用了相同的包路径，如果项目中还使用了例如jdwdata、commons-lang3这些包，就会出现类冲突等问题。</p>
+<p>插件中使用rapp-common，目的是使用com.jdl.rapp.common.util.CharSequenceMapUtils#stringMap2SequenceMap工具方法将Map&lt;String, String&gt;转换为Map&lt;CharSequence, CharSequence&gt;。那么可以将类CharSequenceMapUtils复制插件中，不引入rapp-common。</p>
+<p>这样com.jd.bdp.jdw.avro.JdwData会交由AppClassLoader加载，org.apache.commons.lang3.StringUtils就路由到commons-lang3包中正确代码。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2023-12-13T15:11:11.970Z" itemprop="dateUpdated">2023-12-13 23:11:11</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://kyrie17.github.io">
+            <img src="/img/favicon.jpeg" alt="Kyrie17">
+            Kyrie17
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ClassLoader/">ClassLoader</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/双亲委派机制/">双亲委派机制</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/&title=《算法包类加载异常问题排查》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/&title=《算法包类加载异常问题排查》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《算法包类加载异常问题排查》 — Kyrie17's Blog&url=https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/&via=https://kyrie17.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2023/11/12/JSF线程阻塞问题排查/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">JSF线程阻塞问题排查</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Kyrie17 &copy; 2017 - 2023</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/&title=《算法包类加载异常问题排查》 — Kyrie17's Blog&pic=https://kyrie17.github.io/img/favicon.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/&title=《算法包类加载异常问题排查》 — Kyrie17's Blog&source=You got a dream..You gotta protect it." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《算法包类加载异常问题排查》 — Kyrie17's Blog&url=https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/&via=https://kyrie17.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvUlEQVR42u3aQU5jMRAE0Nz/0ow0OzSTUNVthyzeXyEIiZ+R3E25H4/4+fr7PPv63+f1O7x+5/YdDjx4eHh4o6W/Xujr7yRLfLZBr9eTf/rTrcHDw8O7xsuP7GRx7dKTMpNsEB4eHt6n8Z69PvlpW3jy9eDh4eF9Pi857jeNcltO8PDw8H6LN2tn8+D1LP5K1oKHh4cX8/YXYO//+q33e3h4eHhxSdgEB+2hPwsyflgtHh4e3gVeMgQwC1VzTD4i0G4iHh4e3g1efnG1P7g3+PYP8K3u4eHh4V3mtVdZs5GC2Ubk38fDw8O7zZsdzflSZlnrrET9pzDg4eHhvZG3iWKjg/toAFGkLHh4eHgLXpt2tldi7VDUqfACDw8P7zZvdq01CybykvA6yDg8O4aHh4c34p36sDbgyLdyM6aAh4eHd5bXBrJJY5200XkDvQqL8fDw8C7w6hoSvD6PD250v0Wki4eHh1fyNpdYszY3X9ystDwdusLDw8M7xJtddOWMtv2dRRjJOvHw8PDO8tqr/bwFz6/B6lGqvDDg4eHhHeVtwtYE344mJFtQjHbh4eHhXeO1F/azQGEzdpC35sOhATw8PLzR6d22v3k5yUcEZnd3RYyLh4eHt+bNCkM7KJA37kmgXBQMPDw8vAu8dtSpLQP72Df5rGgT8fDw8A7x9of1pinflJk6pcbDw8N7Iy8PIPKwIN/KvPWPah0eHh7emtde88+C103M8Sif4nfx8PDwRryv8mlj2c3oQDuO8EPdw8PDwzvEm/Wf+bjVrEFvtwYPDw/v/by2GLSB76av34wg4OHh4d3mJW+dHN+zmLhYblnA8PDw8H6X1w4N5C3yqYEDPDw8vM/k7ePaNlxoP/fb6/Hw8PCu8TaXXrOGOy8k7RgWHh4e3m1e+09+Oz6VX4NFLfIiqsDDw8Nb8/4Aws2ccRASXW0AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
