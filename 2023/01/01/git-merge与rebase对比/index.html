@@ -21,13 +21,13 @@
     
     
     <meta name="keywords" content="merge,rebase">
-    <meta name="description" content="写在开篇 对于很多同学来说，对于git工具的使用只是停留在最基础的几条命令或者是几个按钮上，对于普通的开发工作来说可能是够用了，但对于想高效的利用好git这个实战利器来说，显然是需要再精进提升的。 今天我们将从代码合并这个角度，为大家讲解git中merge与rebase的区别，使用场景等。 区别 初始场景 假设目前我们有两个分支，main和feature，同时两个分支的head指针都指向add C">
+    <meta name="description" content="写在开篇对于很多同学来说，对于git工具的使用只是停留在最基础的几条命令或者是几个按钮上，对于普通的开发工作来说可能是够用了，但对于想高效的利用好git这个实战利器来说，显然是需要再精进提升的。 今天我们将从代码合并这个角度，为大家讲解git中merge与rebase的区别，使用场景等。 区别初始场景假设目前我们有两个分支，main和feature，同时两个分支的head指针都指向add Clas">
 <meta name="keywords" content="merge,rebase">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git merge与rebase对比">
 <meta property="og:url" content="https://kyrie17.github.io/2023/01/01/git-merge与rebase对比/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="写在开篇 对于很多同学来说，对于git工具的使用只是停留在最基础的几条命令或者是几个按钮上，对于普通的开发工作来说可能是够用了，但对于想高效的利用好git这个实战利器来说，显然是需要再精进提升的。 今天我们将从代码合并这个角度，为大家讲解git中merge与rebase的区别，使用场景等。 区别 初始场景 假设目前我们有两个分支，main和feature，同时两个分支的head指针都指向add C">
+<meta property="og:description" content="写在开篇对于很多同学来说，对于git工具的使用只是停留在最基础的几条命令或者是几个按钮上，对于普通的开发工作来说可能是够用了，但对于想高效的利用好git这个实战利器来说，显然是需要再精进提升的。 今天我们将从代码合并这个角度，为大家讲解git中merge与rebase的区别，使用场景等。 区别初始场景假设目前我们有两个分支，main和feature，同时两个分支的head指针都指向add Clas">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/git00.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/git01.png">
@@ -38,7 +38,7 @@
 <meta property="og:updated_time" content="2022-12-31T16:19:35.448Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git merge与rebase对比">
-<meta name="twitter:description" content="写在开篇 对于很多同学来说，对于git工具的使用只是停留在最基础的几条命令或者是几个按钮上，对于普通的开发工作来说可能是够用了，但对于想高效的利用好git这个实战利器来说，显然是需要再精进提升的。 今天我们将从代码合并这个角度，为大家讲解git中merge与rebase的区别，使用场景等。 区别 初始场景 假设目前我们有两个分支，main和feature，同时两个分支的head指针都指向add C">
+<meta name="twitter:description" content="写在开篇对于很多同学来说，对于git工具的使用只是停留在最基础的几条命令或者是几个按钮上，对于普通的开发工作来说可能是够用了，但对于想高效的利用好git这个实战利器来说，显然是需要再精进提升的。 今天我们将从代码合并这个角度，为大家讲解git中merge与rebase的区别，使用场景等。 区别初始场景假设目前我们有两个分支，main和feature，同时两个分支的head指针都指向add Clas">
 <meta name="twitter:image" content="https://kyrie17.github.io/img/git00.png">
     
         <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
@@ -126,7 +126,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -167,7 +167,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.</span> <span class="post-toc-text">写在开篇</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.</span> <span class="post-toc-text">区别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">初始场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">无分叉情况下合并</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">有分叉情况下合并</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">merge</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">rebase</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">3.</span> <span class="post-toc-text">优缺点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.</span> <span class="post-toc-text">使用场景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">merge</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">rebase</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#写在开篇"><span class="post-toc-number">1.</span> <span class="post-toc-text">写在开篇</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#区别"><span class="post-toc-number">2.</span> <span class="post-toc-text">区别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#初始场景"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">初始场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#无分叉情况下合并"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">无分叉情况下合并</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#有分叉情况下合并"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">有分叉情况下合并</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#merge"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">merge</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#rebase"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">rebase</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#优缺点"><span class="post-toc-number">3.</span> <span class="post-toc-text">优缺点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用场景"><span class="post-toc-number">4.</span> <span class="post-toc-text">使用场景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#merge-1"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">merge</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#rebase-1"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">rebase</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -189,80 +189,68 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h2>写在开篇</h2>
-<p>对于很多同学来说，对于git工具的使用只是停留在最基础的几条命令或者是几个按钮上，对于普通的开发工作来说可能是够用了，但对于想高效的利用好git这个实战利器来说，显然是需要再精进提升的。</p>
+            <h2 id="写在开篇"><a href="#写在开篇" class="headerlink" title="写在开篇"></a>写在开篇</h2><p>对于很多同学来说，对于git工具的使用只是停留在最基础的几条命令或者是几个按钮上，对于普通的开发工作来说可能是够用了，但对于想高效的利用好git这个实战利器来说，显然是需要再精进提升的。</p>
 <p>今天我们将从代码合并这个角度，为大家讲解git中merge与rebase的区别，使用场景等。</p>
-<h2>区别</h2>
-<h3>初始场景</h3>
-<p>假设目前我们有两个分支，main和feature，同时两个分支的head指针都指向add ClassB这个提交节点上，如下图所示。</p>
-<p><figure class="image-bubble">
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><h3 id="初始场景"><a href="#初始场景" class="headerlink" title="初始场景"></a>初始场景</h3><p>假设目前我们有两个分支，main和feature，同时两个分支的head指针都指向add ClassB这个提交节点上，如下图所示。</p>
+<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/git00.png" alt="git00" title>
                 </div>
                 <div class="image-caption">git00</div>
-            </figure></p>
-<h3>无分叉情况下合并</h3>
-<p>对于第一种情况，main分支新增一个提交，其head指针指向add ClassC提交节点上，而feature分支的仍然停留在add ClassB上。</p>
-<p><figure class="image-bubble">
+            </figure>
+<h3 id="无分叉情况下合并"><a href="#无分叉情况下合并" class="headerlink" title="无分叉情况下合并"></a>无分叉情况下合并</h3><p>对于第一种情况，main分支新增一个提交，其head指针指向add ClassC提交节点上，而feature分支的仍然停留在add ClassB上。</p>
+<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/git01.png" alt="git01" title>
                 </div>
                 <div class="image-caption">git01</div>
-            </figure></p>
+            </figure>
 <p>此时我们希望在feature分支上将main分支上的最新提交合并过来，此时对于两个分支来说，它们是没有分叉的，merge默认会采用的策略是fast-forward，即快速将feature的head指针移动到add ClassC上。</p>
-<p><figure class="image-bubble">
+<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/git02.png" alt="git02" title>
                 </div>
                 <div class="image-caption">git02</div>
-            </figure></p>
-<h3>有分叉情况下合并</h3>
-<p>对于下图，main和feature分支中出现了分叉的情况，如果想要将main中的提交合并到feature中，我们应该怎么做呢？</p>
-<p><figure class="image-bubble">
+            </figure>
+<h3 id="有分叉情况下合并"><a href="#有分叉情况下合并" class="headerlink" title="有分叉情况下合并"></a>有分叉情况下合并</h3><p>对于下图，main和feature分支中出现了分叉的情况，如果想要将main中的提交合并到feature中，我们应该怎么做呢？</p>
+<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/git03.png" alt="git03" title>
                 </div>
                 <div class="image-caption">git03</div>
-            </figure></p>
-<h4>merge</h4>
-<p>对于之前没有了解过rebase的我们来说，我们通过merge来将main中提交的ClassC合并到feature来，我们会在ClassE节点后新增一个merge结点，放到自己的最后面，如下图所示。</p>
-<p><figure class="image-bubble">
+            </figure>
+<h4 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h4><p>对于之前没有了解过rebase的我们来说，我们通过merge来将main中提交的ClassC合并到feature来，我们会在ClassE节点后新增一个merge结点，放到自己的最后面，如下图所示。</p>
+<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/git04.png" alt="git04" title>
                 </div>
                 <div class="image-caption">git04</div>
-            </figure></p>
+            </figure>
 <p>而这个merge节点，它是main分支上更改的合并，即不管main分支上多少个提交节点，都会合并成一个节点。</p>
-<h4>rebase</h4>
-<p>但如果通过rebase合并后，feature分支的提交还是在最后，就好像从节点ClassC中拉出来的一样，此时相对于main分支没有分叉。</p>
-<p><figure class="image-bubble">
+<h4 id="rebase"><a href="#rebase" class="headerlink" title="rebase"></a>rebase</h4><p>但如果通过rebase合并后，feature分支的提交还是在最后，就好像从节点ClassC中拉出来的一样，此时相对于main分支没有分叉。</p>
+<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/git05.png" alt="git05" title>
                 </div>
                 <div class="image-caption">git05</div>
-            </figure></p>
-<h2>优缺点</h2>
-<p>上述两个例子很清晰的提现了merge和rebase的区别和作用，简单来说：</p>
+            </figure>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>上述两个例子很清晰的提现了merge和rebase的区别和作用，简单来说：</p>
 <ul>
 <li>merge保留了作品的完整历史记录，包括按时间顺序排列；对于回滚等操作也更有优势</li>
 <li>Rebase使提交变得整洁，不会产生嘈杂的提交</li>
 </ul>
-<h2>使用场景</h2>
-<h3>merge</h3>
-<ol>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><h3 id="merge-1"><a href="#merge-1" class="headerlink" title="merge"></a>merge</h3><ol>
 <li>对于多个人开发同一个模块，很可能他的某个改动会导致你的功能出问题，如果出了问题，保留记录能便于后期排查问题</li>
 <li>main分支需要将开发完的子分支的内容合并进来，使用merge可以留有提交记录，出现问题方便后面排查问题</li>
 </ol>
-<h3>rebase</h3>
-<p>个人开发分支同步main最新提交应该使用rebase，该模块的内容更新和你功能无关，合并代码也不会影响你的功能，无需保留该记录</p>
-<p>巨人的肩膀：
-https://www.bilibili.com/video/BV1cv411u7wd/?spm_id_from=333.788.recommend_more_video.2&amp;vd_source=7c8b86fff4f4354960fa30b9be566d0e</p>
+<h3 id="rebase-1"><a href="#rebase-1" class="headerlink" title="rebase"></a>rebase</h3><p>个人开发分支同步main最新提交应该使用rebase，该模块的内容更新和你功能无关，合并代码也不会影响你的功能，无需保留该记录</p>
+<p>巨人的肩膀：<br><a href="https://www.bilibili.com/video/BV1cv411u7wd/?spm_id_from=333.788.recommend_more_video.2&amp;vd_source=7c8b86fff4f4354960fa30b9be566d0e" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1cv411u7wd/?spm_id_from=333.788.recommend_more_video.2&amp;vd_source=7c8b86fff4f4354960fa30b9be566d0e</a></p>
 
         </div>
 
@@ -271,7 +259,7 @@ https://www.bilibili.com/video/BV1cv411u7wd/?spm_id_from=333.788.recommend_more_
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2022-12-31T16:19:35.448Z" itemprop="dateUpdated">2023-01-01 00:19:35</time>
+    最后更新时间：<time datetime="2022-12-31T16:19:35.448Z" itemprop="dateUpdated">2023-01-01 00:19:35</time>
 </span><br>
 
 
@@ -433,7 +421,7 @@ https://www.bilibili.com/video/BV1cv411u7wd/?spm_id_from=333.788.recommend_more_
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
     </div>
     <div class="bottom">

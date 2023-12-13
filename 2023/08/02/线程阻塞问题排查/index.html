@@ -21,18 +21,18 @@
     
     
     <meta name="keywords" content="线程池,Log4J,JSF,docker">
-    <meta name="description" content="现象 线上服务机器，没有生产日志，JSF接口状态正常 问题 通过jstack发现异常 1234567891011121314151617181920212223242526272829&amp;quot;JSF-BZ-22000-22-T-552&amp;quot; #908 daemon prio=5 os_prio=0 tid=0x00007f925c02c000 nid=0x28dcf waiting fo">
+    <meta name="description" content="现象线上服务机器，没有生产日志，JSF接口状态正常 问题通过jstack发现异常1234567891011121314151617181920212223242526272829&amp;quot;JSF-BZ-22000-22-T-552&amp;quot; #908 daemon prio=5 os_prio=0 tid=0x00007f925c02c000 nid=0x28dcf waiting for m">
 <meta name="keywords" content="线程池,Log4J,JSF,docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线程阻塞问题排查">
 <meta property="og:url" content="https://kyrie17.github.io/2023/08/02/线程阻塞问题排查/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="现象 线上服务机器，没有生产日志，JSF接口状态正常 问题 通过jstack发现异常 1234567891011121314151617181920212223242526272829&amp;quot;JSF-BZ-22000-22-T-552&amp;quot; #908 daemon prio=5 os_prio=0 tid=0x00007f925c02c000 nid=0x28dcf waiting fo">
+<meta property="og:description" content="现象线上服务机器，没有生产日志，JSF接口状态正常 问题通过jstack发现异常1234567891011121314151617181920212223242526272829&amp;quot;JSF-BZ-22000-22-T-552&amp;quot; #908 daemon prio=5 os_prio=0 tid=0x00007f925c02c000 nid=0x28dcf waiting for m">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2023-08-02T14:25:52.479Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程阻塞问题排查">
-<meta name="twitter:description" content="现象 线上服务机器，没有生产日志，JSF接口状态正常 问题 通过jstack发现异常 1234567891011121314151617181920212223242526272829&amp;quot;JSF-BZ-22000-22-T-552&amp;quot; #908 daemon prio=5 os_prio=0 tid=0x00007f925c02c000 nid=0x28dcf waiting fo">
+<meta name="twitter:description" content="现象线上服务机器，没有生产日志，JSF接口状态正常 问题通过jstack发现异常1234567891011121314151617181920212223242526272829&amp;quot;JSF-BZ-22000-22-T-552&amp;quot; #908 daemon prio=5 os_prio=0 tid=0x00007f925c02c000 nid=0x28dcf waiting for m">
     
         <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
     
@@ -119,7 +119,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -160,7 +160,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.</span> <span class="post-toc-text">现象</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#null"><span class="post-toc-number">3.</span> <span class="post-toc-text">解决方案</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#现象"><span class="post-toc-number">1.</span> <span class="post-toc-text">现象</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#解决方案"><span class="post-toc-number">3.</span> <span class="post-toc-text">解决方案</span></a></li></ol>
         </nav>
     </aside>
 
@@ -182,17 +182,12 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1>现象</h1>
-<p>线上服务机器，没有生产日志，JSF接口状态正常</p>
-<h1>问题</h1>
-<p>通过jstack发现异常
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&quot;JSF-BZ-22000-22-T-552&quot; #908 daemon prio=5 os_prio=0 tid=0x00007f925c02c000 nid=0x28dcf waiting for monitor entry [0x00007f8cc82c0000]</span><br><span class="line">   java.lang.Thread.State: BLOCKED (on object monitor)</span><br><span class="line">	at org.apache.logging.log4j.core.appender.OutputStreamManager.writeBytes(OutputStreamManager.java:352)</span><br><span class="line">	- waiting to lock &lt;0x00000006c09d6730&gt; (a org.apache.logging.log4j.core.appender.OutputStreamManager)</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line"></span><br><span class="line">&quot;JSF-BZ-22000-22-T-335&quot; #691 daemon prio=5 os_prio=0 tid=0x00007f9270016800 nid=0x28811 runnable [0x00007f9187af9000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">	at java.io.FileOutputStream.writeBytes(Native Method)</span><br><span class="line">	at java.io.FileOutputStream.write(FileOutputStream.java:326)</span><br><span class="line">	at java.io.BufferedOutputStream.write(BufferedOutputStream.java:122)</span><br><span class="line">	- locked &lt;0x00000006c056d8a0&gt; (a java.io.BufferedOutputStream)</span><br><span class="line">	at java.io.PrintStream.write(PrintStream.java:480)</span><br><span class="line">	- locked &lt;0x00000006c052f620&gt; (a java.io.PrintStream)</span><br><span class="line">	at org.apache.logging.log4j.core.util.CloseShieldOutputStream.write(CloseShieldOutputStream.java:53)</span><br><span class="line">	at org.apache.logging.log4j.core.appender.OutputStreamManager.writeToDestination(OutputStreamManager.java:250)</span><br><span class="line">	- locked &lt;0x00000006c09d6730&gt; (a org.apache.logging.log4j.core.appender.OutputStreamManager)</span><br><span class="line">	at org.apache.logging.log4j.core.appender.OutputStreamManager.flushBuffer(OutputStreamManager.java:283)</span><br><span class="line">	- locked &lt;0x00000006c09d6730&gt; (a org.apache.logging.log4j.core.appender.OutputStreamManager)</span><br><span class="line">	at org.apache.logging.log4j.core.appender.OutputStreamManager.drain(OutputStreamManager.java:343)</span><br><span class="line">	at org.apache.logging.log4j.core.layout.TextEncoderHelper.drainIfByteBufferFull(TextEncoderHelper.java:258)</span><br><span class="line">	- locked &lt;0x00000006c09d6730&gt; (a org.apache.logging.log4j.core.appender.OutputStreamManager)</span><br><span class="line">	at org.apache.logging.log4j.core.layout.TextEncoderHelper.writeAndEncodeAsMuchAsPossible(TextEncoderHelper.java:197)</span><br><span class="line">	at org.apache.logging.log4j.core.layout.TextEncoderHelper.encodeChunkedText(TextEncoderHelper.java:157)</span><br><span class="line">	- locked &lt;0x00000006c09d6730&gt; (a org.apache.logging.log4j.core.appender.OutputStreamManager)</span><br><span class="line">	</span><br><span class="line">   Locked ownable synchronizers:</span><br><span class="line">	- &lt;0x0000000703465430&gt; (a java.util.concurrent.ThreadPoolExecutor$Worker)</span><br></pre></td></tr></table></figure></p>
-<p>可以看到几乎所有杰夫线程在都被阻塞在<strong>OutputStreamManager.writeBytes</strong>上，等待锁&lt;0x0000000703465430&gt;释放。</p>
-<p>在 https://issues.apache.org/jira/browse/LOG4J2-880 上找到了答案，大概意思是
-记录日志的时候，如果往控制台打印输出日志的话，会把日志写入缓存，控制台会从缓存中取，但比如控制台没取，这时候控制台会暂停输出，不从缓存中取东西，缓存内容就不会清，日志程序会一直往里写，直到写满，线程就会停止写入，等待缓存可用，表现在程序里，就是writeBytes函数不返回，持有的锁不释放。</p>
+            <h1 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h1><p>线上服务机器，没有生产日志，JSF接口状态正常</p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>通过jstack发现异常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&quot;JSF-BZ-22000-22-T-552&quot; #908 daemon prio=5 os_prio=0 tid=0x00007f925c02c000 nid=0x28dcf waiting for monitor entry [0x00007f8cc82c0000]</span><br><span class="line">   java.lang.Thread.State: BLOCKED (on object monitor)</span><br><span class="line">	at org.apache.logging.log4j.core.appender.OutputStreamManager.writeBytes(OutputStreamManager.java:352)</span><br><span class="line">	- waiting to lock &lt;0x00000006c09d6730&gt; (a org.apache.logging.log4j.core.appender.OutputStreamManager)</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line"></span><br><span class="line">&quot;JSF-BZ-22000-22-T-335&quot; #691 daemon prio=5 os_prio=0 tid=0x00007f9270016800 nid=0x28811 runnable [0x00007f9187af9000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">	at java.io.FileOutputStream.writeBytes(Native Method)</span><br><span class="line">	at java.io.FileOutputStream.write(FileOutputStream.java:326)</span><br><span class="line">	at java.io.BufferedOutputStream.write(BufferedOutputStream.java:122)</span><br><span class="line">	- locked &lt;0x00000006c056d8a0&gt; (a java.io.BufferedOutputStream)</span><br><span class="line">	at java.io.PrintStream.write(PrintStream.java:480)</span><br><span class="line">	- locked &lt;0x00000006c052f620&gt; (a java.io.PrintStream)</span><br><span class="line">	at org.apache.logging.log4j.core.util.CloseShieldOutputStream.write(CloseShieldOutputStream.java:53)</span><br><span class="line">	at org.apache.logging.log4j.core.appender.OutputStreamManager.writeToDestination(OutputStreamManager.java:250)</span><br><span class="line">	- locked &lt;0x00000006c09d6730&gt; (a org.apache.logging.log4j.core.appender.OutputStreamManager)</span><br><span class="line">	at org.apache.logging.log4j.core.appender.OutputStreamManager.flushBuffer(OutputStreamManager.java:283)</span><br><span class="line">	- locked &lt;0x00000006c09d6730&gt; (a org.apache.logging.log4j.core.appender.OutputStreamManager)</span><br><span class="line">	at org.apache.logging.log4j.core.appender.OutputStreamManager.drain(OutputStreamManager.java:343)</span><br><span class="line">	at org.apache.logging.log4j.core.layout.TextEncoderHelper.drainIfByteBufferFull(TextEncoderHelper.java:258)</span><br><span class="line">	- locked &lt;0x00000006c09d6730&gt; (a org.apache.logging.log4j.core.appender.OutputStreamManager)</span><br><span class="line">	at org.apache.logging.log4j.core.layout.TextEncoderHelper.writeAndEncodeAsMuchAsPossible(TextEncoderHelper.java:197)</span><br><span class="line">	at org.apache.logging.log4j.core.layout.TextEncoderHelper.encodeChunkedText(TextEncoderHelper.java:157)</span><br><span class="line">	- locked &lt;0x00000006c09d6730&gt; (a org.apache.logging.log4j.core.appender.OutputStreamManager)</span><br><span class="line">	</span><br><span class="line">   Locked ownable synchronizers:</span><br><span class="line">	- &lt;0x0000000703465430&gt; (a java.util.concurrent.ThreadPoolExecutor$Worker)</span><br></pre></td></tr></table></figure></p>
+<p>可以看到几乎所有杰夫线程在都被阻塞在<strong>OutputStreamManager.writeBytes</strong>上，等待锁<0x0000000703465430>释放。</0x0000000703465430></p>
+<p>在 <a href="https://issues.apache.org/jira/browse/LOG4J2-880" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/LOG4J2-880</a> 上找到了答案，大概意思是<br>记录日志的时候，如果往控制台打印输出日志的话，会把日志写入缓存，控制台会从缓存中取，但比如控制台没取，这时候控制台会暂停输出，不从缓存中取东西，缓存内容就不会清，日志程序会一直往里写，直到写满，线程就会停止写入，等待缓存可用，表现在程序里，就是writeBytes函数不返回，持有的锁不释放。</p>
 <p>部署在docker中的时候，因为docker容器会一直获取标准输出的内容，自己记录docker日志，但是当缓存中的东西比较多的时候，比如日志长度特别长，docker没办法及时清空缓存，也会导致log4j出现这个问题。</p>
-<h1>解决方案</h1>
-<p>生产系统中无需往标准输入输出写日志，将日志配置文件中ConsoleAppender组件去除，问题得以解决。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>生产系统中无需往标准输入输出写日志，将日志配置文件中ConsoleAppender组件去除，问题得以解决。</p>
 
         </div>
 
@@ -201,7 +196,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2023-08-02T14:25:52.479Z" itemprop="dateUpdated">2023-08-02 22:25:52</time>
+    最后更新时间：<time datetime="2023-08-02T14:25:52.479Z" itemprop="dateUpdated">2023-08-02 22:25:52</time>
 </span><br>
 
 
@@ -363,7 +358,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
     </div>
     <div class="bottom">
