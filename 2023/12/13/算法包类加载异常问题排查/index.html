@@ -21,21 +21,21 @@
     
     
     <meta name="keywords" content="ClassLoader,双亲委派机制">
-    <meta name="description" content="问题插件发送jdq消息失败异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData 神机sdk发送Jdq消息代码：123456789101112131415161718192021@Ove">
+    <meta name="description" content="问题 插件发送jdq消息失败 异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData 神机sdk发送Jdq消息代码： 123456789101112131415161718192021@">
 <meta name="keywords" content="ClassLoader,双亲委派机制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="算法包类加载异常问题排查">
 <meta property="og:url" content="https://kyrie17.github.io/2023/12/13/算法包类加载异常问题排查/index.html">
 <meta property="og:site_name" content="Kyrie17&#39;s Blog">
-<meta property="og:description" content="问题插件发送jdq消息失败异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData 神机sdk发送Jdq消息代码：123456789101112131415161718192021@Ove">
+<meta property="og:description" content="问题 插件发送jdq消息失败 异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData 神机sdk发送Jdq消息代码： 123456789101112131415161718192021@">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kyrie17.github.io/img/plugin_classloader01.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/plugin_classloader02.png">
 <meta property="og:image" content="https://kyrie17.github.io/img/plugin_classloader03.png">
-<meta property="og:updated_time" content="2023-12-13T15:11:11.970Z">
+<meta property="og:updated_time" content="2023-12-13T15:30:03.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法包类加载异常问题排查">
-<meta name="twitter:description" content="问题插件发送jdq消息失败异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData 神机sdk发送Jdq消息代码：123456789101112131415161718192021@Ove">
+<meta name="twitter:description" content="问题 插件发送jdq消息失败 异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData 神机sdk发送Jdq消息代码： 123456789101112131415161718192021@">
 <meta name="twitter:image" content="https://kyrie17.github.io/img/plugin_classloader01.png">
     
         <link rel="alternate" type="application/atom+xml" title="Kyrie17&#39;s Blog" href="/atom.xml">
@@ -123,7 +123,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -164,7 +164,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#插件发送jdq消息失败"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">插件发送jdq消息失败</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#StringUtils找不到compare方法"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">StringUtils找不到compare方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#神机类加载器加载规则"><span class="post-toc-number">2.</span> <span class="post-toc-text">神机类加载器加载规则</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题分析"><span class="post-toc-number">3.</span> <span class="post-toc-text">问题分析</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题解决"><span class="post-toc-number">4.</span> <span class="post-toc-text">问题解决</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.</span> <span class="post-toc-text">问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">插件发送jdq消息失败</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#null"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">StringUtils找不到compare方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#null"><span class="post-toc-number">2.</span> <span class="post-toc-text">神机类加载器加载规则</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#null"><span class="post-toc-number">3.</span> <span class="post-toc-text">问题分析</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#null"><span class="post-toc-number">4.</span> <span class="post-toc-text">问题解决</span></a></li></ol>
         </nav>
     </aside>
 
@@ -186,28 +186,36 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="插件发送jdq消息失败"><a href="#插件发送jdq消息失败" class="headerlink" title="插件发送jdq消息失败"></a>插件发送jdq消息失败</h2><p>异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData</p>
-<p>神机sdk发送Jdq消息代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(ShenJiMessage shenJiMessage)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (shenJiMessage.getText() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"消息内容不能为空"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] data = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (MqMessageType.STRING.equals(messageType)) &#123;</span><br><span class="line">            String text = (String)shenJiMessage.getText();</span><br><span class="line">            data = text.getBytes();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (MqMessageType.JDW_DATA.equals(messageType)) &#123;</span><br><span class="line">            <span class="comment">// 在此行出现异常！！</span></span><br><span class="line">            JdwData text = (JdwData) shenJiMessage.getText();</span><br><span class="line">            data = serializer.toBytes(text);</span><br><span class="line">        &#125;</span><br><span class="line">        producer.send(<span class="keyword">new</span> ProducerRecord&lt;&gt;(shenJiMessage.getTopic(), <span class="keyword">new</span> Bytes(data)), (metadata, exception) -&gt; &#123;&#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"发送jdq消息异常"</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>猜测类加载器shenJiMessage.getText()类加载器和声明JdwData类加载器不一致，分别打印下类加载器看看：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(ShenJiMessage shenJiMessage)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (shenJiMessage.getText() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"消息内容不能为空"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] data = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (MqMessageType.STRING.equals(messageType)) &#123;</span><br><span class="line">            String text = (String)shenJiMessage.getText();</span><br><span class="line">            data = text.getBytes();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (MqMessageType.JDW_DATA.equals(messageType)) &#123;</span><br><span class="line">            JdwData jdwData = <span class="keyword">new</span> JdwData();</span><br><span class="line">            ClassLoader classLoader = shenJiMessage.getText().getClass().getClassLoader();</span><br><span class="line">            ClassLoader classLoader1 = jdwData.getClass().getClassLoader();</span><br><span class="line">            log.info(<span class="string">"send message, classLoader:&#123;&#125;, classLoader1:&#123;&#125;"</span>, classLoader, classLoader1);</span><br><span class="line">            JdwData text = (JdwData) shenJiMessage.getText();</span><br><span class="line">            data = serializer.toBytes(text);</span><br><span class="line">        &#125;</span><br><span class="line">        producer.send(<span class="keyword">new</span> ProducerRecord&lt;&gt;(shenJiMessage.getTopic(), <span class="keyword">new</span> Bytes(data)), (metadata, exception) -&gt; &#123;&#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"发送jdq消息异常"</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2023-12-13 15:03:49.928[INFO ]send message, classLoader:org.pf4j.PluginClassLoader@57e11696, classLoader1:sun.misc.Launcher$AppClassLoader@14dad5dc[com.jdl.shenji.sdk.framework.ioc.mq.jdq.ShenJiJdqProducer.send:42]</span><br></pre></td></tr></table></figure></p>
+            <h1>问题</h1>
+<h2>插件发送jdq消息失败</h2>
+<p>异常：java.lang.RuntimeException: java.lang.ClassCastException: com.jd.bdp.jdw.avro.JdwData cannot be cast to com.jd.bdp.jdw.avro.JdwData</p>
+<p>神机sdk发送Jdq消息代码：
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(ShenJiMessage shenJiMessage)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (shenJiMessage.getText() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"消息内容不能为空"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] data = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (MqMessageType.STRING.equals(messageType)) &#123;</span><br><span class="line">            String text = (String)shenJiMessage.getText();</span><br><span class="line">            data = text.getBytes();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (MqMessageType.JDW_DATA.equals(messageType)) &#123;</span><br><span class="line">            <span class="comment">// 在此行出现异常！！</span></span><br><span class="line">            JdwData text = (JdwData) shenJiMessage.getText();</span><br><span class="line">            data = serializer.toBytes(text);</span><br><span class="line">        &#125;</span><br><span class="line">        producer.send(<span class="keyword">new</span> ProducerRecord&lt;&gt;(shenJiMessage.getTopic(), <span class="keyword">new</span> Bytes(data)), (metadata, exception) -&gt; &#123;&#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"发送jdq消息异常"</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>猜测类加载器shenJiMessage.getText()类加载器和声明JdwData类加载器不一致，分别打印下类加载器看看：
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(ShenJiMessage shenJiMessage)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (shenJiMessage.getText() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"消息内容不能为空"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] data = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (MqMessageType.STRING.equals(messageType)) &#123;</span><br><span class="line">            String text = (String)shenJiMessage.getText();</span><br><span class="line">            data = text.getBytes();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (MqMessageType.JDW_DATA.equals(messageType)) &#123;</span><br><span class="line">            JdwData jdwData = <span class="keyword">new</span> JdwData();</span><br><span class="line">            ClassLoader classLoader = shenJiMessage.getText().getClass().getClassLoader();</span><br><span class="line">            ClassLoader classLoader1 = jdwData.getClass().getClassLoader();</span><br><span class="line">            log.info(<span class="string">"send message, classLoader:&#123;&#125;, classLoader1:&#123;&#125;"</span>, classLoader, classLoader1);</span><br><span class="line">            JdwData text = (JdwData) shenJiMessage.getText();</span><br><span class="line">            data = serializer.toBytes(text);</span><br><span class="line">        &#125;</span><br><span class="line">        producer.send(<span class="keyword">new</span> ProducerRecord&lt;&gt;(shenJiMessage.getTopic(), <span class="keyword">new</span> Bytes(data)), (metadata, exception) -&gt; &#123;&#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"发送jdq消息异常"</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>日志：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2023-12-13 15:03:49.928[INFO ]send message, classLoader:org.pf4j.PluginClassLoader@57e11696, classLoader1:sun.misc.Launcher$AppClassLoader@14dad5dc[com.jdl.shenji.sdk.framework.ioc.mq.jdq.ShenJiJdqProducer.send:42]</span><br></pre></td></tr></table></figure></p>
 <p>和猜想一致，shenJiMessage.getText()使用了插件类加载器，JdwData使用AppClassLoader。</p>
-<h2 id="StringUtils找不到compare方法"><a href="#StringUtils找不到compare方法" class="headerlink" title="StringUtils找不到compare方法"></a>StringUtils找不到compare方法</h2><p>异常：java.lang.NoSuchMethodError: org.apache.commons.lang3.StringUtils.compare(Ljava/lang/String;Ljava/lang/String;)</p>
-<h1 id="神机类加载器加载规则"><a href="#神机类加载器加载规则" class="headerlink" title="神机类加载器加载规则"></a>神机类加载器加载规则</h1><figure class="image-bubble">
+<h2>StringUtils找不到compare方法</h2>
+<p>异常：java.lang.NoSuchMethodError: org.apache.commons.lang3.StringUtils.compare(Ljava/lang/String;Ljava/lang/String;)</p>
+<h1>神机类加载器加载规则</h1>
+<p><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/plugin_classloader01.png" alt="plugin_classloader01" title>
                 </div>
                 <div class="image-caption">plugin_classloader01</div>
-            </figure>
+            </figure></p>
 <ol>
 <li>打破双亲委派机制：插件中的类会先由插件类加载器进行加载，如果判断插件类加载器加载不了再交给父类加载器(AppClassLoader)进行加载</li>
 <li>插件类加载器findClass(String name)逻辑，根据类全限定名在插件路径下搜索是否有此类</li>
 </ol>
-<h1 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h1><ol>
+<h1>问题分析</h1>
+<ol>
 <li>依据目前插件类加载的规则，我们认为是插件中引入了jdwdata、commons-lang3的依赖，但发现插件pom文件中对应的依赖的scope都是provided的，且在行云部署对应插件目录中却没有找到jdwdata、commons-lang3两个jar包</li>
 <li>我们转换思路，是否插件中有和com.jd.bdp.jdw.avro.JdwData、org.apache.commons.lang3.StringUtils相同的类全限定名的类。发现有一个新引入的依赖rapp-common，打开jar包便可以发现端倪</li>
 </ol>
-<figure class="image-bubble">
+<p><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="/img/plugin_classloader02.png" alt="plugin_classloader02" title>
@@ -220,12 +228,13 @@
                     <img src="/img/plugin_classloader03.png" alt="plugin_classloader03" title>
                 </div>
                 <div class="image-caption">plugin_classloader03</div>
-            </figure>
+            </figure></p>
 <ol start="3">
 <li>结合类加载的规则com.jd.bdp.jdw.avro.JdwData是rapp-common中的类，而且是由PluginClassLoader加载的，所以出现了ClassCastException</li>
 <li>org.apache.commons.lang3.StringUtils是rapp-common中的类，方法中缺少了compare方法，所以出现NoSuchMethodError</li>
 </ol>
-<h1 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h1><p>rapp-common这个包是有问题的，重写了大量第三方类且使用了相同的包路径，如果项目中还使用了例如jdwdata、commons-lang3这些包，就会出现类冲突等问题。</p>
+<h1>问题解决</h1>
+<p>rapp-common这个包是有问题的，重写了大量第三方类且使用了相同的包路径，如果项目中还使用了例如jdwdata、commons-lang3这些包，就会出现类冲突等问题。</p>
 <p>插件中使用rapp-common，目的是使用com.jdl.rapp.common.util.CharSequenceMapUtils#stringMap2SequenceMap工具方法将Map&lt;String, String&gt;转换为Map&lt;CharSequence, CharSequence&gt;。那么可以将类CharSequenceMapUtils复制插件中，不引入rapp-common。</p>
 <p>这样com.jd.bdp.jdw.avro.JdwData会交由AppClassLoader加载，org.apache.commons.lang3.StringUtils就路由到commons-lang3包中正确代码。</p>
 
@@ -236,7 +245,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2023-12-13T15:11:11.970Z" itemprop="dateUpdated">2023-12-13 23:11:11</time>
+    最終更新：<time datetime="2023-12-13T15:30:03.772Z" itemprop="dateUpdated">2023-12-13 23:30:03</time>
 </span><br>
 
 
@@ -391,7 +400,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
         </p>
     </div>
     <div class="bottom">
